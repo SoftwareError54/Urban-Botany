@@ -1,41 +1,37 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
+import fs from 'fs';
+import fetch from 'node-fetch';
+import FormData from 'form-data';
 
-// CHANGE THESE
-const imagePath = './plant.jpg';
-const API_KEY = '2b10rIDVRbJLkA8oTkhMl4D2Au';
+const image1 = './plant.jpg'
+//const image2 = './plant2.jpg'
+const API_KEY = '2b10rIDVRbJLkA8oTkhMl4D2Au'
 
-async function identifyPlant() {
-  // Read image into a buffer
-  const imageBuffer = await fs.readFile(imagePath);
+const identify = async () => {
+  const form = new FormData()
 
-  // Create a Blob from the image
-  const imageBlob = new Blob([imageBuffer]);
+  form.append('organs', 'flower');
+  form.append('images', fs.createReadStream(image1));
 
-  // Native FormData (IMPORTANT)
-  const form = new FormData();
-  form.append('organs', 'leaf');
-  form.append('images', imageBlob, path.basename(imagePath));
+  //form.append('organs', 'leaf');
+  //form.append('images', fs.createReadStream(image2));
 
-  const project = 'all';
+  const project = 'all'; // You can choose a more specific flora, see: /docs/newfloras
 
   try {
-    const response = await fetch(
-      `https://my-api.plantnet.org/v2/identify/${project}?api-key=${API_KEY}`,
+    const response = await fetch(`https://my-api.plantnet.org/v2/identify/${project}?api-key=${API_KEY}`,
       {
-        method: 'POST',
+        method: 'post',
         body: form,
       }
     );
 
-    console.log('Status:', response.status);
+    console.log('status', response.status) // should be: 200
 
-    const data = await response.json();
-    console.log(JSON.stringify(data, null, 2));
-  } catch (err) {
-    console.error('Error:', err);
+    const json = await response.json()
+    console.log('json', json)
+  } catch (error) {
+    console.error('error', error);
   }
-}
+};
 
-identifyPlant();
-
+identify()
