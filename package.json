@@ -21,6 +21,7 @@
   "homepage": "https://github.com/DevUser/Urban-Botany#readme",
   "dependencies": {
     "form-data": "^4.0.5",
+    "mysql": "^2.18.1",
     "node-fetch": "^3.3.2"
   }
 }
