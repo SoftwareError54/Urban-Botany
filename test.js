@@ -1,10 +1,15 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
 import FormData from 'form-data';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const API_KEY = process.env.PLANTNET_API_KEY;
 
 const image1 = './plant.jpg'
 //const image2 = './plant2.jpg'
-const API_KEY = '2b10rIDVRbJLkA8oTkhMl4D2Au'
+
 
 const identify = async () => {
   const form = new FormData()

@@ -1,18 +1,18 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {findUserByEmail, createUser} from '../Models/UserModel.js';
+import {findUserByEmail, createUser} from '../Entities/User.js';
 
 const saltRounds = 10;
 const JWT_SECRET = process.env.JWT_SECRET
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 
-export async function signup({username, email, password}) {
+export async function signup({username, password, email, DoB, FName, SName, PhoneNumber, points, address}) {
     const existingUser = await findUserByEmail(email);
     if(existingUser) {
         throw new Error('User already exists');
     }
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const user = await createUser(username, email, hashedPassword);
+    const user = await createUser(username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, address);
     const token = jwt.sign({userId: user.id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
     return {user, token};
 }

@@ -7,7 +7,7 @@
 // import UserRoute from './Routes/UserRoute.js';
 import express from 'express';
 import dotenv from 'dotenv';
-import AuthRoute from '/Routes/Auth.js';
+import AuthRoute from './Routes/Auth.js';
 
 
 

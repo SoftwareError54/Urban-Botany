@@ -13,13 +13,13 @@ services:
 
   mysql:
     image: mysql:8
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: fyp
+    env_file:
+      ./.env
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./urbanbotany.sql:/docker-entrypoint-initdb.d/urbanbotany.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
