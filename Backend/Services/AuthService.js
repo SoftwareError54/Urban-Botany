@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {findUserByEmail, createUser} from '../Entities/User.js';
+import {findUserByEmail, createUser} from '../Repository/AuthRepository.js';
 
 const saltRounds = 10;
 const JWT_SECRET = process.env.JWT_SECRET
