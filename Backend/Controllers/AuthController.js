@@ -19,3 +19,5 @@ export async function login(req, res) {
         res.status(400).json({ message: error.message });
     }
 }
+
+export default {signup, login};

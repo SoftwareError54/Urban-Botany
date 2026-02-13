@@ -10,13 +10,13 @@
 // }
 
 
-import connection from '../config/db' ;
-import User from'../Entities/User';
+import pool from '../config/db.js' ;
+import query from '../config'
+import User from'../Entities/User.js';
 
 class UserRepository {
     async findUserByEmail(email) {
-        const db = await connection.getConnection();
-        const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);    
+        const [rows] = await query('SELECT * FROM users WHERE email = ?', [email]);    
         if (rows.length > 0) {
             const user = rows[0];
             return new User(
@@ -41,8 +41,7 @@ class UserRepository {
     };
 
     async createUser(username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode) {
-        const db = await connection.getConnection();
-        const [result] = await db.execute(
+        const [result] = await query(
             'INSERT INTO users (username, password, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode]
         );

@@ -5,7 +5,6 @@ import userRepository from '../Repositories/AuthRepository.js';
 const saltRounds = 10;
 const JWT_SECRET = process.env.JWT_SECRET
 const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
-const AuthRepository = require('../Repositories/AuthRepository.js');
 
 
 export async function signup({username, password, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode}) {
@@ -31,3 +30,5 @@ export async function login(email, password) {
     const token = jwt.sign({userId: user.id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
     return {user, token};
 }
+
+export default {signup, login};
