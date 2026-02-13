@@ -1,35 +1,35 @@
 class User{
-    constructor(id, username, password, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode){
+    constructor(id, userName, password, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode){
         this.id = id;
-        this.username = username;
+        this.userName = userName;
         this.password = password;
         this.email = email;
         this.DoB = DoB;
         this.FName = FName;
         this.SName = SName;
-        this.PhoneNumber = PhoneNumber;
+        this.phoneNum = phoneNum;
         this.points = points;
         this.address = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
         this.region = region;
         this.postalCode = postalCode;
-        this.countrCode = countryCode;
+        this.countryCode = countryCode;
     }
 
-    getid(){
+    getID(){
         return this.id;
     }
 
-    getusername(){
-        return this.username;
+    getuserName(){
+        return this.userName;
     }
 
-    gethashedPassword(){
+    getHashedPassword(){
         return this.password;
     }
 
-    getemail(){
+    getEmail(){
         return this.email;
     }
     
@@ -45,31 +45,51 @@ class User{
         return this.SName;
     }
     
-    getPhoneNumber(){
-        return this.PhoneNumber;
+    getphoneNum(){
+        return this.phoneNum;
     }
 
-    getpoints(){
+    getPoints(){
         return this.points;
     }
 
-    getaddress(){
-        return this.address;
+    getAddressLine1(){
+        return this.addressLine1;
     }
 
-    setid(id){
+    getAddressLine2(){
+        return this.addressLine2;
+    }
+
+    getCity(){
+        return this.city;
+    }
+
+    getRegion(){
+        return this.region;
+    }
+
+    getPostalCode(){
+        return this.postalCode;
+    }
+
+    getCountryCode(){
+        return this.countryCode;
+    }
+
+    setID(id){
         this.id = id;
     }
 
-    setusername(username){
-        this.username = username;
+    setuserName(userName){
+        this.userName = userName;
     }
 
-    sethashedPassword(password){
+    setHashedPassword(password){
         this.password = password;
     }
 
-    setemail(email){
+    setEmail(email){
         this.email = email;
     }
 
@@ -86,16 +106,36 @@ class User{
         this.SName = SName;
     }
     
-    setPhoneNumber(PhoneNumber){
-        this.PhoneNumber = PhoneNumber;
+    setphoneNum(phoneNum){
+        this.phoneNum = phoneNum;
     }
 
-    setpoints(points){
+    setPoints(points){
         this.points = points;
     }
 
-    setaddress(address){
-        this.address = address;
+    setAddressLine1(addressLine1){
+        this.addressLine1 = addressLine1;
+    }
+
+    setAddressLine2(addressLine2){
+        this.addressLine2 = addressLine2;
+    }
+
+    setCity(city){
+        this.city = city;
+    }
+
+    setRegion(region){
+        this.region = region;
+    }
+
+    setpostalCode(postalCode){
+        this.postalCode = postalCode;
+    }
+
+    setCountryCode(countryCode){
+        this.countryCode = countryCode;
     }
     
 }

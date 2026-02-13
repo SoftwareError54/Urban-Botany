@@ -12,5 +12,8 @@ Invoke-RestMethod -Method POST `
 >>     "points": 0,
 >>     "addressLine1": "123 Test Street",
        "addressLine2": null,
-       ""
+       "city": "epsom",
+       "region": "surrey",
+       "postalCode": "SW1A 1AA",
+       "countrCode": "GB"
 >>   }'

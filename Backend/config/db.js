@@ -18,8 +18,8 @@ const config = {
 const pool = mysql.createPool(config.db);
 
 export async function query (sql, params){
-    const [rows] = await pool.execute(sql, params);
-    return rows;
+    const [rows, fields] = await pool.execute(sql, params);
+    return {rows, fields};
 }
 
-export default {pool,query};
+export default {pool};

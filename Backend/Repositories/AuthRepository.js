@@ -1,33 +1,23 @@
-// let users = [];
-
-// export async function findUserByEmail(email) {
-//     return users.find(user => user.email === email);
-// }
-
-// export async function createUser(user){
-//     users.push(user);
-//     return user;
-// }
-
-
 import pool from '../config/db.js' ;
-import query from '../config'
+import {query} from '../config/db.js'
 import User from'../Entities/User.js';
 
 class UserRepository {
     async findUserByEmail(email) {
-        const [rows] = await query('SELECT * FROM users WHERE email = ?', [email]);    
+        const result = await query('SELECT * FROM user WHERE email = ?', [email]);
+        constrows = result.rows;
+        console.log(rows);
         if (rows.length > 0) {
             const user = rows[0];
             return new User(
                 user.id,
-                user.username,
+                user.userName,
                 user.password,
                 user.email,
                 user.DoB,
                 user.FName,
                 user.SName,
-                user.PhoneNumber,
+                user.phoneNum,
                 user.points,
                 user.addressLine1,
                 user.addressLine2,
@@ -40,12 +30,39 @@ class UserRepository {
         return null;
     };
 
-    async createUser(username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode) {
-        const [result] = await query(
-            'INSERT INTO users (username, password, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode]
+    async findUserByDetails(email, userName, phoneNum) {
+        const result = await query('SELECT * FROM user WHERE email = ? OR userName = ? OR phoneNum = ?', [email, userName, phoneNum]);
+        const rows = result.rows;
+        console.log(rows);
+        if (rows.length > 0) {
+            const user = rows[0];
+            return new User(
+                user.id,
+                user.userName,
+                user.password,
+                user.email,
+                user.DoB,
+                user.FName,
+                user.SName,
+                user.phoneNum,
+                user.points,
+                user.addressLine1,
+                user.addressLine2,
+                user.city,
+                user.region,
+                user.postalCode,
+                user.countryCode
+            );
+        }
+        return null;
+    };
+
+    async createUser(userName, hashedPassword, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode) {
+        const {rows} = await query(
+            'INSERT INTO user (userName, password, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [userName, hashedPassword, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode]
         );
-        return result.insertId;
+        return rows.insertId;
     }
 }
 export default new UserRepository();
