@@ -10,8 +10,8 @@
 // }
 
 
-const connection = await import('../Database/Database.js');
-const User = require('../Entities/User.js');
+import connection from '../config/db' ;
+import User from'../Entities/User';
 
 class UserRepository {
     async findUserByEmail(email) {
@@ -29,19 +29,24 @@ class UserRepository {
                 user.SName,
                 user.PhoneNumber,
                 user.points,
-                user.address
+                user.addressLine1,
+                user.addressLine2,
+                user.city,
+                user.region,
+                user.postalCode,
+                user.countryCode
             );
         }
         return null;
     };
 
-    async createUser(username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, address
-    ) {
+    async createUser(username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode) {
         const db = await connection.getConnection();
         const [result] = await db.execute(
-            'INSERT INTO users (username, password, email, DoB, FName, SName, PhoneNumber, points, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, address]
+            'INSERT INTO users (username, password, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [username, hashedPassword, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode]
         );
         return result.insertId;
     }
 }
+export default new UserRepository();

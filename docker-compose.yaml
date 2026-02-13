@@ -5,11 +5,15 @@ services:
       - "3000:3000"
     depends_on:
       - mysql
+    volumes:
+      - ./backend:/src
 
   frontend:
     build: ./frontend
     ports:
       - "5173:5173"
+    volumes:
+      - ./frontend:/src
 
   mysql:
     image: mysql:8
