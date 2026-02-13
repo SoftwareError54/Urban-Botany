@@ -1,5 +1,5 @@
 class User{
-    constructor(id, username, password, email, DoB, FName, SName, PhoneNumber, points, address){
+    constructor(id, username, password, email, DoB, FName, SName, PhoneNumber, points, addressLine1, addressLine2, city, region, postalCode, countryCode){
         this.id = id;
         this.username = username;
         this.password = password;
@@ -9,7 +9,12 @@ class User{
         this.SName = SName;
         this.PhoneNumber = PhoneNumber;
         this.points = points;
-        this.address = address;
+        this.address = addressLine1;
+        this.addressLine2 = addressLine2;
+        this.city = city;
+        this.region = region;
+        this.postalCode = postalCode;
+        this.countrCode = countryCode;
     }
 
     getid(){

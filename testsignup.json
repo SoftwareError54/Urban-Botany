@@ -1,14 +1,16 @@
 Invoke-RestMethod -Method POST `
-  -Uri "http://localhost:3000/api/auth/signup" `
-  -ContentType "application/json" `
-  -Body '{
-    "username": "Test User",
-    "password": "password123",
-    "email": "test@example.com",
-    "DoB": "1990-01-01",
-    "FName": "Test",
-    "SName": "User",
-    "PhoneNumber": "1234567890",
-    "points": 0,
-    "address": "123 Test Street"
-  }'
+>>   -Uri "http://localhost:3000/api/auth/signup" `
+>>   -ContentType "application/json" `
+>>   -Body '{
+>>     "username": "Test User",
+>>     "password": "password123",
+>>     "email": "test@example.com",
+>>     "DoB": "1990-01-01",
+>>     "FName": "Test",
+>>     "SName": "User",
+>>     "PhoneNumber": "1234567890",
+>>     "points": 0,
+>>     "addressLine1": "123 Test Street",
+       "addressLine2": null,
+       ""
+>>   }'
