@@ -23,11 +23,11 @@ export async function signup({userName, password, email, DoB, FName, SName, phon
     
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     const user = await userRepository.createUser(userName, hashedPassword, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode);
-    const token = jwt.sign({userId: user.id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+    const token = jwt.sign({userId: user.id}, JWT_SECRET);
     return {user, token};
 }
 
-export async function login(email, password) {
+export async function authenticate(email, password) {
     const user = await userRepository.findUserByEmail(email);
     if(!user) {
         throw new Error('Invalid credentials');
@@ -36,8 +36,10 @@ export async function login(email, password) {
     if(!isPasswordValid) {
         throw new Error('Invalid credentials');
     }
-    const token = jwt.sign({userId: user.id}, JWT_SECRET, {expiresIn: JWT_EXPIRES_IN});
+    const token = jwt.sign({userId: user.id}, JWT_SECRET);
+    console.log(token);
     return {user, token};
+    
 }
 
-export default {signup, login};
+export default {signup, authenticate};

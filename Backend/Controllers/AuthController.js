@@ -10,14 +10,14 @@ export async function signup(req, res) {
     }
 }
 
-export async function login(req, res) {
+export async function authenticate(req, res) {
     try{
         const {email, password} = req.body;
-        const result = await authService.login(email, password);
+        const result = await authService.authenticate(email, password);
         res.status(200).json(result);
     }catch(error){
         res.status(400).json({ message: error.message });
     }
 }
 
-export default {signup, login};
+export default {signup, authenticate};
