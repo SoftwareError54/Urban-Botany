@@ -1,5 +1,5 @@
 import pool from '../config/db.js' ;
-import {query} from '../config/db.js'
+import {query} from '../config/db.js';
 import User from'../Entities/User.js';
 
 class UserRepository {

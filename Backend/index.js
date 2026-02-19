@@ -8,6 +8,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import AuthRoute from './Routes/Auth.js';
+import ProfileRoute from './Routes/Profile.js';
 
 
 
@@ -22,10 +23,11 @@ const PORT = 3000;
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Backend running');
+  res.send('Backend updated and running!');
 });
 
 app.use('/api/auth', AuthRoute);
+app.use('/api/profile', ProfileRoute);
 // app.use('/api/plant',PlantRoutes);
 // app.use('/api/care-requirements',CareRequirementsRoute);
 // app.use('/api/room',RoomRoute);

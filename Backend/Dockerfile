@@ -1,9 +1,10 @@
 FROM node:18
 
-WORKDIR /app
+WORKDIR /src
 
 COPY package*.json ./
-RUN npm install
+
+RUN npm install -g supervisor && npm install && npm install supervisor
 
 COPY . .
 
