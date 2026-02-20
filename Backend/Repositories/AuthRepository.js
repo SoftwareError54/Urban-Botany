@@ -5,7 +5,7 @@ import User from'../Entities/User.js';
 class UserRepository {
     async findUserByEmail(email) {
         const result = await query('SELECT * FROM user WHERE email = ?', [email]);
-        constrows = result.rows;
+        const rows = result.rows;
         console.log(rows);
         if (rows.length > 0) {
             const user = rows[0];

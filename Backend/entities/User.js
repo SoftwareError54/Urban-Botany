@@ -9,7 +9,7 @@ class User{
         this.SName = SName;
         this.phoneNum = phoneNum;
         this.points = points;
-        this.address = addressLine1;
+        this.addressLine1 = addressLine1;
         this.addressLine2 = addressLine2;
         this.city = city;
         this.region = region;
