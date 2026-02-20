@@ -22,7 +22,7 @@ const PORT = 3000;
 app.use(express.json());
 
 app.get('/', (req, res) => {
-  res.send('Backend updated and running!');
+  res.send('Backend updated + running!');
 });
 
 app.get('/rooms/:uid', (req, res) => {
