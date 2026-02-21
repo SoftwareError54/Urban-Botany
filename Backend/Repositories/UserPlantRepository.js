@@ -8,7 +8,7 @@ class UserPlantRepository {
         return rows.map(p => new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded));
     }
 
-    async getPlantById(userPlantID) {
+    async getUserPlantById(userPlantID) {
         const result = await query('SELECT * FROM user_plants WHERE userPlantID = ?', [userPlantID]);
         const rows = result.rows;
         if (rows.length === 0) return null;
@@ -39,6 +39,12 @@ class UserPlantRepository {
     async deleteUserPlant(userPlantID, userID) {
         const { rows } = await query('DELETE FROM user_plants WHERE userPlantID = ? AND userID = ?', [userPlantID, userID]);
         return rows;
+    }
+
+    async getUserPlantsByUserId(userId) {
+        const result = await query('SELECT * FROM user_plants WHERE userID = ?', [userId]);
+        const rows = result.rows;
+        return rows.map(p => new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded));
     }
 }
 

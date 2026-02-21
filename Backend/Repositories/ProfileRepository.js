@@ -19,6 +19,16 @@ class ProfileRepository {
             'countryCode'
         ]);
     }
+
+    async getProfileByUserId(userId) {
+        const result = await query('SELECT userName, email, DoB, FName, SName, phoneNum, addressLine1, addressLine2, city, region, postalCode, countryCode FROM user WHERE userID = ?', [userId]);
+        const rows = result.rows;
+        if (rows.length > 0) {
+            return rows[0];
+        }
+        return null;
+    }
+
     async getUserByID(userId){
         const result = await query('SELECT * FROM user WHERE id = ?', [userId]);
         const rows = result.rows;
