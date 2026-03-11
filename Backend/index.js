@@ -26,6 +26,10 @@ app.get('/', (req, res) => {
   res.send('Backend updated + running!');
 });
 
+app.get("/logout", (req,res) => {
+  res.clearCookie('token');
+  res.status(200).json({message: 'Logged out successfully'});
+});
 
 
 app.use("/api", router);
@@ -33,6 +37,7 @@ app.use("/rooms",RoomRoutes);
 app.use("/plants", PlantRoutes);
 app.use("/userplants", UserPlantRoutes);
 app.use("/profile", ProfileRoutes);
+
 
 
 
