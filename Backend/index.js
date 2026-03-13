@@ -8,6 +8,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import RoomRoutes from './Routes/RoomRoutes.js';
+import AuthRoutes from './Routes/Auth.js';
 import PlantRoutes from './Routes/PlantRoutes.js';
 import UserPlantRoutes from './Routes/UserPlantRoutes.js';
 import ProfileRoutes from './Routes/ProfileRoutes.js';
@@ -46,6 +47,7 @@ app.get("/logout", (req,res) => {
 
 app.use("/api", router);
 app.use("/rooms",RoomRoutes);
+app.use('/auth', AuthRoutes);
 app.use("/plants", PlantRoutes);
 app.use("/userplants", UserPlantRoutes);
 app.use("/profile", ProfileRoutes);
