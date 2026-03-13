@@ -1,20 +1,30 @@
-import { useState } from 'react'
+// import { useState } from 'react'
+import Rooms from "./Pages/Rooms.jsx"
+import LandingPage from "./Pages/LandingPage.jsx"
+import {Routes, Route} from "react-router-dom"
+import MainLayout from "./layouts/MainLayout.jsx"
 
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './login/login';
-import Rooms from './Rooms/rooms';
-import Room from './Rooms/room';
+
+
 import './App.css'
+
 
 export default function App(){
   return(
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/rooms" element={<Rooms />} />
-      <Route path="/rooms/:roomId" element={<Room />} />
-    </Routes>
-    </BrowserRouter>
+    <main className="main-content">
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+
+        <Route element={<MainLayout/>}>
+          <Route path="/Rooms" element={<Rooms />} />
+          <Route path="/Profile" element={<h1>Profile</h1>} />
+          <Route path="/Calendar" element={<h1>Calendar</h1>} />
+          <Route path="/Projects" element={<h1>Projects</h1>} />
+          <Route path="/Scan" element={<h1>Scan</h1>} />
+        </Route> 
+      </Routes>
+    </main>
   )
 }
-  
+
+

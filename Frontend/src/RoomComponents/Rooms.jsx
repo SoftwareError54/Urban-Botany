@@ -1,9 +1,9 @@
 import {useEffect, useState } from "react";
-import { getRoomsbyUserId } from "../services/roomService";
+import { getRoomsbyUserId } from "../../services/roomService";
 import {Link} from "react-router-dom";
 import { get } from "node:http";
 
-export default function Rooms(){
+function Rooms(){
     return(<>
     <h1>Your Rooms</h1>
     </>)
@@ -33,3 +33,5 @@ export default function Rooms(){
     //         </div>
     // );
 }
+
+export default Rooms;
