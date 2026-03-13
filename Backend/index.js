@@ -22,6 +22,18 @@ const router = express.Router();
 
 app.use(express.json());
 
+// Simple CORS middleware for development
+app.use((req, res, next) => {
+  const allowedOrigin = 'http://localhost:5173';
+  res.header('Access-Control-Allow-Origin', allowedOrigin);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  if (req.method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
+    return res.sendStatus(200);
+  }
+  next();
+});
+
 app.get('/', (req, res) => {
   res.send('Backend updated + running!');
 });

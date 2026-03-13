@@ -1,5 +1,6 @@
 // import { useState } from 'react'
 import Rooms from "./Pages/Rooms.jsx"
+import Calendar from "./Pages/Calendar.jsx"
 import LandingPage from "./Pages/LandingPage.jsx"
 import {Routes, Route} from "react-router-dom"
 import MainLayout from "./layouts/MainLayout.jsx"
@@ -18,7 +19,7 @@ export default function App(){
         <Route element={<MainLayout/>}>
           <Route path="/Rooms" element={<Rooms />} />
           <Route path="/Profile" element={<h1>Profile</h1>} />
-          <Route path="/Calendar" element={<h1>Calendar</h1>} />
+          <Route path="/Calendar" element={<Calendar />} />
           <Route path="/Projects" element={<h1>Projects</h1>} />
           <Route path="/Scan" element={<h1>Scan</h1>} />
         </Route> 
