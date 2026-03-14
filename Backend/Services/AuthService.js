@@ -37,6 +37,7 @@ export async function authenticate(email, password) {
         throw new Error('Invalid credentials');
     }
     const token = jwt.sign({userId: user.id}, JWT_SECRET);
+    console.log("User ID: ", user.id);
     console.log(token);
     return {user, token};
     

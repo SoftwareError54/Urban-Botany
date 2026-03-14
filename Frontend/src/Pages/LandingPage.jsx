@@ -2,8 +2,22 @@
 
 import { useState } from "react";
 import { login, signup} from "../services/api";
+import Rooms from "./Rooms";
+import {useNavigate} from "react-router-dom";
+
+function getUserIdFromToken(token){
+    try{
+        const payload = token.split('.')[1];
+        const decoded = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+        return decoded.userId || decoded.user_id || decoded.id || null;
+    } catch(e){
+        console.error('Failed to decode token', e);
+        return null;
+    }
+}
 
 function Signup({setAction}){
+    const navigate = useNavigate();
     async function handleSubmit(e){
         e.preventDefault();
         const form = e.target;
@@ -43,9 +57,12 @@ function Signup({setAction}){
             console.log('signup success', res);
             if(res && res.token){
                 localStorage.setItem('token', res.token);
+                const uid = getUserIdFromToken(res.token);
+                if(uid) localStorage.setItem('userId', uid);
             }
             // navigate or update app state as needed
             setAction('loggedIn');
+            navigate('/rooms');
         } catch(err){
             console.error(err);
             alert(err.message || 'Signup failed');
@@ -105,6 +122,7 @@ function Signup({setAction}){
 }
 
 function Login({ setAction }){
+    const navigate = useNavigate();
     async function handleSubmit(e){
         e.preventDefault();
         const form = e.target;
@@ -115,9 +133,13 @@ function Login({ setAction }){
             console.log('login success', res);
             if(res && res.token){
                 localStorage.setItem('token', res.token);
+                const uid = getUserIdFromToken(res.token);
+                if(uid) localStorage.setItem('userId', uid);
+                console.log('stored userId', localStorage.getItem('userId'));
             }
             // navigate or update app state as needed
             setAction('loggedIn');
+            navigate('/rooms');
         } catch(err){
             console.error(err);
             alert(err.message || 'Login failed');
@@ -136,7 +158,6 @@ function Login({ setAction }){
             <br />
             <button type="submit">Login</button>
         </form>
-        <button type="button" onClick={() => setAction("signup")}>Don't have an account? Sign up</button>
     </>
 
     )
@@ -147,10 +168,16 @@ function LandingPage(){
 
     return(
         <>
-            {action==="login" ? <Login setAction={setAction}/> : <Signup setAction={setAction}/>}
-            <button onClick={() => setAction(action === "login" ? "signup" : "login")}>
-                {action === "login" ? "Don't have an account? Sign up" : "Already have an account? Login"}
-            </button>
+            {action === "login" ? (
+                <Login setAction={setAction} />
+            ) : (
+                <Signup setAction={setAction} />
+            )}
+            {action !== "loggedIn" && (
+                <button onClick={() => setAction(action === "login" ? "signup" : "login")}>
+                    {action === "login" ? "Don't have an account? Sign up" : "Already have an account? Login"}
+                </button>
+            )}
         </>
 
     )

@@ -1,5 +1,5 @@
 const BASE_URL = "http://localhost:3000";
-const USERID = 2; // Placeholder for user ID, replace with actual user ID from authentication
+const USERID = localStorage.getItem('userId');
 
 export const getRooms = async () => {
         const response = await fetch(`${BASE_URL}/rooms/${USERID}`);
@@ -21,6 +21,7 @@ export const login = async (email, password) => {
     }
     const data = await response.json();
     console.log('login response', data);
+    console.log('login token', data.token);
     return data;
 }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-
+import {Routes, Route} from "react-router-dom"
 
 import RoomButton from '../RoomComponents/RoomCard';
 import NavBar from '../GlobalComponents/NavBar';
@@ -9,6 +9,8 @@ function Rooms(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [rooms, setRooms] = useState([]);
+
+    
 
     useEffect(() => {
         async function loadRooms() {
@@ -49,7 +51,7 @@ function Rooms(){
         <ul>
             {rooms.map(room => (
                 <li key={room.roomID}>
-                    <RoomButton roomName={room.roomName} />
+                    <RoomButton roomData={room} />
                 </li>
             ))}
             <li>

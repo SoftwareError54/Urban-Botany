@@ -10,7 +10,7 @@ class UserRepository {
         if (rows.length > 0) {
             const user = rows[0];
             return new User(
-                user.id,
+                user.userID,
                 user.userName,
                 user.password,
                 user.email,
