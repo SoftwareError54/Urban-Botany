@@ -25,7 +25,9 @@ export async function getPlantById(req, res){
 export async function getAllPlantDecorations(req,res){
     try{
         const plantDecorations = await PlantService.getAllPlantDecorations();
+        console.log(plantDecorations);
         res.json(plantDecorations);
+        console.log(plantDecorations);
     } catch(error){
         res.status(500).json({message: "Error fetching decorations", error: error.message});
     }
@@ -34,10 +36,11 @@ export async function getAllPlantDecorations(req,res){
 
 export async function getPlantDecorationById(req,res){
     try{
-        const id = req.params.plantDecorationId;
-        const plantDecoration = await PlantService.getPlantDecorationById(id)
+        const decorationId = req.params.decorationId;
+        console.log(decorationId);
+        const plantDecoration = await PlantService.getPlantDecorationById(decorationId)
         if (!plantDecoration){
-            return res.status(404).json({message: "Plant not found"})
+            return res.status(404).json({message: "Plant not found weewoo"})
         }
         res.json(plantDecoration);    
         } catch(error){
@@ -48,8 +51,8 @@ export async function getPlantDecorationById(req,res){
 
 export async function getDecorationByPlantId(req,res){
     try{
-        const id = req.params.plantId;
-        const plantDecoration = await PlantService.getPlantDecorationById(id)
+        const plantId = req.params.plantId;
+        const plantDecoration = await PlantService.getPlantDecorationById(plantId)
         if (!plantDecoration){
             return res.status(404).json({message: "Plant not found"})
         }
@@ -71,5 +74,21 @@ export async function addDecorationByPlantId(req,res){
     }
 }
 
+export async function getMyPlants(req,res){
+    try{
+        const userId = req.userId;
+        console.log("User ID: ", userId);
+        const myPlants = await PlantService.getMyPlants(userId);
+        if (!myPlants){
+            return res.status(404).json({message: "No Plants Found"})
+        }
+        res.json(myPlants)
+    }
+    catch(error){
+        res.status(401).json({message: "Error Fetching Plants", error: error});
+    }
+    
+}
 
-export default {getAllPlants, getPlantById};
+
+export default {getAllPlants, getPlantById, getAllPlantDecorations, getPlantDecorationById, getDecorationByPlantId, addDecorationByPlantId, getMyPlants};

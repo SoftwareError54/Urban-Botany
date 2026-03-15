@@ -1,12 +1,12 @@
-import express from 'express';
-import * as decorationController from '../Controllers/decorationController.js';
+// import express from 'express';
+// import * as decorationController from '../Controllers/decorationController.js';
 
-const router = express.Router();
+// const router = express.Router();
 
-router.get('/', decorationController.getAllRoomDecorations);
-router.get('/', decorationController.getRoomDecorationById);
+// router.get('/', decorationController.getAllRoomDecorations);
+// router.get('/', decorationController.getRoomDecorationById);
 
-router.get('/', decorationController.getDecorationByRoomId);
-router.post('/', decorationController.addDecorationByRoomId);
+// router.get('/', decorationController.getDecorationByRoomId);
+// router.post('/', decorationController.addDecorationByRoomId);
 
-export default router;
+// export default router;
