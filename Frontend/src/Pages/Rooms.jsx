@@ -7,7 +7,7 @@ function Rooms(){
     return(
     <Routes>
         <Route path="/" element={<UserRooms />} /> 
-        <Route path='/rooms/room/:id' element={<Room/>}/>
+        <Route path='room/:id' element={<Room/>}/>
     </Routes>
     
     )
