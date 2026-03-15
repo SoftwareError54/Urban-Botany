@@ -3,14 +3,10 @@ import * as decorationController from '../Controllers/decorationController.js';
 
 const router = express.Router();
 
-router.get('/', decorationController.getAllPlantDecorations);
-router.get('/', decorationController.getAllPlantDecorations);
+router.get('/', decorationController.getAllRoomDecorations);
 router.get('/', decorationController.getRoomDecorationById);
-router.get('/', decorationController.getPlantDecorationById);
-router.get('/', decorationController.getDecorationByRoomId);
-router.get('/', decorationController.getDecorationByPlantId);
 
-router.post('/', decorationController.addDecorationByPlantId);
+router.get('/', decorationController.getDecorationByRoomId);
 router.post('/', decorationController.addDecorationByRoomId);
 
 export default router;
