@@ -10,7 +10,7 @@ function RoomButton({ roomData, roomName, roomID }){
       console.warn('No room id provided for navigation');
       return;
     }
-    navigate(`/Rooms/${id}`);
+    navigate(`/rooms/room/${id}`);
   }
 
   return(

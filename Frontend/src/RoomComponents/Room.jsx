@@ -1,37 +1,39 @@
-import {useEffect, useState } from "react";
-import { getRoomsbyUserId } from "../../services/roomService";
-import {Link} from "react-router-dom";
-import { get } from "node:http";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getRoom } from "../services/api";
 
-function Rooms(){
-    return(<>
-    <h1>Your Rooms</h1>
-    </>)
-    // const [rooms, setRooms] = useState([]);
-    // // const userId = localStorage.getItem("userId");
-    // const userId = 1; // Placeholder for testing
+function Room(){
+    const { id } = useParams();
+    const [room, setRoom] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    // useEffect(() => {
-    //     async function fetchRooms() {
-    //         const data = await getRoomsbyUserId(userId);
-    //         setRooms(data);
-    //     }
-    //     fetchRooms();
-    // },[]);
+    useEffect(() => {
+        if (!id) return;
+        let mounted = true;
+        async function fetchRoom() {
+            try {
+                const data = await getRoom(id);
+                if (mounted) setRoom(data);
+            } catch (err) {
+                console.error(err);
+                if (mounted) setError('Failed to load room');
+            } finally {
+                if (mounted) setLoading(false);
+            }
+        }
+        fetchRoom();
+        return () => { mounted = false; };
+    }, [id]);
 
-    // return(
-    //     <div>
-    //         <h1>Your Rooms</h1>
-    //         {rooms.map(room=> (
-    //             <div key={room.id}>
-    //                 <p>{room.name}</p>
-    //                 <Link to={`/rooms/${room.id}`}>View Room</Link>
+    if (loading) return <div>Loading room...</div>;
+    if (error) return <div>Error: {error}</div>;
 
-    //             </div>
-
-    //         ))}
-    //         </div>
-    // );
+    return (
+        <div>
+            <h1>{room.roomName}</h1>
+        </div>
+    );
 }
 
-export default Rooms;
+export default Room;

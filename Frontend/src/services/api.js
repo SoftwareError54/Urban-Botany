@@ -9,6 +9,14 @@ export const getRooms = async () => {
         return data;
 };
 
+export const getRoom = async(roomId)=>{
+    const response = await fetch(`${BASE_URL}/rooms/room/${roomId}`)
+    if (!response.ok) throw new Error('Failed to fetch room');
+    const data = await response.json();
+    console.log(data);
+    return data;
+};
+
 export const login = async (email, password) => {
     const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
@@ -24,6 +32,8 @@ export const login = async (email, password) => {
     console.log('login token', data.token);
     return data;
 }
+
+
 
 export const signup = async (user) => {
     // Normalize frontend field names to backend-expected fields
