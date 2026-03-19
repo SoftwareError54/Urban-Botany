@@ -1,5 +1,6 @@
 import { query } from '../config/db.js';
 import Room from '../Entities/Room.js';
+import RoomDecoration from '../Entities/RoomDecoration.js';
 
 class RoomRepository {
     async getRoomsByUserId(userId) {
@@ -39,6 +40,53 @@ class RoomRepository {
         const { rows } = await query('DELETE FROM room WHERE roomID = ? AND userID = ?', [roomId, userId]);
         return rows;
     }
-}
 
+    async getAllRoomDecorations(){
+        const result = await query("SELECT * FROM plant_decoration");
+        const rows = result.rows;
+        return rows.map(d => new RoomDecoration(d.plantDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
+    }
+
+    async getRoomDecorationById(decorationId){
+        const result = await query("SELECT * FROM plant_decoration WHERE plantDecorationID = ?", [decorationId]);
+        const rows = result.rows;
+        if (rows===0){
+            return null;
+        }
+        const d = rows[0];
+        return new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2);
+    }
+
+    async getDecorationsByRoomId(roomId){
+        const result = await query("SELECT roomDecorationID, imagePointer, isStatic, type, cost, colour1, colour2 FROM user_room_decoration JOIN user_rooms USING (userRoomID) WHERE userRoomID = ?", [roomId]);
+        const rows = result.rows;
+        if (rows === 0){
+            return null;
+        }
+        return rows.map(d => new PlantDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
+    }
+
+    async getRoomDecorationById(decorationId){
+        const result = await query("SELECT * FROM room_decoration where roomDecorationID = ?", [decorationId]);
+        const rows = result.rows;
+        if (rows === 0){
+            return null;
+        }
+        const d = rows[0];
+        return new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2);
+    }
+
+    async addDecoration(decorationId, roomId){
+        const decoration = await this.getDecorationByID;
+        if (!decoration){
+            return null;
+        }
+        await query("INSERT INTO user_room_decoration")
+        
+        const result = await query("INSERT INTO user_room_decoration VALUES [?,?,?,?,?,?,?]",
+            [roomId, decorationId, decoration.colour1, decoration.colour2]);
+        return decoration;   
+    }
+
+}
 export default new RoomRepository();
