@@ -1,8 +1,4 @@
-function Task({task}){
-    return(
-        <button>{task}</button>
-    )
-}
+import TaskCard from "../TaskComponents/TaskCard"
 
 function Calendar(){
     return(
@@ -10,16 +6,16 @@ function Calendar(){
             <h1>Calendar</h1>
             <main>
                 <div>
-                    <h3>Tasks</h3>
+                    <h2>Tasks</h2>
                     <ul>
                         <li>
-                            <Task task="Task 1" />
+                            <TaskCard/>
                         </li>
                         <li>
-                            <Task task="Task 2" />
+                            <TaskCard/>
                         </li>
                         <li>
-                            <Task task="Task 3" />
+                            <TaskCard/>
                         </li>            
                     </ul>
                     

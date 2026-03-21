@@ -8,6 +8,7 @@ function Rooms(){
     <Routes>
         <Route path="/" element={<UserRooms />} /> 
         <Route path='room/:id' element={<Room/>}/>
+        <Route path="addroom" element={<RoomForm/>}/>
     </Routes>
     
     )
