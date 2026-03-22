@@ -1,11 +1,13 @@
 import RoomButton from '../RoomComponents/RoomCard';
 import { useState, useEffect } from 'react';
 import { getRooms } from '../services/api';
+import {useNavigate} from "react-router-dom";
 
 function UserRooms(){
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [rooms, setRooms] = useState([]);
+    const navigate=useNavigate();
 
     
 
@@ -39,14 +41,14 @@ function UserRooms(){
         </div>
         
         <main>
-        <ul>
+            <ul>
             {rooms.map(room => (
                 <li key={room.roomID}>
                     <RoomButton roomData={room} />
                 </li>
             ))}
             <li>
-                <button>+</button>
+                <button type="button" className="addRoom-button" onClick={() => navigate('/rooms/addroom')}>+</button>
             </li>
         </ul>
         </main>

@@ -1,3 +1,4 @@
+//Matches room_decoration table
 class RoomDecoration{
     constructor(roomDecorationID, imagePointer, isStatic, type, cost, colour1, colour2){
         this.roomDecorationID = roomDecorationID,

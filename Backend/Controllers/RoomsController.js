@@ -78,3 +78,13 @@ export async function addDecoration(req, res){
         res.status(500).json({message: "Failed to add decoration"});
     }
 }
+
+export async function addRoom(req, res){
+    try{
+        const room = await roomService.addRoom(req.body);
+        res.status(201).json(room);
+    }
+    catch(error){
+        res.status(400).json({error: error.message});
+    }
+}

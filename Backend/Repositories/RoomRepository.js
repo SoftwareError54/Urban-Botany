@@ -1,6 +1,7 @@
 import { query } from '../config/db.js';
 import Room from '../Entities/Room.js';
 import RoomDecoration from '../Entities/RoomDecoration.js';
+import PlantDecoration from '../Entities/PlantDecoration.js';
 
 class RoomRepository {
     async getRoomsByUserId(userId) {
@@ -47,29 +48,35 @@ class RoomRepository {
         return rows.map(d => new RoomDecoration(d.plantDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
     }
 
-    async getRoomDecorationById(decorationId){
+    // fetch a plant decoration by its id
+    async getPlantDecorationById(decorationId){
         const result = await query("SELECT * FROM plant_decoration WHERE plantDecorationID = ?", [decorationId]);
         const rows = result.rows;
-        if (rows===0){
+        if (!rows || rows.length === 0){
             return null;
         }
         const d = rows[0];
-        return new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2);
+        return new PlantDecoration(d.plantDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2);
     }
 
     async getDecorationsByRoomId(roomId){
-        const result = await query("SELECT roomDecorationID, imagePointer, isStatic, type, cost, colour1, colour2 FROM user_room_decoration JOIN user_rooms USING (userRoomID) WHERE userRoomID = ?", [roomId]);
+        const result = await query(`
+            SELECT rd.*
+            FROM room_decoration rd
+            JOIN user_room_decoration urd
+            ON rd.roomDecorationID = urd.roomDecorationID
+            WHERE urd.roomID = ?`, [roomId]);
         const rows = result.rows;
-        if (rows === 0){
-            return null;
+        if (!rows || rows.length === 0){
+            return [];
         }
-        return rows.map(d => new PlantDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
+        return rows.map(d => new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
     }
 
     async getRoomDecorationById(decorationId){
         const result = await query("SELECT * FROM room_decoration where roomDecorationID = ?", [decorationId]);
         const rows = result.rows;
-        if (rows === 0){
+        if (!rows || rows.length === 0){
             return null;
         }
         const d = rows[0];
@@ -77,15 +84,23 @@ class RoomRepository {
     }
 
     async addDecoration(decorationId, roomId){
-        const decoration = await this.getDecorationByID;
-        if (!decoration){
-            return null;
-        }
-        await query("INSERT INTO user_room_decoration")
-        
-        const result = await query("INSERT INTO user_room_decoration VALUES [?,?,?,?,?,?,?]",
-            [roomId, decorationId, decoration.colour1, decoration.colour2]);
-        return decoration;   
+        // Basic safe implementation: validate inputs and insert mapping row.
+        if (!decorationId) throw new Error('DecorationId is required');
+        if (!roomId) throw new Error('RoomId is required');
+        // Adjust columns and SQL to match your schema for user_room_decoration
+        const { rows } = await query(
+            'INSERT INTO user_room_decoration (userRoomID, roomDecorationID) VALUES (?, ?)',
+            [roomId, decorationId]
+        );
+        return { insertedId: rows.insertId };
+    }
+
+    async addRoom(userID, roomName, upperTemp, lowerTemp, lightLevel, humidity){
+        const { rows } = await query(
+            'INSERT INTO room (userID, roomName, upperTemp, lowerTemp, lightLevel, humidity) VALUES (?, ?, ?, ?, ?, ?)',
+            [userID, roomName, upperTemp, lowerTemp, lightLevel, humidity]
+        );
+        return rows.insertId;
     }
 
 }

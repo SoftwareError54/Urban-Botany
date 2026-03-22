@@ -77,7 +77,6 @@ export async function addDecorationByPlantId(req,res){
 export async function getMyPlants(req,res){
     try{
         const userId = req.userId;
-        console.log("User ID: ", userId);
         const myPlants = await PlantService.getMyPlants(userId);
         if (!myPlants){
             return res.status(404).json({message: "No Plants Found"})

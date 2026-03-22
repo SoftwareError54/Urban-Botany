@@ -47,4 +47,16 @@ export async function addDecoration(decorationId, roomId){
     return decoration;
 }
 
-export default {getRoomsByUserId, getRoomById, getAllRoomDecorations, getDecorationsByRoomId, getRoomById, getRoomDecorationById, addDecoration};
+export async function addRoom({userID, roomName, upperTemp, lowerTemp, lightLevel, humidity}){
+    if(!userID){
+        throw new Error("User ID is required");
+    }
+    if(!roomName){
+        throw new Error("Room name is required");
+    }
+    const newRoom = await roomRepository.addRoom(userID, roomName, upperTemp, lowerTemp, lightLevel, humidity);
+    return newRoom;
+
+}
+
+export default {getRoomsByUserId, getRoomById, getAllRoomDecorations, getDecorationsByRoomId, getRoomById, getRoomDecorationById, addDecoration, addRoom};

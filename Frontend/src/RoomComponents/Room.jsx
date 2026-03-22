@@ -6,45 +6,44 @@ function Room(){
     const { id } = useParams();
 
     const [room, setRoom] = useState(null);
-    const [roomPlants, setPlants] = useState(null);
-    const [roomDecorations, setRoomDecorations] = useState(null);
+    const [roomPlants, setPlants] = useState([]);
+    const [roomDecorations, setRoomDecorations] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [state, setState] = useState('static');
 
-    useEffect(() => {
-        console.log(id)
+useEffect(() => {
         if (!id) return;
+
         let mounted = true;
-        async function fetchRoom() {
+
+        async function fetchData() {
             try {
-                const data = await getRoom(id);
-                if (mounted) setRoom(data);
+                const [roomData, decorationData] = await Promise.all([
+                    getRoom(id),
+                    getDecorationsByRoomId(id)
+                ]);
+
+                if (mounted) {
+                    setRoom(roomData);
+                    setRoomDecorations(decorationData);
+                    console.log(decorationData);
+                }
             } catch (err) {
                 console.error(err);
-                if (mounted) setError('Failed to load room');
+                if (mounted) setError("Failed to load room");
             } finally {
                 if (mounted) setLoading(false);
             }
         }
-        async function fetchRoomDecorations(){
-            try{
-                const data = await getDecorationsByRoomId(id);
-                if (mounted) setRoomDecorations(data);
-            } catch (err){
-                console.log(err);
-                if (mounted) setError("Failed to Load Decorations");
-            }
-        }
 
-        fetchRoom();
-        fetchRoomDecorations();
+        fetchData();
+
         return () => { mounted = false; };
     }, [id]);
 
     if (loading) return <div>Loading room...</div>;
     if (error) return <div>Error: {error}</div>;
-    console.log(room);
 
     return (
         <>
@@ -57,6 +56,25 @@ function Room(){
                 <h3>Lower Temp: {room.lowerTemp}°C</h3>
                 <h3>Humidity: {room.humidity}%</h3>
                 <h3>light Level: {room.lightLevel}</h3>
+            </div>
+            <div>
+                <h1>Decorations</h1>
+                {roomDecorations.length === 0 ?  (
+                    <p>No Decorations</p>
+                ) : (
+                    roomDecorations.map ((dec) => (
+                        <div key={dec.roomDecorationID}>
+                            <img
+                                src={`../../public/RoomDecorations/${dec.imagePointer}`}
+                                alt = "decoration"
+                                style = {{width: "100px"}}
+                            />
+                        </div>
+                    ))
+                )}
+            </div>
+            <div>
+                <h1>Plants</h1>
             </div>
         </>
     );

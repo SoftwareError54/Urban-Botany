@@ -5,7 +5,6 @@ import NavBar from "../GlobalComponents/NavBar";
 function MainLayout(){
     return(
         <>
-            
             <Outlet/>
             <NavBar/>
         </>
