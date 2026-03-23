@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getRoom, getDecorationsByRoomId } from "../services/api";
+import { getRoom, getDecorationsByRoomId, getPlantsByRoomId } from "../services/api";
+
+import PlantCard from "../PlantComponents/PlantCard";
 
 function Room(){
     const { id } = useParams();
-
     const [room, setRoom] = useState(null);
     const [roomPlants, setPlants] = useState([]);
     const [roomDecorations, setRoomDecorations] = useState([]);
@@ -19,14 +20,16 @@ useEffect(() => {
 
         async function fetchData() {
             try {
-                const [roomData, decorationData] = await Promise.all([
+                const [roomData, decorationData, plantData] = await Promise.all([
                     getRoom(id),
-                    getDecorationsByRoomId(id)
+                    getDecorationsByRoomId(id),
+                    getPlantsByRoomId(id)
                 ]);
 
                 if (mounted) {
                     setRoom(roomData);
                     setRoomDecorations(decorationData);
+                    setPlants(plantData);
                     console.log(decorationData);
                 }
             } catch (err) {
@@ -75,8 +78,13 @@ useEffect(() => {
             </div>
             <div>
                 <h1>Plants</h1>
-                
+                <div className="plant-grid">
+                    {roomPlants.map(p => (
+                        <PlantCard key={p.userPlantID} plant={p} />
+                    ))}
+                </div>
             </div>
+
         </>
     );
 }

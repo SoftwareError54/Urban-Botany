@@ -52,7 +52,7 @@ function Signup({setAction}){
                 postalCode,
                 country
             };
-
+            console.log(payload);
             const res = await signup(payload);
             console.log('signup success', res);
             if(res && res.token){

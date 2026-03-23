@@ -9,7 +9,7 @@ class PlantRepository {
     async getAllPlants() {
         const result = await query('SELECT * FROM plant');
         const rows = result.rows;
-        return rows.map(p => new Plant(p.plantID, p.latinName, p.commonName, p.upperTemp, p.lowerTemp, p.soilType, p.humidity, p.careDifficulty, p.recommendedLoc, p.heightSpread, p.feedingFreq, p.wateringFreq, p.pottingFreq, p.family, p.lightLevel));
+        return rows.map(p => new Plant(p.plantID, p.latinName, p.commonName, p.upperTemp, p.lowerTemp, p.soilType, p.humidity, p.careDifficulty, p.recommendedLoc, p.heightSpread, p.feedingFreq, p.wateringFreq, p.pottingFreq, p.family, p.lowerLight, p.upperLight));
     }
 
     async getPlantById(plantId) {
@@ -17,7 +17,27 @@ class PlantRepository {
         const rows = result.rows;
         if (rows.length === 0) return null;
         const p = rows[0];
-        return new Plant(p.plantID, p.latinName, p.commonName, p.upperTemp, p.lowerTemp, p.soilType, p.humidity, p.careDifficulty, p.recommendedLoc, p.heightSpread, p.feedingFreq, p.wateringFreq, p.pottingFreq, p.family, p.lightLevel);
+        const plant = new Plant(p.plantID, p.latinName, p.commonName, p.upperTemp, p.lowerTemp, p.soilType, p.humidity, p.careDifficulty, p.recommendedLoc, p.heightSpread, p.feedingFreq, p.wateringFreq, p.pottingFreq, p.family, p.lowerLight, p.upperLight);
+        // attach image pointer if present in the DB row
+        if (p.imagePointer) plant.imagePointer = p.imagePointer;
+        return plant;
+    }
+
+    async getPlantByLatinName(latinName){
+        const name = (latinName || '').trim();
+        if(!name) return null;
+        const pattern = `%${name}%`;
+        console.log(name)
+        const result = await query(
+            'SELECT * FROM plant WHERE LOWER(latinName) = LOWER(?) OR LOWER(latinName) LIKE LOWER(?) LIMIT 1',
+            [name, pattern]
+        );
+        const rows = result.rows;
+        if(rows.length === 0) return null;
+        const p = rows[0];
+        const plant = new Plant(p.plantID, p.latinName, p.commonName, p.upperTemp, p.lowerTemp, p.soilType, p.humidity, p.careDifficulty, p.recommendedLoc, p.heightSpread, p.feedingFreq, p.wateringFreq, p.pottingFreq, p.family, p.lowerLight, p.upperLight);
+        if(p.imagePointer) plant.imagePointer = p.imagePointer;
+        return plant;
     }
 
     async getAllPlantDecorations(){
@@ -64,6 +84,28 @@ class PlantRepository {
         console.log(p);
         return rows.map(p => new UserPlant(p.userPlantID, p.plantID, p.userId, p.roomID, p.plantName, p.recommendedLoc, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded));
     }
+
+    async getPlantsByRoomId(roomId){
+        console.log('getPlantsByRoomId', roomId);
+        const result = await query(
+            `SELECT up.userPlantID, up.plantID, up.roomID, up.plantName, p.imagePointer
+             FROM user_plants up
+             JOIN plant p ON up.plantID = p.plantID
+             WHERE up.roomID = ?`,
+            [roomId]
+        );
+        const rows = result.rows;
+        return rows.map(r => ({
+            userPlantID: r.userPlantID,
+            plantID: r.plantID,
+            roomID: r.roomID,
+            name: r.plantName,
+            imagePointer: r.imagePointer
+        }));
+        }
+        
+
+
 }
 
 export default new PlantRepository();

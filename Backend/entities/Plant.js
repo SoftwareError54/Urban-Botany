@@ -1,5 +1,5 @@
 class Plant{
-    constructor(plantID, latinName, commonName, upperTemp, lowerTemp, soilType, humidity, careDifficulty, recommendedLoc, heightSpread, feedingFreq, wateringFreq, pottingFreq, family, lightLevel){
+    constructor(plantID, latinName, commonName, upperTemp, lowerTemp, soilType, humidity, careDifficulty, recommendedLoc, heightSpread, feedingFreq, wateringFreq, pottingFreq, family, lowerLight, upperLight){
         this.plantID = plantID;
         this.latinName = latinName;
         this.commonName = commonName;
@@ -14,7 +14,8 @@ class Plant{
         this.wateringFreq = wateringFreq;
         this.pottingFreq = pottingFreq;
         this.family = family;
-        this.lightLevel = lightLevel;
+        this.lowerLight = lowerLight;
+        this.upperLight = upperLight;
     }
 }
 

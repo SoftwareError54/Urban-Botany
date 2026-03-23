@@ -10,21 +10,29 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '1h';
 export async function signup({userName, password, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode}) {
     const existingUser = await userRepository.findUserByDetails(email, userName, phoneNum);
     if(existingUser && existingUser.email === email) {
-        throw new Error('User already exists with email: ${email}');
+        throw new Error(`User already exists with email: ${email}`);
     }
 
     if(existingUser && existingUser.phoneNum === phoneNum){
-        throw new Error('User already exists with phone number: ${phoneNum}');
+        throw new Error(`User already exists with phone number: ${phoneNum}`);
     }
 
     if(existingUser && existingUser.userName === userName){
-        throw new Error('User already exists with username: ${userName}');
+        throw new Error(`User already exists with username: ${userName}`);
     }
     
     const hashedPassword = await bcrypt.hash(password, saltRounds);
-    const user = await userRepository.createUser(userName, hashedPassword, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode);
-    const token = jwt.sign({userId: user.id}, JWT_SECRET);
-    return {user, token};
+    // createUser returns the inserted id (insertId)
+    const insertedId = await userRepository.createUser(userName, hashedPassword, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode);
+
+    if (!JWT_SECRET) {
+        throw new Error('Server JWT secret is not configured');
+    }
+
+    const token = jwt.sign({userId: insertedId}, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
+    // return minimal user info and token
+    const user = { id: insertedId, userName, email };
+    return { user, token };
 }
 
 export async function authenticate(email, password) {

@@ -5,6 +5,7 @@ import LandingPage from "./Pages/LandingPage.jsx"
 import {Routes, Route} from "react-router-dom"
 import MainLayout from "./layouts/MainLayout.jsx"
 import Plants from "./Pages/Plants.jsx"
+import Scan from "./Pages/Scan.jsx"
 
 
 
@@ -22,8 +23,8 @@ export default function App(){
           <Route path="/Profile" element={<h1>Profile</h1>} />
           <Route path="/Calendar" element={<Calendar />} />
           <Route path="/Projects" element={<h1>Projects</h1>} />
-          <Route path="/Scan" element={<h1>Scan</h1>} />
-          <Route path="/plants" element={<Plants/>}/>
+          <Route path="/Scan/*" element={<Scan />} />
+          <Route path="/plants/*" element={<Plants/>}/>
         </Route> 
       </Routes>
     </main>

@@ -1,24 +1,38 @@
 const BASE_URL = "http://localhost:3000";
-const USERID = localStorage.getItem('userId');
 
-export const getDecorationsByRoomId = async(roomId)=>{
-    const response = await fetch(`${BASE_URL}/rooms/${roomId}/decorations`)
+function buildHeaders(json = false) {
+    const headers = {};
+    const token = localStorage.getItem('token');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    if (json) headers['Content-Type'] = 'application/json';
+    return headers;
+}
+
+export const getDecorationsByRoomId = async (roomId) => {
+    const response = await fetch(`${BASE_URL}/rooms/${roomId}/decorations`, {
+        headers: buildHeaders()
+    });
     if (!response.ok) throw new Error('Failed to fetch decorations');
     const data = await response.json();
     console.log(data);
     return data;
-}
-
-export const getRooms = async () => {
-        const response = await fetch(`${BASE_URL}/Rooms/${USERID}`);
-        if (!response.ok) throw new Error('Failed to fetch rooms');
-        const data = await response.json();
-        console.log(data);
-        return data;
 };
 
-export const getRoom = async(roomId)=>{
-    const response = await fetch(`${BASE_URL}/rooms/room/${roomId}`)
+export const getRooms = async () => {
+    const userId = localStorage.getItem('userId');
+    const response = await fetch(`${BASE_URL}/rooms/${userId}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch rooms');
+    const data = await response.json();
+    console.log(data);
+    return data;
+};
+
+export const getRoom = async (roomId) => {
+    const response = await fetch(`${BASE_URL}/rooms/room/${roomId}`, {
+        headers: buildHeaders()
+    });
     if (!response.ok) throw new Error('Failed to fetch room');
     const data = await response.json();
     console.log(data);
@@ -75,3 +89,44 @@ export const signup = async (user) => {
     console.log('signup response', data);
     return data;
 }
+
+export const getPlantsByRoomId = async (roomId) => {
+    const response = await fetch(`${BASE_URL}/plants/room/${roomId}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch plants');
+    const data = await response.json();
+    console.log(data);
+    return data;
+};
+
+export const getPlantById = async (plantId) => {
+    const response = await fetch(`${BASE_URL}/plants/${plantId}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch plant');
+    const data = await response.json();
+    console.log('getPlantById', data);
+    return data;
+};
+
+export const getUserPlantById = async (userPlantId) => {
+    const response = await fetch(`${BASE_URL}/userplants/userplant/${userPlantId}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch user plant');
+    const data = await response.json();
+    console.log('getUserPlantById', data);
+    return data;
+};
+
+export const getPlantByLatinName = async (latinName) => {
+    console.log(latinName);
+    const response = await fetch(`${BASE_URL}/plants/bylatin?name=${encodeURIComponent(latinName)}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch plant by latin name');
+    const data = await response.json();
+    console.log('getPlantByLatinName', data);
+    return data;
+};

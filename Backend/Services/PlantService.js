@@ -28,4 +28,12 @@ export async function getMyPlants(userId){
     return await PlantRepository.getMyPlants(userId);
 }
 
-export default {getAllPlants, getPlantById};
+export async function getPlantsByRoomId(roomId){
+    return await PlantRepository.getPlantsByRoomId(roomId);
+}
+
+export async function getPlantByLatinName(latinName){
+    return await PlantRepository.getPlantByLatinName(latinName);
+}
+
+export default {getAllPlants, getPlantById, getPlantsByRoomId, getPlantByLatinName};

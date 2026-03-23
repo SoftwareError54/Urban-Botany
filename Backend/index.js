@@ -21,7 +21,14 @@ const PORT = 3000;
 const router = express.Router();
 
 
-app.use(express.json());
+// Allow larger JSON payloads so base64 images can be posted from the frontend
+app.use(express.json({ limit: '10mb' }));
+
+// Basic request logger to help diagnose routing issues
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
 
 // Simple CORS middleware for development
 app.use((req, res, next) => {
@@ -51,6 +58,21 @@ app.use('/auth', AuthRoutes);
 app.use("/plants", PlantRoutes);
 app.use("/userplants", UserPlantRoutes);
 app.use("/profile", ProfileRoutes);
+
+// Generic error handler so uncaught errors return JSON instead of crashing the process silently
+app.use((err, req, res, next) => {
+  console.error('Unhandled error in request pipeline:', err);
+  if (res.headersSent) return next(err);
+  res.status(500).json({ message: 'Internal server error', error: err?.message });
+});
+
+// Log unhandled promise rejections and uncaught exceptions to help debugging
+process.on('unhandledRejection', (reason) => {
+  console.error('Unhandled Rejection:', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err);
+});
 
 
 
