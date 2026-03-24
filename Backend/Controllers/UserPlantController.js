@@ -1,4 +1,5 @@
 import UserPlantService from '../Services/UserPlantService.js';
+import { authenticateToken } from '../Middleware/authMiddleware.js';
 
 export async function getUserPlantsByUserId(req, res) {
     try {
@@ -27,4 +28,23 @@ export async function getUserPlantById(req, res) {
     }
 }
 
-export default { getUserPlantsByUserId, getUserPlantById };
+export async function addUserPlant(req, res) {
+    try {
+        const userId = req.userId || req.body.userId || null;
+        if (!userId) return res.status(401).json({ message: 'User not authenticated' });
+
+        const { plantID, plantName, roomID, recommendedRoomID } = req.body;
+        if (!plantID || !roomID) return res.status(400).json({ message: 'plantID and roomID are required' });
+
+        const createdId = await UserPlantService.createUserPlant(plantID, userId, roomID, plantName, recommendedRoomID);
+
+        if (recommendedRoomID) console.log(`Recommended room ${recommendedRoomID} provided for userPlant ${createdId}`);
+
+        res.status(201).json({ userPlantId: createdId });
+    } catch (error) {
+        console.error('addUserPlant error', error);
+        res.status(500).json({ message: 'Error creating user plant', error: error.message });
+    }
+}
+
+export default { getUserPlantsByUserId, getUserPlantById, addUserPlant };

@@ -16,4 +16,10 @@ export async function getUserPlantById(userPlantId){
     return userPlant;
 }
 
-export default { getUserPlantsByUserId, getUserPlantById };
+export async function createUserPlant(plantID, userID, roomID, plantName, recommendedLoc) {
+    if (!plantID || !userID || !roomID) throw new Error('plantID, userID and roomID are required');
+    const insertedId = await UserPlantRepository.createUserPlant(plantID, userID, roomID, plantName, recommendedLoc);
+    return insertedId;
+}
+
+export default { getUserPlantsByUserId, getUserPlantById, createUserPlant };

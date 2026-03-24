@@ -16,11 +16,12 @@ class UserPlantRepository {
         return new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded);
     }
 
-    async createUserPlant(plantID, userID, roomID, plantName) {
+    async createUserPlant(plantID, userID, roomID, plantName, recommendedLoc) {
         const now = new Date();
+        console.log(userID, plantID, roomID, plantName, recommendedLoc);
         const { rows } = await query(
-            'INSERT INTO user_plants (plantID, userID, roomID, plantName, dateAdded) VALUES (?, ?, ?, ?, ?)',
-            [plantID, userID, roomID, plantName, now]
+            'INSERT INTO user_plants (plantID, userID, roomID, plantName, recommendedLoc, lastWatered, lastFed, lastPotted, nextWatering, nextFeeding, nextPotting, dateAdded) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [plantID, userID, roomID, plantName, recommendedLoc, now, now, now, now, now, now, now]
         );
         return rows.insertId;
     }

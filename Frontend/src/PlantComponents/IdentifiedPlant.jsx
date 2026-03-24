@@ -1,6 +1,7 @@
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getPlantByLatinName } from '../services/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function IdentifiedPlant(){
   const { state } = useLocation();
@@ -8,6 +9,7 @@ export default function IdentifiedPlant(){
   const nameParam = searchParams.get('name') || null;
   const score = state?.score ?? null;
   const raw = state?.raw ?? null;
+  const navigate = useNavigate();
 
   // derive species and common names
   let speciesName = null;
@@ -45,6 +47,7 @@ export default function IdentifiedPlant(){
     return ()=>{ mounted = false; }
   }, [speciesName]);
 
+  
   return (
     <div>
       <h1>Identified Species</h1>
@@ -68,8 +71,17 @@ export default function IdentifiedPlant(){
   );
 }
 
+
 function PlantDetailDisplay({ plant }){
+  const navigate = useNavigate();
+
+  function addPlant(plantId){
+    console.log(plantId);
+    navigate(`/plants/addplant/${plantId}`);
+  }
+
   if(!plant) return null;
+
 
   return (
     <div style={{marginTop:16}}>
@@ -80,7 +92,7 @@ function PlantDetailDisplay({ plant }){
         <div><strong>Temperature Range:</strong> {plant.lowerTemp ?? '-'}°C - {plant.upperTemp ?? '-' }°C</div>
         <div><strong>Recommended Location:</strong> {plant.recommendedLoc ?? '—'}</div>
       </div>
-      <button>Add to Room</button>
+      <button onClick={() => addPlant(plant.plantID)}>Add to Room</button>
     </div>
   );
 }

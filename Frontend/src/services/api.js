@@ -130,3 +130,19 @@ export const getPlantByLatinName = async (latinName) => {
     console.log('getPlantByLatinName', data);
     return data;
 };
+
+export const createUserPlant = async ({ plantID, plantName, roomID, recommendedRoomID }) => {
+    const body = { plantID, plantName, roomID, recommendedRoomID };
+    const response = await fetch(`${BASE_URL}/userplants`, {
+        method: 'POST',
+        headers: buildHeaders(true),
+        body: JSON.stringify(body)
+    });
+    if (!response.ok) {
+        const err = await response.json().catch(()=>({message: 'Failed to create user plant'}));
+        throw new Error(err.message || 'Failed to create user plant');
+    }
+    const data = await response.json();
+    console.log('createUserPlant', data);
+    return data;
+};

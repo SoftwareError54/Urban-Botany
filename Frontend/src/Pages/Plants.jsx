@@ -4,6 +4,7 @@ import Room from '../RoomComponents/Room'
 // import Plant from '../PlantComponents/Plant'
 import PlantPage from '../PlantComponents/PlantPage'
 import IdentifiedPlant from '../PlantComponents/IdentifiedPlant'
+import AddPlant from '../PlantComponents/AddPlant'
 
 
 function Plants(){
@@ -11,6 +12,7 @@ function Plants(){
         <Routes>
             <Route path="myplants/:id" element={<PlantPage/>}/>
             <Route path="identified" element={<IdentifiedPlant/>} />
+            <Route path="addplant/:id" element={<AddPlant/>} />
             {/* <Route path="/myplants" element={<MyPlants/>}/>
             <Route path="searchplants" element={<SearchPlants/>}/> */}
         </Routes>
