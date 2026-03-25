@@ -41,17 +41,20 @@ function UserRooms(){
         </div>
         
         <main>
-            <ul>
+        <div className="room-list">
             {rooms.map(room => (
-                <li key={room.roomID}>
-                    <RoomButton roomData={room} />
-                </li>
+            <RoomButton key={room.roomID} roomData={room} />
             ))}
-            <li>
-                <button type="button" className="addRoom-button" onClick={() => navigate('/rooms/addroom')}>+</button>
-            </li>
-        </ul>
-        </main>
+
+            <button
+            type="button"
+            className="addRoom-button"
+            onClick={() => navigate('/rooms/addroom')}
+            >
+            +
+            </button>
+        </div>
+</main>
     </>
 
     )

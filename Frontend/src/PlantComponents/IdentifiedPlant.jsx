@@ -1,6 +1,7 @@
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getPlantByLatinName } from '../services/api';
+import DecoratedPlant from './DecoratedPlant';
 import { useNavigate } from 'react-router-dom';
 
 export default function IdentifiedPlant(){
@@ -57,8 +58,8 @@ export default function IdentifiedPlant(){
       {loading && <p>Loading plant image…</p>}
       {error && <p style={{color:'crimson'}}>Error loading plant details: {error}</p>}
       {plant?.imagePointer && (
-        <div style={{marginTop:12}}>
-          <img src={`../../public/Plants/${plant.imagePointer}.jpg`} alt={plant.commonName || plant.latinName} style={{maxWidth:300}} />
+        <div style={{marginTop:12}} className="plant-grid">
+          <DecoratedPlant plant={plant} size={300} />
         </div>
       )}
 

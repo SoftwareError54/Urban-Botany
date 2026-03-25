@@ -45,7 +45,7 @@ class RoomRepository {
     async getAllRoomDecorations(){
         const result = await query("SELECT * FROM plant_decoration");
         const rows = result.rows;
-        return rows.map(d => new RoomDecoration(d.plantDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
+        return rows.map(d => new RoomDecoration(d.plantDecorationID, d.decorationName, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2));
     }
 
     // fetch a plant decoration by its id
@@ -56,7 +56,7 @@ class RoomRepository {
             return null;
         }
         const d = rows[0];
-        return new PlantDecoration(d.plantDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2);
+        return new PlantDecoration(d.plantDecorationID, d.decorationName, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2);
     }
 
     async getDecorationsByRoomId(roomId){
@@ -70,7 +70,7 @@ class RoomRepository {
         if (!rows || rows.length === 0){
             return [];
         }
-        return rows.map(d => new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2));
+        return rows.map(d => new RoomDecoration(d.roomDecorationID, d.decorationName, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2));
     }
 
     async getRoomDecorationById(decorationId){
@@ -80,7 +80,7 @@ class RoomRepository {
             return null;
         }
         const d = rows[0];
-        return new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.type, d.cost, d.colour1, d.colour2);
+        return new RoomDecoration(d.roomDecorationID, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2);
     }
 
     async addDecoration(decorationId, roomId){

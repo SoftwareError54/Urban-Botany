@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import DecoratedPlant from './DecoratedPlant';
 
 function PlantCard({ plant }) {
   const navigate = useNavigate();
@@ -8,8 +9,8 @@ function PlantCard({ plant }) {
   };
 
   return (
-    <div className="plant-card" onClick={handleClick}>
-      <img src={`/Plants/${plant.imagePointer}.jpg`} alt={plant.name || plant.plantName} />
+    <div className="plant-card" onClick={handleClick} style={{cursor: 'pointer'}}>
+      <DecoratedPlant plant={plant} size={120} />
       <h3>{plant.name}</h3>
     </div>
   );

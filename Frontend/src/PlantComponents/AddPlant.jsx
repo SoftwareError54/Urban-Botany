@@ -1,6 +1,8 @@
 import { useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import UserRooms from '../RoomComponents/UserRooms';
+import DecoratedPlant from './DecoratedPlant';
+import { useNavigate } from 'react-router-dom';
 
 import { getPlantById, getRooms, createUserPlant } from '../services/api';
 
@@ -13,6 +15,7 @@ function recommendRoom(plant, userRooms) {
     const plUpper = safe(plant.upperTemp);
     const plLowerLight = safe(plant.lowerLight);
     const plUpperLight = safe(plant.upperLight);
+
     if ([plLower, plUpper, plLowerLight, plUpperLight].some(v => v === null)) return null;
 
     const plantTempMid = (plLower + plUpper) / 2;
@@ -56,6 +59,7 @@ function AddPlant(){
     const [recommendedRoom, setRecomendedRoom] = useState(null);
     const [selectedRoomId, setSelectedRoomId] = useState('');
     const [plantName, setPlantName] = useState('');
+    const navigate = useNavigate();
 
     useEffect(()=>{
         if(!plantId) return;
@@ -84,6 +88,7 @@ function AddPlant(){
             console.error(err);
             alert('Failed to add plant: ' + (err.message || err));
         }
+        navigate('/rooms');
     }
 
     // compute recommendation after plant and rooms have loaded
@@ -112,11 +117,9 @@ function AddPlant(){
                         />
                 </div>
                 <div className="form-section">
-                    <img
-                    src={`../../public/Plants/${plant?.imagePointer}.jpg`}
-                    alt={plant?.latinName || 'Plant'}
-                    style={{maxWidth:300}}
-                    />
+                    <div style={{marginTop:12}} className="plant-grid">
+                        <DecoratedPlant plant={plant} size={300} />
+                    </div>
                 </div>
                 <div className="form-section">
                     <label htmlFor="roomSelect">Select Room:</label>

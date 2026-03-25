@@ -1,5 +1,15 @@
 const BASE_URL = "http://localhost:3000";
 
+export const getDecorationsByPlantId = async(plantId) => {
+    const response = await fetch (`${BASE_URL}/myplants/${plantId}/decoration`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch decorations');
+    const data = await response.json();
+    console.log(data);
+    return data;
+};
+
 function buildHeaders(json = false) {
     const headers = {};
     const token = localStorage.getItem('token');

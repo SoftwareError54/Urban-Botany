@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserPlantById, getPlantById } from "../services/api";
+import DecoratedPlant from './DecoratedPlant';
 
 function PlantPage(){
     const { id } = useParams();
@@ -44,8 +45,10 @@ function PlantPage(){
     return (
         <div className="plant-page">
             <h1>{title}</h1>
-            {plant?.imagePointer ? (
-                <img src={`/Plants/${plant.imagePointer}.jpg`} alt={common} style={{maxWidth: '300px'}} />
+            {plant ? (
+                <div className="plant-grid">
+                  <DecoratedPlant plant={plant} size={300} />
+                </div>
             ) : (
                 <div style={{width:300,height:200,background:'#eee',display:'flex',alignItems:'center',justifyContent:'center'}}>No image</div>
             )}
