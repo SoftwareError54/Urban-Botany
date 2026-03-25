@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getUserPlantById, getPlantById } from "../services/api";
+import { getUserPlantById, getPlantById, getRoom } from "../services/api";
 import DecoratedPlant from './DecoratedPlant';
 
 function PlantPage(){
@@ -9,6 +9,7 @@ function PlantPage(){
     const [plant, setPlant] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [room, setRoom] = useState(null);
 
     useEffect(() => {
         if(!id) return;
@@ -23,6 +24,12 @@ function PlantPage(){
                     const p = await getPlantById(up.plantID);
                     if(!mounted) return;
                     setPlant(p);
+                }
+                // fetch room data if we have roomID
+                if(up && up.roomID){
+                    const r = await getRoom(up.roomID);
+                    if(!mounted) return;
+                    setRoom(r);
                 }
             } catch(err){
                 console.error(err);
@@ -63,7 +70,7 @@ function PlantPage(){
                 <p><strong>Watering Frequency:</strong> {plant?.wateringFreq ?? '-'}</p>
                 <p><strong>Care Difficulty:</strong> {plant?.careDifficulty ?? '-'}</p>
                 <p><strong>Temperature Range:</strong> {plant ? `${plant.lowerTemp}°C - ${plant.upperTemp}°C` : '-'}</p>
-                <p><strong>Recommended Room:</strong> {plant?.recommendedLoc ?? '-'}</p>
+                <p><strong>Recommended Room:</strong> {room?.roomName ?? '-'}</p>
             </div>
         </div>
     )

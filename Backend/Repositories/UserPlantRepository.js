@@ -13,7 +13,7 @@ class UserPlantRepository {
         const rows = result.rows;
         if (rows.length === 0) return null;
         const p = rows[0];
-        return new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded);
+        return new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.recommendedLoc, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded);
     }
 
     async createUserPlant(plantID, userID, roomID, plantName, recommendedLoc) {
