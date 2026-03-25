@@ -47,4 +47,19 @@ export async function addUserPlant(req, res) {
     }
 }
 
-export default { getUserPlantsByUserId, getUserPlantById, addUserPlant };
+export async function updateUserPlant(req, res) {
+    try {
+        const userPlantId = req.params.userPlantId;
+        const userId = req.userId;
+        if (!userId) return res.status(401).json({ message: 'User not authenticated' });
+        const updates = req.body || {};
+        // Delegate to service
+        const result = await UserPlantService.updateUserPlant(userPlantId, userId, updates);
+        res.json({ message: 'User plant updated', result });
+    } catch (error) {
+        console.error('updateUserPlant error', error);
+        res.status(500).json({ message: 'Error updating user plant', error: error.message });
+    }
+}
+
+export default { getUserPlantsByUserId, getUserPlantById, addUserPlant, updateUserPlant };

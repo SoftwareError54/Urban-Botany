@@ -22,4 +22,11 @@ export async function createUserPlant(plantID, userID, roomID, plantName, recomm
     return insertedId;
 }
 
-export default { getUserPlantsByUserId, getUserPlantById, createUserPlant };
+export async function updateUserPlant(userPlantId, userId, updates = {}) {
+    if (!userPlantId) throw new Error('userPlantId is required');
+    if (!userId) throw new Error('userId is required');
+    const result = await UserPlantRepository.updateUserPlant(userPlantId, userId, updates);
+    return result;
+}
+
+export default { getUserPlantsByUserId, getUserPlantById, createUserPlant, updateUserPlant };

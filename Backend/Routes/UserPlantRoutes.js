@@ -9,5 +9,7 @@ router.get('/userplant/:userPlantId', userPlantController.getUserPlantById);
 
 // create user plant (protected)
 router.post('/', authenticateToken, userPlantController.addUserPlant);
+// update user plant (protected)
+router.put('/:userPlantId', authenticateToken, userPlantController.updateUserPlant);
 
 export default router;

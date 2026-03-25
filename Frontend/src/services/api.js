@@ -156,3 +156,14 @@ export const createUserPlant = async ({ plantID, plantName, roomID, recommendedR
     console.log('createUserPlant', data);
     return data;
 };
+
+export const getPlantsByUserId = async () => {
+    const userId = localStorage.getItem('userId');
+    const response = await fetch(`${BASE_URL}/userplants/${userId}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch user plants');
+    const data = await response.json();
+    console.log('getPlantsByUserId', data);
+    return data;
+}
