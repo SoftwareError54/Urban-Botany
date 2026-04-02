@@ -35,13 +35,19 @@ function UserRooms(){
 
     return(
     <>
-        <div>
+        <div className="rooms-header">
             <h1>Rooms</h1>
-            <button>Shop</button>
+            <button className="shop-button">Shop</button>
         </div>
         
         <main>
         <div className="room-list">
+            {!loading && rooms.length === 0 && (
+                <div className="empty-rooms">
+                    add your first room by pressing the plus button below
+                </div>
+            )}
+
             {rooms.map(room => (
             <RoomButton key={room.roomID} roomData={room} />
             ))}
@@ -50,8 +56,9 @@ function UserRooms(){
             type="button"
             className="addRoom-button"
             onClick={() => navigate('/rooms/addroom')}
+            aria-label="Add room"
             >
-            +
+                <img src="/Icons/add.png" alt="Add room" className="action-icon add-icon" />
             </button>
         </div>
 </main>

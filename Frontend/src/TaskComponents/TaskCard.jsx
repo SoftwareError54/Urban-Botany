@@ -18,8 +18,16 @@ function TaskCard({ task, onPostpone, onComplete }){
                 </div>
                 <p>{description}</p>
                 <div style={{display: 'flex', gap: '0.5rem'}}>
-                    <button onClick={() => onPostpone && onPostpone(task)}>Postpone</button>
-                    <button onClick={() => onComplete && onComplete(task)}>Complete</button>
+                    <button className="task-action-button" onClick={() => onPostpone && onPostpone(task)} aria-label="Postpone">
+                        <img src="/Icons/pause.png" alt="Postpone" className="action-icon" />
+                    </button>
+                    {type === 'water' ? (
+                        <button className="task-action-button" onClick={() => onComplete && onComplete(task)} aria-label="Complete watering">
+                            <img src="/Icons/water_drop.png" alt="Water" className="action-icon" />
+                        </button>
+                    ) : (
+                        <button onClick={() => onComplete && onComplete(task)}>Complete</button>
+                    )}
                 </div>
             </div>
         </div>

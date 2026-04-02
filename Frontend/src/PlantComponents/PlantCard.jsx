@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import DecoratedPlant from './DecoratedPlant';
 
-function PlantCard({ plant }) {
+function PlantCard({ plant, size = 120 }) {
   const navigate = useNavigate();
 
   const handleClick = () => {
@@ -10,7 +10,7 @@ function PlantCard({ plant }) {
 
   return (
     <div className="plant-card" onClick={handleClick} style={{cursor: 'pointer'}}>
-      <DecoratedPlant plant={plant} size={120} />
+      <DecoratedPlant plant={plant} size={size} />
       <h3>{plant.name}</h3>
     </div>
   );

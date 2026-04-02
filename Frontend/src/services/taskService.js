@@ -2,6 +2,20 @@ import {getPlantsByUserId, getPlantById} from './api';
 
 const BASE_URL = "http://localhost:3000";
 
+const parseSqlDateTime = (s) => {
+    if (!s) return null;
+    if (s instanceof Date) return s;
+    // Expect formats like "YYYY-MM-DD HH:MM:SS" or ISO-like with T
+    const m = String(s).match(/(\d{4})-(\d{2})-(\d{2})[ T](\d{2}):(\d{2}):(\d{2})/);
+    if (m) {
+        const [_, y, mo, d, hh, mm, ss] = m;
+        return new Date(Number(y), Number(mo) - 1, Number(d), Number(hh), Number(mm), Number(ss));
+    }
+    // Fallback to JS Date parser
+    const dt = new Date(s);
+    return isNaN(dt) ? null : dt;
+};
+
 class Task {
     constructor(id, plantName, type, description , urgency) {
         this.id = id;
@@ -21,7 +35,7 @@ export async function createTasks(){
     const now = new Date();
     let nextId = 1;
 
-    const makeUrgency = (dueDate) => (now >= dueDate ? 'overdue' : 'upcoming');
+    const makeUrgency = (dueDate) => (dueDate && now.getTime() >= dueDate.getTime() ? 'overdue' : 'upcoming');
 
     for (const p of plants) {
         try {
@@ -29,8 +43,10 @@ export async function createTasks(){
 
             // Watering
             if (p.nextWatering) {
-                const nextWatering = new Date(p.nextWatering);
-                if (!isNaN(nextWatering) && now >= nextWatering) {
+                const nextWatering = parseSqlDateTime(p.nextWatering);
+                const waterDue = nextWatering && now.getTime() >= nextWatering.getTime();
+                console.debug('taskService:createTasks water', { raw: p.nextWatering, parsed: nextWatering && nextWatering.toString(), now: now.toString(), dueCheck: waterDue });
+                if (waterDue) {
                     const t = new Task(nextId++, plantName, 'water', `Time to water ${plantName}`, makeUrgency(nextWatering));
                     t.plant = p;
                     t.plantId = p.userPlantID ?? p.plantID;
@@ -48,8 +64,10 @@ export async function createTasks(){
 
             // Feeding
             if (p.nextFeeding) {
-                const nextFeeding = new Date(p.nextFeeding);
-                if (!isNaN(nextFeeding) && now >= nextFeeding) {
+                const nextFeeding = parseSqlDateTime(p.nextFeeding);
+                const feedDue = nextFeeding && now.getTime() >= nextFeeding.getTime();
+                console.debug('taskService:createTasks feed', { raw: p.nextFeeding, parsed: nextFeeding && nextFeeding.toString(), now: now.toString(), dueCheck: feedDue });
+                if (feedDue) {
                     const t = new Task(nextId++, plantName, 'fertilize', `Time to feed ${plantName}`, makeUrgency(nextFeeding));
                     t.plant = p;
                     t.plantId = p.userPlantID ?? p.plantID;
@@ -66,8 +84,11 @@ export async function createTasks(){
 
             // Potting
             if (p.nextPotting) {
-                const nextPotting = new Date(p.nextPotting);
-                if (!isNaN(nextPotting) && now >= nextPotting) {
+                const nextPotting = parseSqlDateTime(p.nextPotting);
+                console.log("Next potting:", p.nextPotting, nextPotting);
+                const potDue = nextPotting && now.getTime() >= nextPotting.getTime();
+                console.debug('taskService:createTasks pot', { raw: p.nextPotting, parsed: nextPotting && nextPotting.toString(), now: now.toString(), dueCheck: potDue });
+                if (potDue) {
                     const t = new Task(nextId++, plantName, 'repot', `Time to repot ${plantName}`, makeUrgency(nextPotting));
                     t.plant = p;
                     t.plantId = p.userPlantID ?? p.plantID;

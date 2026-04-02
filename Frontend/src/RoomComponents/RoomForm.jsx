@@ -67,7 +67,19 @@ function RoomForm(){
             <input type="text" id="humidity" name="humidity" required/>
             <br/>
 
-            <button type="submit">Add Room</button>
+            <div className="add-room-confirm">
+                <div className="add-room-prompt">
+                    <p>Add Room?</p>
+                </div>
+                <div className="confirm-actions">
+                    <button type="submit" className="confirm-icon-button" aria-label="Confirm add room">
+                        <img src="/Icons/tick.png" alt="Add room" className="action-icon" />
+                    </button>
+                    <button type="button" className="confirm-icon-button" aria-label="Cancel" onClick={() => navigate('/rooms')}>
+                        <img src="/Icons/red_cross.png" alt="Cancel" className="action-icon" />
+                    </button>
+                </div>
+            </div>
         </form>
     )
 }

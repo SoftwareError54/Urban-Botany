@@ -23,7 +23,16 @@ export default function DecoratedPlant({ plant, plantId, imagePointer, size = 14
   useEffect(() => {
     setPlantSrc(initialPlantSrc);
   }, [initialPlantSrc]);
-  const potSrc = decoration && decoration.imagePointer ? `/PlantDecorations/${decoration.imagePointer}` : '/PlantDecorations/default_pot.png';
+  // Build pot source: allow stored pointers with or without extension and
+  // fall back to default pot if loading fails.
+  let potSrc = '/PlantDecorations/default_pot.png';
+  if (decoration && decoration.imagePointer) {
+    const pointer = decoration.imagePointer;
+    // if pointer already has an extension, use as-is; otherwise assume .png
+    potSrc = pointer.match(/\.(png|jpg|jpeg|webp)$/i)
+      ? `/PlantDecorations/${pointer}`
+      : `/PlantDecorations/${pointer}.png`;
+  }
 
   // Render pot first, then plant so plant overlays pot (same technique as room scene)
   const layers = [
@@ -39,7 +48,16 @@ export default function DecoratedPlant({ plant, plantId, imagePointer, size = 14
           src={layer.src}
           alt={layer.name}
           className="plant-layer"
-          onError={layer.name === 'plant' ? (e) => { if (plantSrc.endsWith('.png')) setPlantSrc(`/Plants/${imgPointer}.jpg`); } : undefined}
+          onError={e => {
+            // If plant image fails, try common alternate extension
+            if (layer.name === 'plant') {
+              if (plantSrc.endsWith('.png')) setPlantSrc(`/Plants/${imgPointer}.jpg`);
+            }
+            // If pot image fails, fall back to default pot
+            if (layer.name === 'pot') {
+              if (!e.target.src.includes('default_pot')) e.target.src = '/PlantDecorations/default_pot.png';
+            }
+          }}
         />
       ))}
     </div>

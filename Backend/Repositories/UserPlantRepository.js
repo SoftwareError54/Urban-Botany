@@ -45,7 +45,7 @@ class UserPlantRepository {
     async getUserPlantsByUserId(userId) {
         const result = await query('SELECT * FROM user_plants WHERE userID = ?', [userId]);
         const rows = result.rows;
-        return rows.map(p => new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded));
+        return rows.map(p => new UserPlant(p.userPlantID, p.plantID, p.userID, p.roomID, p.plantName, p.recommendedLoc, p.lastWatered, p.lastFed, p.lastPotted, p.nextWatering, p.nextFeeding, p.nextPotting, p.dateAdded));
     }
 }
 
