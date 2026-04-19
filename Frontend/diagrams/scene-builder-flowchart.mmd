@@ -1,0 +1,49 @@
+%%{init:{'theme':'base'}}%%
+%% Scene Builder: Layered Rendering Flowchart
+%% Shows modular room upgrades via prioritized layers and decoration lookup.
+flowchart TD
+  Start([Start: render room scene]) --> FetchDeco{Fetch room decorations}
+
+  FetchDeco --> QueryDB[Query user_room_decoration table for all layers]
+
+  subgraph RoomLayers [Room Layer Loop]
+    direction TB
+    QueryDB --> CheckLayer{Decoration exists for layer?}
+    CheckLayer -->|Yes| UseUserImg[Use user decoration image pointer]
+    CheckLayer -->|No| UseDefault[Use default/fallback image]
+    UseUserImg --> Stack[Add image to layer stack at its priority]
+    UseDefault --> Stack
+    Stack --> MoreLayers{More layers remaining?}
+    MoreLayers -->|Yes| CheckLayer
+    MoreLayers -->|No| LayersDone[Room layers completed]
+  end
+
+  LayersDone --> PlantFlow{Render plants and pots}
+
+  subgraph PlantLayers [Plant Layer Loop]
+    direction TB
+    PlantFlow --> CheckPlantDeco{Check user_room_decoration for plant/pot overlays}
+    CheckPlantDeco -->|Exists| UsePlantUser[Use user image pointer for pot/overlay]
+    CheckPlantDeco -->|Missing| UsePlantDefault[Use default pot/plant asset]
+    UsePlantUser --> ComposePlant[Compose plant layers in priority order]
+    UsePlantDefault --> ComposePlant
+    ComposePlant --> PlantDone[Plant layers composed]
+  end
+
+  PlantDone --> ComposeScene[Compose room and plant layer stacks into final scene]
+  ComposeScene --> Render[Render final composed scene to canvas/DOM]
+  Render --> End([End])
+
+  %% Notes
+  classDef note fill:#f9f9f9,stroke:#333,stroke-width:0.5;
+  Note1([Modular layering allows swapping backgrounds, walls, windows, windowsills, weather, curtains])
+  Note2([Plant layering uses fewer layers and simpler rules])
+  Note3([Decoration lookup: if user_room_decoration has an entry for a layer, use its image pointer; otherwise use a default asset])
+
+  class Note1 note
+  class Note2 note
+  class Note3 note
+
+  Start -.-> Note1
+  Start -.-> Note2
+  QueryDB -.-> Note3

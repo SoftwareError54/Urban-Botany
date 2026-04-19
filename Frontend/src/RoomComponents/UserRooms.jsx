@@ -35,11 +35,6 @@ function UserRooms(){
 
     return(
     <>
-        <div className="rooms-header">
-            <h1>Rooms</h1>
-            <button className="shop-button">Shop</button>
-        </div>
-        
         <main>
         <div className="room-list">
             {!loading && rooms.length === 0 && (

@@ -59,4 +59,10 @@ export async function addRoom({userID, roomName, upperTemp, lowerTemp, lightLeve
 
 }
 
+export async function updateDecorationByLayer(roomId, decorationId){
+    if(!roomId) throw new Error("RoomId is required");
+    if(!decorationId) throw new Error("DecorationId is required");
+    return await roomRepository.updateDecorationByLayer(roomId, decorationId);
+}
+
 export default {getRoomsByUserId, getRoomById, getAllRoomDecorations, getDecorationsByRoomId, getRoomById, getRoomDecorationById, addDecoration, addRoom};

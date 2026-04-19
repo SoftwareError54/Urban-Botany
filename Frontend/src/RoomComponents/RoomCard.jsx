@@ -57,7 +57,7 @@ function RoomButton({ roomData, roomName, roomID }){
                 <div className="room-plants-layer">
                   {plants.map(p => (
                     <div className="room-plant-wrapper" key={p.userPlantID}>
-                      <PlantCard plant={p} size={100} />
+                      <PlantCard plant={p} size={80} />
                     </div>
                   ))}
                 </div>

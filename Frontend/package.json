@@ -7,7 +7,8 @@
     "dev": "vite --host",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "export-diagrams": "powershell -NoProfile -Command \"Get-ChildItem -Path ./diagrams -Filter *.mmd | ForEach-Object { npx @mermaid-js/mermaid-cli@10 -i $_.FullName -o ($_.FullName -replace '\\.mmd$','.png') }\""
   },
   "dependencies": {
     "react": "^19.2.0",

@@ -1,0 +1,27 @@
+%%{init:{'theme':'base'}}%%
+%% Log Care Activity sequence description:
+%% When a user logs a care action (e.g., watering), the frontend builds a log
+%% entry and sends it to the backend, which appends the entry to the plant's
+%% care history in the database and returns the updated log. The frontend then
+%% refreshes the plant history view and can update or reschedule the next
+%% reminder. This documents auditability, history structure, and reminder
+%% rescheduling responsibilities.
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant CareService as FrontendCare
+  participant Backend
+  participant DB
+
+  User->>Frontend: Mark "Water Plant" done / log care entry
+  Frontend->>FrontendCare: prepare log {plantId, action, timestamp}
+  FrontendCare->>Backend: POST /plants/{plantId}/care {log}
+  Backend->>DB: append care log to plant history
+  DB-->>Backend: updated history
+  Backend-->>FrontendCare: 200 OK {newLog}
+  FrontendCare-->>Frontend: update plant history view
+  Frontend-->>User: show success + next scheduled reminder
+
+  alt triggers update
+    Backend->>Scheduler: reschedule next reminder
+  end

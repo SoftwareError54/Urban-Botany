@@ -1,0 +1,32 @@
+%%{init:{'theme':'base'}}%%
+%% Add / Identify Plant sequence description:
+%% The user uploads a plant photo and metadata; the frontend validates and
+%% forwards the payload to the backend which creates a temporary plant record
+%% and returns a processing acknowledgement. If identification is requested,
+%% an external identification service is invoked and its result is merged back
+%% into the plant record. The frontend updates the UI through the upload,
+%% processing, identification, and final plant-card states.
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant PlantService as FrontendPlant
+  participant Backend
+  participant DB
+  participant PlantID as ExternalPlantID
+
+  User->>Frontend: Upload photo + metadata
+  Frontend->>FrontendPlant: validate & prepare payload
+  FrontendPlant->>Backend: POST /plants {image, meta}
+  Backend->>DB: create plant record (temp) -> returns plantId
+  Backend-->>FrontendPlant: 202 Accepted {plantId}
+  FrontendPlant-->>Frontend: show uploading/processing state
+
+  alt user requests identification
+    FrontendPlant->>PlantID: send image for identification
+    PlantID-->>Backend: species data
+    Backend->>DB: update plant record with species
+    Backend-->>FrontendPlant: identification result
+    Frontend->>User: display identified species
+  end
+
+  Frontend->>User: show final plant card

@@ -43,9 +43,9 @@ class RoomRepository {
     }
 
     async getAllRoomDecorations(){
-        const result = await query("SELECT * FROM plant_decoration");
+        const result = await query("SELECT * FROM room_decoration");
         const rows = result.rows;
-        return rows.map(d => new RoomDecoration(d.plantDecorationID, d.decorationName, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2));
+        return rows.map(d => new RoomDecoration(d.roomDecorationID, d.decorationName, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2));
     }
 
     // fetch a plant decoration by its id
@@ -90,6 +90,28 @@ class RoomRepository {
         // Adjust columns and SQL to match your schema for user_room_decoration
         const { rows } = await query(
             'INSERT INTO user_room_decoration (userRoomID, roomDecorationID) VALUES (?, ?)',
+            [roomId, decorationId]
+        );
+        return { insertedId: rows.insertId };
+    }
+
+    async updateDecorationByLayer(roomId, decorationId){
+        if (!decorationId) throw new Error('DecorationId is required');
+        if (!roomId) throw new Error('RoomId is required');
+        // Get the layer of the new decoration
+        const decResult = await query('SELECT layer FROM room_decoration WHERE roomDecorationID = ?', [decorationId]);
+        if (!decResult.rows || decResult.rows.length === 0) throw new Error('Decoration not found');
+        const layer = decResult.rows[0].layer;
+        // Remove existing decoration(s) for this layer on this room
+        await query(
+            `DELETE urd FROM user_room_decoration urd
+             JOIN room_decoration rd ON rd.roomDecorationID = urd.roomDecorationID
+             WHERE urd.roomID = ? AND rd.layer = ?`,
+            [roomId, layer]
+        );
+        // Insert the new decoration
+        const { rows } = await query(
+            'INSERT INTO user_room_decoration (roomID, roomDecorationID) VALUES (?, ?)',
             [roomId, decorationId]
         );
         return { insertedId: rows.insertId };

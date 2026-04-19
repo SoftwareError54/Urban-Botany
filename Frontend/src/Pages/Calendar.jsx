@@ -35,28 +35,21 @@ function Calendar(){
 
     return(
         <>
-            <h1>Calendar</h1>
             <main>
                 <div className="tasks-column">
                     <h2>Tasks</h2>
-                    <div className="tasks-scroll">
-                        {(!tasks || tasks.length === 0) ? (
-                            <p className="no-tasks">No Overdue or Upcoming Tasks</p>
-                        ) : (
-                            <ul>
-                                {tasks.map(task => (
-                                    <li key={task.id}>
-                                        <TaskCard task={task} onPostpone={handlePostpone} onComplete={handleComplete} />
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
+                    {(!tasks || tasks.length === 0) ? (
+                        <p className="no-tasks">No Overdue or Upcoming Tasks</p>
+                    ) : (
+                        <ul className="tasks-list">
+                            {tasks.map(task => (
+                                <li key={task.id}>
+                                    <TaskCard task={task} onPostpone={handlePostpone} onComplete={handleComplete} />
+                                </li>
+                            ))}
+                        </ul>
+                    )}
                 </div>
-                <div>
-                    <h3>Calendar</h3>
-                </div>
-                <p>This is the calendar page.</p>
             </main>
         </>
 

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import DecoratedPlant from './DecoratedPlant';
 
-function PlantCard({ plant, size = 120 }) {
+function PlantCard({ plant, size = 96 }) {
   const navigate = useNavigate();
 
   const handleClick = () => {

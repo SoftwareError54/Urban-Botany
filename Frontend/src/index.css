@@ -4,6 +4,11 @@
   line-height: 1.5;
   font-weight: 400;
 
+  /* theme colors */
+  --primary: #568c71;
+  --secondary: #F2ea9e;
+  --tertiary: #67b296;
+
   color-scheme: light dark;
   color: rgba(26, 122, 62, 0.87);
   background-color: #242424;
@@ -30,12 +35,79 @@ body {
   min-width: 320px;
   min-height: 100vh;
   color: black;
+  background-color: var(--secondary);
 }
+
+/* When landing needs full-bleed layout remove body centering and root padding */
+body.landing-fullscreen {
+  place-items: stretch;
+}
+
+body.landing-fullscreen #root {
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Fixed nav at bottom of viewport */
+nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  min-width: 0;
+  max-width: 100vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.6rem 1rem;
+  background: var(--primary);
+  z-index: 2000;
+  box-sizing: border-box;
+  font-size: 1.25rem; /* Increased nav text size */
+}
+
+nav .nav-button{ background: var(--primary); color: #fff; }
+
+/* Topbar styles */
+.topbar{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100vw;
+  min-width: 0;
+  max-width: 100vw;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: var(--secondary);
+  z-index: 2000;
+  box-sizing: border-box;
+}
+.topbar-inner{
+  /* Always fill the topbar, never constrained by #root */
+  width: 100vw;
+  max-width: 100vw;
+  margin: 0;
+  padding: 0 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+/*
+  IMPORTANT: nav and .topbar must always be direct children of body or outside #root wrappers that constrain width.
+  If you ever see bars moving or being pushed, check for parent constraints like max-width, margin, or padding.
+*/
+.topbar-inner h1{ margin:0; font-size:2.4rem; color: rgba(26, 122, 62, 0.87); position:absolute; left:50%; transform:translateX(-50%); }
+.topbar .shop-button{ position:absolute; right:1rem; background:var(--primary); color:#fff; border:none; padding:0.4rem 0.75rem; border-radius:6px; cursor:pointer }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
-  color: rgba(26, 122, 62, 0.87);
 }
 
 button {

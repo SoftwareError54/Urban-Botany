@@ -6,7 +6,7 @@ function TaskCard({ task, onPostpone, onComplete }){
 
     const { id, plantName, type, description } = task;
 
-    const icon = type === 'water' ? '💧' : type === 'fertilize' ? '🌱' : '🔔';
+    // removed emoji icons — display only plant name and description
 
     return(
         <div className="task-card" data-task-id={id}>
@@ -14,16 +14,19 @@ function TaskCard({ task, onPostpone, onComplete }){
             <div className="task-body">
                 <div style={{display: 'flex', alignItems: 'center', gap: '0.5rem'}}>
                     <h2 style={{margin:0}}>{plantName}</h2>
-                    <h3 style={{margin:0}}>{icon}</h3>
                 </div>
                 <p>{description}</p>
-                <div style={{display: 'flex', gap: '0.5rem'}}>
+                <div className="task-actions">
                     <button className="task-action-button" onClick={() => onPostpone && onPostpone(task)} aria-label="Postpone">
                         <img src="/Icons/pause.png" alt="Postpone" className="action-icon" />
                     </button>
                     {type === 'water' ? (
                         <button className="task-action-button" onClick={() => onComplete && onComplete(task)} aria-label="Complete watering">
                             <img src="/Icons/water_drop.png" alt="Water" className="action-icon" />
+                        </button>
+                    ) : (type === 'fertilize' || type === 'repot') ? (
+                        <button className="task-action-button" onClick={() => onComplete && onComplete(task)} aria-label={`Complete ${type}`}>
+                            <img src="/Icons/tick.png" alt="Complete" className="action-icon" />
                         </button>
                     ) : (
                         <button onClick={() => onComplete && onComplete(task)}>Complete</button>

@@ -2,3 +2,4 @@
 .env
 # .db
 # urbanbotany.sql
+node_modules

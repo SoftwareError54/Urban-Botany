@@ -28,6 +28,25 @@ export const getDecorationsByRoomId = async (roomId) => {
     return data;
 };
 
+export const getAllRoomDecorations = async () => {
+    const response = await fetch(`${BASE_URL}/rooms/0/decorations/alldecorations`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch all room decorations');
+    const data = await response.json();
+    return data;
+};
+
+export const updateRoomDecoration = async (roomId, decorationId) => {
+    const response = await fetch(`${BASE_URL}/rooms/${roomId}/decorations/update/${decorationId}`, {
+        method: 'PUT',
+        headers: buildHeaders(true)
+    });
+    if (!response.ok) throw new Error('Failed to update decoration');
+    const data = await response.json();
+    return data;
+};
+
 export const getRooms = async () => {
     const userId = localStorage.getItem('userId');
     const response = await fetch(`${BASE_URL}/rooms/${userId}`, {
@@ -166,4 +185,12 @@ export const getPlantsByUserId = async () => {
     const data = await response.json();
     console.log('getPlantsByUserId', data);
     return data;
-}
+};
+
+export const getUserProfile = async (userId) => {
+    const response = await fetch(`${BASE_URL}/profile/${userId}`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch user profile');
+    return await response.json();
+};

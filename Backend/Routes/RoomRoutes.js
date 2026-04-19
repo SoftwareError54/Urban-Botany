@@ -11,6 +11,7 @@ router.get('/:roomId/decorations/decoration/:decorationId', roomController.getRo
 
 router.get('/:roomId/decorations', roomController.getDecorationsByRoomId);
 router.post('/:roomId/decorations/newdecoration/:decorationId', roomController.addDecoration);
+router.put('/:roomId/decorations/update/:decorationId', roomController.updateDecorationByLayer);
 router.post('/addroom', roomController.addRoom);
 router.get('/:uid', roomController.getRoomsByUserId);
 

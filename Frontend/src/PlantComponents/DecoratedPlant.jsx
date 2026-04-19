@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getDecorationsByPlantId } from '../services/api';
 
-export default function DecoratedPlant({ plant, plantId, imagePointer, size = 140 }){
+export default function DecoratedPlant({ plant, plantId, imagePointer, size = 112 }){
   // support either a full plant object or id + imagePointer
   const id = plant?.userPlantID ?? plantId ?? plant?.plantID;
   const imgPointer = plant?.imagePointer ?? imagePointer;

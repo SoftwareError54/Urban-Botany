@@ -3,6 +3,14 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background: var(--secondary);
+}
+
+/* Make main content reserve space for fixed nav */
+.main-content {
+  min-height: 100vh;
+  box-sizing: border-box;
+  padding-top: 64px; /* space for fixed topbar */
 }
 
 
@@ -56,7 +64,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover; /* fill the scene area without letterboxing */
+  object-fit: contain; /* show whole image without cropping */
+  object-position: center center;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
@@ -89,7 +98,7 @@
   padding: 0.5rem;
   z-index: 3;
   pointer-events: auto; /* allow plant clicks */
-  transform: translateY(10px); /* lower plants by 1px */
+  transform: none; /* reset transform so plants keep their intended size/position */
 }
 .room-plants-layer .room-plant-wrapper{
   flex: 1 1 0; /* equal distribution among multiple plants */
@@ -98,6 +107,7 @@
   align-items: center;
   min-width: 90px;
   max-width: 33%;
+  margin-top: 10px; /* lower plant cards slightly */
 }
 .room-plants-layer .plant-card{ cursor: pointer; }
 .room-button{
@@ -108,25 +118,33 @@
   align-items: center;
   gap: 0.5rem;
   border: none;
-  background: none;
-  padding: 0.5rem 0;
+  background: var(--primary);
+  color: #000;
+  padding: 0.5rem 0.5rem;
   image-rendering: pixelated;
+  border-radius: 8px;
 }
 
 .nav-button{
   flex: 1;
   height: 100%;
   border: none;
-  background: none;
+  background: var(--primary);
+  color: #fff;
   font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
 }
 
 /* Rooms header layout */
 .rooms-header{
-  position: relative;
+  position: sticky;
+  top: 0;
   display: block;
   margin-bottom: 0.5rem;
-  height: 2.2rem; /* reserve vertical space for centered title */
+  height: 3.2rem; /* reserve vertical space for centered title */
+  background: var(--secondary);
+  z-index: 1500;
 }
 .rooms-header h1{
   margin: 0;
@@ -141,8 +159,9 @@
   right: 0;
   top: 50%;
   transform: translateY(-50%);
-  background: none;
-  border: 1px solid #ddd;
+  background: var(--primary);
+  color: #fff;
+  border: none;
   padding: 0.4rem 0.75rem;
   border-radius: 6px;
   cursor: pointer;
@@ -234,6 +253,7 @@
   gap: 0.5rem;
   text-align: center;
   width: fit-content;
+  margin-top: 10px;
 }
 .plant-card h3 {
   margin: 0;
@@ -249,27 +269,68 @@
   flex-wrap: wrap;
   width: 100%;
 }
-.plant-card { margin: 0 auto; }
+.plant-card { margin: 10px auto 0; }
 /* Prevent upscaling beyond intrinsic size where practical by limiting max-size */
-.plant-layer { max-width: none; max-height: none; }
+.plant-layer { max-width: 100%; max-height: 100%; }
 
 /* Calendar tasks scroll area */
 .tasks-column {
-  width: 100%;
-  max-width: 480px; /* keeps tasks column a reasonable width */
+  /* allow the tasks column to expand with viewport while staying centered
+     use viewport width minus root padding so cards can grow and shrink
+     clamp to a reasonable maximum so layout doesn't stretch too wide */
+  width: min(1400px, calc(100vw - 4rem));
+  margin: 0 auto;
+  max-width: 500px;
+  align-items: center;
+  padding: 30px;
 }
-.tasks-scroll {
-  max-height: 60vh; /* limit height so it scrolls without scrolling the whole page */
-  overflow-y: auto;
-  padding-right: 0.5rem; /* prevent content hiding behind scrollbar */
-  border: 1px solid #e6e6e6;
-  border-radius: 6px;
-  padding: 0.5rem;
-  background: #fff;
+
+
+.tasks-list { list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%; 
+  box-sizing: border-box; 
 }
-.tasks-scroll ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
-.task-card { display: flex; gap: 0.75rem; align-items: center; text-align: left; padding: 0.5rem; border-radius: 4px; background: #f9f9fb; }
+.tasks-scroll ul { list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.task-card { width: 100%;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  text-align: left;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  box-sizing: border-box;
+  padding-right: 10px; /* space for action buttons */
+}
 .task-card .task-body { flex: 1; }
+
+/* Plant preview inside task cards */
+.task-card .plant-scene {
+  flex: 0 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--secondary);
+  padding: 6px;
+  display: inline-block;
+}
+
+.task-card .task-body h2, .task-card .task-body h3, .task-card .task-body p {
+  color: inherit;
+}
+
+.task-card .task-action-button img.action-icon { filter: none; }
 
 .no-tasks { padding: 1rem; color: #666; text-align: center; }
 
@@ -317,9 +378,17 @@
 /* Larger icons on add-room page: make the tick fill the button height */
 .add-room-submit .action-icon{ width: 1.9rem; height: 1.9rem; }
 
-/* Calendar: enlarge task buttons and icons by roughly 4x for visibility */
-.tasks-column .task-action-button{ padding: 1rem; }
+
 .tasks-column .action-icon{ width: 4.4rem; height: 4.4rem; }
+
+/* Responsive task action buttons: stretch/shrink with viewport */
+.task-card .task-actions{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+
 .tasks-column button{ font-size: 1.25rem; }
 
 /* New layout for add-room confirmation: prompt + action icons */
@@ -329,3 +398,102 @@
 .confirm-icon-button{ border:none; background:none; padding:0.25rem; border-radius:6px; cursor:pointer; }
 .confirm-icon-button .action-icon{ width:2.2rem; height:2.2rem; }
 .confirm-icon-button:hover{ background:#f3f3f5; }
+
+/* ─── Room Detail Page ─── */
+.room-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.room-detail-name {
+  margin: 0.5rem 0 0;
+  font-size: 1.6rem;
+  color: var(--primary);
+  text-align: center;
+}
+
+/* Larger scene on detail page */
+.room-detail-scene {
+  width: 100%;
+  max-width: 480px;
+}
+.room-scene--large {
+  height: 280px;
+}
+
+/* Plant slots row */
+.room-detail-plants {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 480px;
+  padding: 0.5rem;
+  background: var(--primary);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.room-detail-plant-slot {
+  flex: 0 0 auto;
+}
+
+.room-detail-add-plant {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  background: var(--secondary);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.room-detail-add-plant .add-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* Decoration dropdowns */
+.room-detail-decorations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.decoration-dropdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.decoration-label {
+  font-weight: 600;
+  color: #fff;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.decoration-select {
+  flex: 0 0 auto;
+  min-width: 40px;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}

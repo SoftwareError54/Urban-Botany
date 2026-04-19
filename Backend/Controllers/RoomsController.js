@@ -88,3 +88,14 @@ export async function addRoom(req, res){
         res.status(400).json({error: error.message});
     }
 }
+
+export async function updateDecorationByLayer(req, res){
+    try{
+        const roomId = req.params.roomId;
+        const decorationId = req.params.decorationId;
+        const result = await roomService.updateDecorationByLayer(roomId, decorationId);
+        res.json(result);
+    } catch(error){
+        res.status(500).json({message: "Failed to update decoration", error: error.message});
+    }
+}

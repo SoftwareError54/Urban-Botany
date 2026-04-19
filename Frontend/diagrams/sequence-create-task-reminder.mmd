@@ -1,0 +1,44 @@
+%%{init:{'theme':'base'}}%%
+%% Automatic Task Generation & Watering Update sequence description:
+%% Tasks for watering are generated automatically from `UserPlant.next_watering`.
+%% When a task is completed the backend computes and updates `last_watered`
+%% and `next_watering` using the species' watering frequency from the Plant table.
+sequenceDiagram
+  participant Scheduler
+  participant Backend
+  participant DB
+  participant Notifier
+  participant Frontend
+  participant User
+
+  Note over Scheduler,Backend: Periodic job to generate watering tasks
+  Scheduler->>Backend: check due user plants (next_watering <= now + window)
+  Backend->>DB: SELECT * FROM user_plants WHERE next_watering <= now + window
+  DB-->>Backend: [userPlantId, userId, plantId, next_watering, last_watered]
+  Backend->>DB: INSERT INTO tasks (userId, userPlantId, type, dueDate) VALUES ...
+  DB-->>Backend: [taskId...]
+  Backend->>Notifier: notify user(s) of new task(s) {taskId, userId}
+  Notifier->>User: push/email notification
+  Notifier-->>Backend: notification sent
+  Backend-->>Scheduler: (optional) schedule reminder jobs for the task(s)
+
+  Note over User,Frontend: User interacts with generated task card
+  User->>Frontend: open task card / mark task complete (taskId)
+  Frontend->>Backend: POST /tasks/{taskId}/complete
+
+  Note over Backend,DB: On completion, backend updates watering records
+  Backend->>DB: SELECT task, userPlantId FROM tasks WHERE id = {taskId}
+  DB-->>Backend: {task, userPlantId}
+  Backend->>DB: SELECT plantId FROM user_plants WHERE id = {userPlantId}
+  DB-->>Backend: {plantId}
+  Backend->>DB: SELECT watering_frequency FROM plants WHERE id = {plantId}
+  DB-->>Backend: {watering_frequency}
+  Backend->>Backend: compute new_last_watered and new_next (now + watering_frequency)
+  Backend->>DB: UPDATE user_plants SET last_watered=new_last_watered, next_watering=new_next WHERE id={userPlantId}
+  DB-->>Backend: update OK
+  Backend->>DB: UPDATE tasks SET status='completed', completed_at=now WHERE id={taskId}
+  DB-->>Backend: update OK
+  Backend-->>Frontend: 200 OK {updated userPlant, task status}
+  Frontend-->>User: show task completed and update UI
+
+  Note over Backend, Scheduler: Scheduler will pick up updated `next_watering` for future tasks

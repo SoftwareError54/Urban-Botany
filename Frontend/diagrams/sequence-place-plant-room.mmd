@@ -1,0 +1,37 @@
+%%{init:{'theme':'base'}}%%
+%% Place Plant In Room sequence description:
+%% Flow: user scans a plant → identification shown → user adds plant to a room.
+%% The add form offers a name input and a room dropdown containing the user's
+%% rooms plus a backend-provided recommended room based on ideal environment.
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant Scanner
+  participant Backend
+  participant DB
+
+  Note over User,Frontend: User scans a plant using the app
+  User->>Frontend: Open scanner
+  Frontend->>Scanner: capture image
+  Scanner-->>Frontend: image data
+  Frontend->>Backend: POST /identify {image}
+  Backend->>Backend: run identification service / ML model
+  Backend->>DB: SELECT plant info for matched species
+  DB-->>Backend: {plantId, latinName, commonNames, idealEnvironment, watering_frequency}
+  Backend-->>Frontend: 200 {plantId, latinName, commonNames, idealEnvironment}
+  Frontend-->>User: show identified plant (latinName, commonNames, idealEnvironment)
+
+  User->>Frontend: press "Add plant to room"
+  Frontend->>Backend: GET /users/{userId}/rooms
+  Backend->>DB: SELECT * FROM rooms WHERE userId={userId}
+  DB-->>Backend: [rooms]
+  Backend->>Backend: compute recommendedRoom based on idealEnvironment and room metrics
+  Backend-->>Frontend: 200 {rooms, recommendedRoom}
+  Frontend-->>User: show add form (name input, room dropdown including recommendedRoom)
+
+  User->>Frontend: fill name, select room, submit
+  Frontend->>Backend: POST /user_plants {userId, plantId, name, roomId}
+  Backend->>DB: INSERT INTO user_plants (...) RETURNING id, last_watered, next_watering
+  DB-->>Backend: {userPlantId, last_watered, next_watering}
+  Backend-->>Frontend: 201 Created {userPlantId, last_watered, next_watering}
+  Frontend-->>User: show plant placed in room

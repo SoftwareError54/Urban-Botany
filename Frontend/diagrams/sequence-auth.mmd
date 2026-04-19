@@ -1,0 +1,31 @@
+%%{init:{'theme':'base'}}%%
+%% Authentication sequence description:
+%% This diagram shows the login flow: the user submits credentials, the frontend
+%% validates input, then forwards them to the backend which verifies credentials
+%% against the database. On success a JWT (or session) is issued and returned,
+%% allowing the frontend to store the token and transition to the dashboard. On
+%% failure the backend returns an error and the frontend surfaces a clear
+%% message. Use this to validate auth endpoints, token handling, and error paths.
+sequenceDiagram
+  participant User
+  participant Frontend
+  participant AuthService as FrontendAuth
+  participant Backend
+  participant DB
+
+  User->>Frontend: Submit credentials (email, password)
+  Frontend->>FrontendAuth: validate inputs
+  FrontendAuth->>Backend: POST /auth/login {credentials}
+  Backend->>DB: query user by email
+  DB-->>Backend: user record
+  Backend->>Backend: verify password
+  alt password OK
+    Backend->>Backend: generate JWT
+    Backend-->>FrontendAuth: {token, user}
+    FrontendAuth-->>Frontend: 200 OK + token
+    Frontend-->>User: show dashboard (store token)
+  else password fail
+    Backend-->>FrontendAuth: 401 Unauthorized
+    FrontendAuth-->>Frontend: show error
+    Frontend-->>User: display login error
+  end
