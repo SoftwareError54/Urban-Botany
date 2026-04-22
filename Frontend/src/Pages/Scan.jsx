@@ -60,7 +60,7 @@ export default function Scan(){
                 reader.onloadend = async () => {
                     try{
                         const base64 = reader.result.split(',')[1];
-                        const res = await fetch('http://localhost:3000/plants/identify', {
+                        const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:3000'}/plants/identify`, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ imageBase64: base64, organs: 'leaf' })

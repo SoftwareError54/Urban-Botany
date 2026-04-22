@@ -30,10 +30,16 @@ app.use((req, res, next) => {
   next();
 });
 
-// Simple CORS middleware for development
+// CORS middleware
 app.use((req, res, next) => {
-  const allowedOrigin = 'http://localhost:5173';
-  res.header('Access-Control-Allow-Origin', allowedOrigin);
+  const allowedOrigins = [
+    'http://localhost:5173',
+    process.env.FRONTEND_URL,
+  ].filter(Boolean);
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
