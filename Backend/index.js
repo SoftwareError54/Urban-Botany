@@ -32,16 +32,7 @@ app.use((req, res, next) => {
 
 // CORS middleware
 app.use((req, res, next) => {
-  const allowedOrigins = [
-    'http://localhost:5173',
-    process.env.FRONTEND_URL,
-  ].filter(Boolean);
-  console.log('Allowed origins:', allowedOrigins);
-  const origin = req.headers.origin;
-  const isRailwayOrigin = origin && origin.endsWith('.railway.app');
-  if (allowedOrigins.includes(origin) || isRailwayOrigin) {
-    res.header('Access-Control-Allow-Origin', origin);
-  }
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   if (req.method === 'OPTIONS') {
     res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE');
