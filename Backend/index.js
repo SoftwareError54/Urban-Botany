@@ -16,6 +16,8 @@ import ProfileRoutes from './Routes/ProfileRoutes.js';
 
 dotenv.config();
 
+console.log('[startup] imports loaded, PORT env:', process.env.PORT);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const router = express.Router();
