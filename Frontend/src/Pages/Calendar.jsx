@@ -36,7 +36,7 @@ function Calendar(){
 
     return(
         <>
-            <main>
+            <main style={{width: '100%', boxSizing: 'border-box'}}>
                 <div className="tasks-column">
                     <h2>Tasks</h2>
                     {(!tasks || tasks.length === 0) ? (
