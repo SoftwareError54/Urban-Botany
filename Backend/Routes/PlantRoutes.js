@@ -1,5 +1,5 @@
 import express from 'express';
-import * as plantController from '../Controllers/plantController.js';
+import * as plantController from '../Controllers/PlantController.js';
 import {authenticateToken} from '../Middleware/authMiddleware.js';
 
 const router = express.Router();
