@@ -6,6 +6,10 @@ services:
       - "3000:3000"
     depends_on:
       - mysql
+    env_file:
+      - ./Backend/.env
+    environment:
+      MYSQL_HOST: mysql   # override localhost → docker service name inside compose
     volumes:
       - ./backend:/src
 
