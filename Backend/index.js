@@ -36,6 +36,7 @@ app.use((req, res, next) => {
     'http://localhost:5173',
     process.env.FRONTEND_URL,
   ].filter(Boolean);
+  console.log('Allowed origins:', allowedOrigins);
   const origin = req.headers.origin;
   const isRailwayOrigin = origin && origin.endsWith('.railway.app');
   if (allowedOrigins.includes(origin) || isRailwayOrigin) {
