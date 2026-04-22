@@ -40,6 +40,7 @@ body {
   min-height: 100vh;
   color: black;
   background-color: var(--secondary);
+  overflow-x: hidden;
 }
 
 /* When landing needs full-bleed layout remove body centering and root padding */
@@ -60,9 +61,6 @@ nav {
   left: 0;
   right: 0;
   bottom: 0;
-  width: 100vw;
-  min-width: 0;
-  max-width: 100vw;
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -81,9 +79,6 @@ nav .nav-button{ background: var(--primary); color: #fff; }
   left: 0;
   right: 0;
   top: 0;
-  width: 100vw;
-  min-width: 0;
-  max-width: 100vw;
   height: 64px;
   display: flex;
   align-items: center;
@@ -93,8 +88,8 @@ nav .nav-button{ background: var(--primary); color: #fff; }
 }
 .topbar-inner{
   /* Always fill the topbar, never constrained by #root */
-  width: 100vw;
-  max-width: 100vw;
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   padding: 0 1rem;
   display: flex;

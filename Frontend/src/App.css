@@ -1,9 +1,11 @@
 #root {
+  width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 0 2rem;
   text-align: center;
   background: var(--secondary);
+  box-sizing: border-box;
 }
 
 /* Make main content reserve space for fixed nav */
