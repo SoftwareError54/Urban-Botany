@@ -1,0 +1,104 @@
+/* ─── Room Detail Page ─── */
+.room-detail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.room-detail-name {
+  margin: 0.5rem 0 0;
+  font-size: 1.6rem;
+  color: var(--primary);
+  text-align: center;
+}
+
+/* Larger scene on detail page */
+.room-detail-scene {
+  width: 100%;
+  max-width: 480px;
+}
+.room-scene--large {
+  height: 280px;
+}
+
+/* ─── Plant Slots Row ─── */
+.room-detail-plants {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 480px;
+  padding: 0.5rem;
+  background: var(--primary);
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.room-detail-plant-slot {
+  flex: 0 0 auto;
+}
+
+.room-detail-add-plant {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  background: var(--secondary);
+  border-radius: 8px;
+  cursor: pointer;
+}
+.room-detail-add-plant .add-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+
+/* ─── Decoration Dropdowns ─── */
+.room-detail-decorations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 480px;
+}
+
+.decoration-dropdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.decoration-label {
+  font-weight: 600;
+  color: #fff;
+  font-size: 1rem;
+  flex: 1;
+}
+
+.decoration-select {
+  flex: 0 0 auto;
+  width: 180px;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-align: left;
+  text-align-last: left;
+}
+
+.decoration-select option {
+  text-align: left;
+}

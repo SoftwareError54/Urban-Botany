@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/roomForm.css';
 import {addRoom} from '../services/roomService';
 
 function RoomForm(){
@@ -50,37 +51,53 @@ function RoomForm(){
         }
     }
     return(
-        <form onSubmit={handleSubmit}>
-            <label htmlFor="roomName">Room Name:</label>
-            <input type="text" id="roomName" name="roomName" required />
-            <br />
-            <label htmlFor="upperTemp">Upper Temp: </label>
-            <input type="number" id="upperTemp" name="upperTemp" required/>
-            <br/>
-            <label htmlFor="lowerTemp">Lower Temp: </label>
-            <input type ="number" id="lowerTemp" name="lowerTemp" required/>
-            <br/>
-            <label htmlFor="lightLevel">Light Level: </label>
-            <input type="number" id="lightLevel" name="lightLevel" required/>          
-            <br/>
-            <label htmlFor="humidity">Humidity: </label>
-            <input type="text" id="humidity" name="humidity" required/>
-            <br/>
+        <div className="room-form-page">
+            <form onSubmit={handleSubmit} className="room-form-card">
+                <h2>Add a Room</h2>
+                <p className="room-form-subtitle">Set environmental targets so plants can be matched to the best space.</p>
 
-            <div className="add-room-confirm">
-                <div className="add-room-prompt">
-                    <p>Add Room?</p>
+                <div className="room-form-grid">
+                    <div className="room-form-field">
+                        <label htmlFor="roomName">Room Name</label>
+                        <input type="text" id="roomName" name="roomName" placeholder="e.g. Sunroom" required />
+                    </div>
+
+                    <div className="room-form-field">
+                        <label htmlFor="upperTemp">Upper Temperature (C)</label>
+                        <input type="number" id="upperTemp" name="upperTemp" placeholder="e.g. 25" required />
+                    </div>
+
+                    <div className="room-form-field">
+                        <label htmlFor="lowerTemp">Lower Temperature (C)</label>
+                        <input type="number" id="lowerTemp" name="lowerTemp" placeholder="e.g. 18" required />
+                    </div>
+
+                    <div className="room-form-field">
+                        <label htmlFor="lightLevel">Light Level</label>
+                        <input type="number" id="lightLevel" name="lightLevel" min="1" max="8" placeholder="1 to 8" required />
+                    </div>
+
+                    <div className="room-form-field room-form-field--full">
+                        <label htmlFor="humidity">Humidity (%)</label>
+                        <input type="number" id="humidity" name="humidity" min="0" max="100" placeholder="e.g. 55" required />
+                    </div>
                 </div>
-                <div className="confirm-actions">
-                    <button type="submit" className="confirm-icon-button" aria-label="Confirm add room">
-                        <img src="/Icons/tick.png" alt="Add room" className="action-icon" />
-                    </button>
-                    <button type="button" className="confirm-icon-button" aria-label="Cancel" onClick={() => navigate('/rooms')}>
-                        <img src="/Icons/red_cross.png" alt="Cancel" className="action-icon" />
-                    </button>
+
+                <div className="add-room-confirm">
+                    <div className="add-room-prompt">
+                        <p>Add Room?</p>
+                    </div>
+                    <div className="confirm-actions">
+                        <button type="submit" className="confirm-icon-button" aria-label="Confirm add room">
+                            <img src="/Icons/tick.png" alt="Add room" className="action-icon" />
+                        </button>
+                        <button type="button" className="confirm-icon-button" aria-label="Cancel" onClick={() => navigate('/rooms')}>
+                            <img src="/Icons/red_cross.png" alt="Cancel" className="action-icon" />
+                        </button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     )
 }
 export default RoomForm;

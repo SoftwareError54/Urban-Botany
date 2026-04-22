@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../css/scan.css';
 export default function Scan(){
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
@@ -89,21 +90,24 @@ export default function Scan(){
     }
 
     return (
-        <div>
+        <div className="scan-page">
             <h1>Scan Plant</h1>
             <div>
                 {devices.length > 0 && (
-                    <select onChange={handleDeviceChange} value={currentDeviceId || ''}>
+                    <select className="scan-device-select" onChange={handleDeviceChange} value={currentDeviceId || ''}>
                         {devices.map(d => <option key={d.deviceId} value={d.deviceId}>{d.label || d.deviceId}</option>)}
                     </select>
                 )}
             </div>
-            <div>
-                <video ref={videoRef} style={{width: '100%', maxWidth: 640}} autoPlay muted playsInline />
+            <div className="scan-viewfinder-wrapper">
+                <video ref={videoRef} className="scan-video" autoPlay muted playsInline />
+                <div className="scan-viewfinder-overlay">
+                    <img src="/Icons/view_finder.png" alt="viewfinder" />
+                </div>
                 <canvas ref={canvasRef} style={{display:'none'}} />
             </div>
             <div>
-                <button onClick={captureAndIdentify} disabled={loading}>{loading ? 'Identifying...' : 'Capture & Identify'}</button>
+                <button className="scan-capture-button" onClick={captureAndIdentify} disabled={loading}>{loading ? 'Identifying...' : 'Capture & Identify'}</button>
             </div>
         </div>
     );

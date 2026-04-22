@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import DecoratedPlant from './DecoratedPlant';
+import '../css/plants.css';
 
 function PlantCard({ plant, size = 96 }) {
   const navigate = useNavigate();

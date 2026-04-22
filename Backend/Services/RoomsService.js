@@ -36,6 +36,13 @@ export async function getDecorationsByRoomId(roomId){
     return decoration;
 }
 
+export async function getAllDecorationsByRoomId(roomId){
+    if(!roomId){
+        throw new Error("RoomId is required");
+    }
+    return await roomRepository.getAllDecorationsByRoomId(roomId);
+}
+
 export async function addDecoration(decorationId, roomId){
     if(!decorationId){
         throw new Error("DecorationId is required");
@@ -65,4 +72,10 @@ export async function updateDecorationByLayer(roomId, decorationId){
     return await roomRepository.updateDecorationByLayer(roomId, decorationId);
 }
 
-export default {getRoomsByUserId, getRoomById, getAllRoomDecorations, getDecorationsByRoomId, getRoomById, getRoomDecorationById, addDecoration, addRoom};
+export async function resetDecorationsByLayer(roomId, layer){
+    if(!roomId) throw new Error("RoomId is required");
+    if(!layer) throw new Error("Layer is required");
+    return await roomRepository.resetDecorationsByLayer(roomId, layer);
+}
+
+export default {getRoomsByUserId, getRoomById, getAllRoomDecorations, getDecorationsByRoomId, getAllDecorationsByRoomId, getRoomDecorationById, addDecoration, addRoom, updateDecorationByLayer, resetDecorationsByLayer};

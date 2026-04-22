@@ -65,6 +65,20 @@ class RoomRepository {
             FROM room_decoration rd
             JOIN user_room_decoration urd
             ON rd.roomDecorationID = urd.roomDecorationID
+            WHERE urd.roomID = ? AND urd.toggled = 1`, [roomId]);
+        const rows = result.rows;
+        if (!rows || rows.length === 0){
+            return [];
+        }
+        return rows.map(d => new RoomDecoration(d.roomDecorationID, d.decorationName, d.imagePointer, d.isStatic, d.layer, d.cost, d.colour1, d.colour2));
+    }
+
+    async getAllDecorationsByRoomId(roomId){
+        const result = await query(`
+            SELECT rd.*
+            FROM room_decoration rd
+            JOIN user_room_decoration urd
+            ON rd.roomDecorationID = urd.roomDecorationID
             WHERE urd.roomID = ?`, [roomId]);
         const rows = result.rows;
         if (!rows || rows.length === 0){
@@ -95,6 +109,19 @@ class RoomRepository {
         return { insertedId: rows.insertId };
     }
 
+    async resetDecorationsByLayer(roomId, layer){
+        if (!roomId) throw new Error('RoomId is required');
+        if (!layer) throw new Error('Layer is required');
+        const layerDecs = await query('SELECT roomDecorationID FROM room_decoration WHERE layer = ?', [layer]);
+        for (const dec of layerDecs.rows) {
+            await query(
+                'UPDATE user_room_decoration SET toggled = 0 WHERE roomID = ? AND roomDecorationID = ?',
+                [roomId, dec.roomDecorationID]
+            );
+        }
+        return { reset: true };
+    }
+
     async updateDecorationByLayer(roomId, decorationId){
         if (!decorationId) throw new Error('DecorationId is required');
         if (!roomId) throw new Error('RoomId is required');
@@ -102,19 +129,36 @@ class RoomRepository {
         const decResult = await query('SELECT layer FROM room_decoration WHERE roomDecorationID = ?', [decorationId]);
         if (!decResult.rows || decResult.rows.length === 0) throw new Error('Decoration not found');
         const layer = decResult.rows[0].layer;
-        // Remove existing decoration(s) for this layer on this room
-        await query(
-            `DELETE urd FROM user_room_decoration urd
-             JOIN room_decoration rd ON rd.roomDecorationID = urd.roomDecorationID
-             WHERE urd.roomID = ? AND rd.layer = ?`,
-            [roomId, layer]
-        );
-        // Insert the new decoration
-        const { rows } = await query(
-            'INSERT INTO user_room_decoration (roomID, roomDecorationID) VALUES (?, ?)',
+        // Find all roomDecorationIDs on this layer
+        const layerDecs = await query('SELECT roomDecorationID FROM room_decoration WHERE layer = ?', [layer]);
+        const layerDecIds = layerDecs.rows.map(r => r.roomDecorationID);
+        // Un-toggle all decorations on this layer for this room (one at a time for prepared statements)
+        for (const decId of layerDecIds) {
+            await query(
+                'UPDATE user_room_decoration SET toggled = 0 WHERE roomID = ? AND roomDecorationID = ?',
+                [roomId, decId]
+            );
+        }
+        // Check if the new decoration already has a row for this room
+        const existing = await query(
+            'SELECT * FROM user_room_decoration WHERE roomID = ? AND roomDecorationID = ?',
             [roomId, decorationId]
         );
-        return { insertedId: rows.insertId };
+        if (existing.rows && existing.rows.length > 0) {
+            // Toggle it on
+            await query(
+                'UPDATE user_room_decoration SET toggled = 1 WHERE roomID = ? AND roomDecorationID = ?',
+                [roomId, decorationId]
+            );
+            return { updated: true };
+        } else {
+            // Insert with toggled = 1
+            const { rows } = await query(
+                'INSERT INTO user_room_decoration (roomID, roomDecorationID, toggled) VALUES (?, ?, 1)',
+                [roomId, decorationId]
+            );
+            return { insertedId: rows.insertId };
+        }
     }
 
     async addRoom(userID, roomName, upperTemp, lowerTemp, lightLevel, humidity){

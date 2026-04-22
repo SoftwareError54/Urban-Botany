@@ -1,0 +1,42 @@
+/* ─── Navigation ─── */
+.nav-button{
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+}
+
+/* Rooms header layout */
+.rooms-header{
+  position: sticky;
+  top: 0;
+  display: block;
+  margin-bottom: 0.5rem;
+  height: 3.2rem; /* reserve vertical space for centered title */
+  background: var(--secondary);
+  z-index: 1500;
+}
+.rooms-header h1{
+  margin: 0;
+  font-size: 1.5rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.shop-button{
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  cursor: pointer;
+}

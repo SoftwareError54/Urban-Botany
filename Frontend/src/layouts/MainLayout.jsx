@@ -26,7 +26,9 @@ function MainLayout(){
                 </div>
             </header>
 
-            <Outlet/>
+            <div className="page-content">
+                <Outlet/>
+            </div>
             <NavBar/>
         </>
     )

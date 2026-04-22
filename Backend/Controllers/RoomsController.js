@@ -64,6 +64,16 @@ export async function getDecorationsByRoomId(req, res){
     }
 }
 
+export async function getAllDecorationsByRoomId(req, res){
+    try{
+        const roomId = req.params.roomId;
+        const decorations = await roomService.getAllDecorationsByRoomId(roomId);
+        res.json(decorations);
+    } catch(error){
+        res.status(500).json({message: "Failed to fetch all decorations for room"});
+    }
+}
+
 
 export async function addDecoration(req, res){
     try{
@@ -97,5 +107,16 @@ export async function updateDecorationByLayer(req, res){
         res.json(result);
     } catch(error){
         res.status(500).json({message: "Failed to update decoration", error: error.message});
+    }
+}
+
+export async function resetDecorationsByLayer(req, res){
+    try{
+        const roomId = req.params.roomId;
+        const layer = req.params.layer;
+        const result = await roomService.resetDecorationsByLayer(roomId, layer);
+        res.json(result);
+    } catch(error){
+        res.status(500).json({message: "Failed to reset decoration", error: error.message});
     }
 }

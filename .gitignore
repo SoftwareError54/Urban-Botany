@@ -1,5 +1,6 @@
-# node_modules
+node_modules
 .env
-# .db
+.db
 # urbanbotany.sql
 node_modules
+mysql_data.sql

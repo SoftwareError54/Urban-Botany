@@ -1,15 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getRoom, getDecorationsByRoomId, getPlantsByRoomId, getAllRoomDecorations, updateRoomDecoration } from "../services/api";
+import '../css/roomDetail.css';
+import { getRoom, getDecorationsByRoomId, getPlantsByRoomId, getAllDecorationsByRoomId, updateRoomDecoration, resetRoomDecoration } from "../services/api";
 import { buildRoomLayers } from "../services/sceneBuilder";
 import PlantCard from "../PlantComponents/PlantCard";
 
 const LAYER_CATEGORIES = [
     { label: 'Background', layer: 1 },
-    { label: 'Wall', layer: 5 },
     { label: 'Weather', layer: 2 },
-    { label: 'Window Frame', layer: 3 },
-    { label: 'Foreground', layer: 9 },
+    { label: 'Window', layer: 3 },
+    { label: 'Blinds', layer: 4 },
+    { label: 'Wall', layer: 5 },
+    { label: 'Windowsill', layer: 6 },
+    { label: 'Radiator', layer: 8 },
+    { label: 'Curtains', layer: 9 },
 ];
 
 function Room(){
@@ -22,6 +26,8 @@ function Room(){
     const [sceneLayers, setSceneLayers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    // Track current dropdown selections per layer locally
+    const [selections, setSelections] = useState({});
 
     async function loadAll() {
         try {
@@ -29,7 +35,7 @@ function Room(){
                 getRoom(id),
                 getDecorationsByRoomId(id),
                 getPlantsByRoomId(id),
-                getAllRoomDecorations(),
+                getAllDecorationsByRoomId(id),
                 buildRoomLayers(id)
             ]);
             setRoom(roomData);
@@ -37,6 +43,13 @@ function Room(){
             setPlants(plantData);
             setAllDecorations(allDecs);
             setSceneLayers(layers);
+
+            // Initialise selections from fetched toggled decorations
+            const sel = {};
+            decorationData.forEach(d => {
+                sel[d.layer] = String(d.roomDecorationID);
+            });
+            setSelections(sel);
         } catch (err) {
             console.error(err);
             setError("Failed to load room");
@@ -50,18 +63,20 @@ function Room(){
         loadAll();
     }, [id]);
 
-    // Get the currently selected decoration ID for a given layer
-    function getSelectedForLayer(layerNum) {
-        const match = roomDecorations.find(d => d.layer === layerNum);
-        return match ? match.roomDecorationID : '';
-    }
-
     // Handle dropdown change
     async function handleDecorationChange(layerNum, decorationId) {
-        if (!decorationId) return;
+        // Update local selection immediately so the dropdown reflects the change
+        setSelections(prev => ({ ...prev, [layerNum]: decorationId }));
+
         try {
-            await updateRoomDecoration(id, decorationId);
-            // Reload everything to reflect the change
+            if (decorationId) {
+                // Toggle the selected decoration on
+                await updateRoomDecoration(id, decorationId);
+            } else {
+                // "Default" selected — un-toggle all decorations on this layer
+                await resetRoomDecoration(id, layerNum);
+            }
+            // Rebuild scene with new toggled decorations
             const [decorationData, layers] = await Promise.all([
                 getDecorationsByRoomId(id),
                 buildRoomLayers(id)
@@ -70,6 +85,12 @@ function Room(){
             setSceneLayers(layers);
         } catch (err) {
             console.error('Failed to update decoration:', err);
+            // Revert selection on failure
+            const match = roomDecorations.find(d => d.layer === layerNum);
+            setSelections(prev => ({
+                ...prev,
+                [layerNum]: match ? String(match.roomDecorationID) : ''
+            }));
         }
     }
 
@@ -126,7 +147,7 @@ function Room(){
             <div className="room-detail-decorations">
                 {LAYER_CATEGORIES.map(cat => {
                     const options = allDecorations.filter(d => d.layer === cat.layer);
-                    const selected = getSelectedForLayer(cat.layer);
+                    const selected = selections[cat.layer] || '';
                     return (
                         <div className="decoration-dropdown-row" key={cat.layer}>
                             <label className="decoration-label">{cat.label}</label>
@@ -137,7 +158,7 @@ function Room(){
                             >
                                 <option value="">Default</option>
                                 {options.map(dec => (
-                                    <option key={dec.roomDecorationID} value={dec.roomDecorationID}>
+                                    <option key={dec.roomDecorationID} value={String(dec.roomDecorationID)}>
                                         {dec.decorationName}
                                     </option>
                                 ))}

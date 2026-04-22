@@ -5,7 +5,7 @@ import RoomForm from '../RoomComponents/RoomForm'
 
 function Rooms(){
         return (
-              <div style={{background: 'var(--secondary)', minHeight: '100vh', width: '100%', boxSizing: 'border-box', padding: '2rem'}}>
+              <div style={{background: 'var(--secondary)', minHeight: 'calc(100vh - 64px)', width: '100%', boxSizing: 'border-box', padding: '2rem'}}>
                 <Routes>
                         <Route path="/" element={<UserRooms />} /> 
                         <Route path='room/:id' element={<Room/>}/>

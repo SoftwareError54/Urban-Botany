@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getDecorationsByPlantId } from '../services/api';
+import '../css/plants.css';
 
 export default function DecoratedPlant({ plant, plantId, imagePointer, size = 112 }){
   // support either a full plant object or id + imagePointer

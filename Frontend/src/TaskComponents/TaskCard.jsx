@@ -1,5 +1,6 @@
 import React from 'react';
 import DecoratedPlant from '../PlantComponents/DecoratedPlant';
+import '../css/tasks.css';
 
 function TaskCard({ task, onPostpone, onComplete }){
     if (!task) return null;

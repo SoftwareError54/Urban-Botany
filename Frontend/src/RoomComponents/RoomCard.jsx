@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import {useEffect, useState} from "react";
+import '../css/rooms.css';
 import {buildRoomLayers} from "../services/sceneBuilder";
 import { getPlantsByRoomId } from "../services/api";
 import PlantCard from "../PlantComponents/PlantCard";

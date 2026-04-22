@@ -35,8 +35,11 @@ export async function buildRoomLayers(roomId) {
     sorted.forEach((decoration) => {
         const index = decoration.layer-1;
         if (index >= 0 && index < MAX_LAYERS) {
+            const pointer = decoration.imagePointer;
+            // Build full path if imagePointer is just a name (no slash or extension)
+            const src = pointer.includes('/') ? pointer : `/RoomDecorations/${pointer}.png`;
             layers[index] = {
-                src: decoration.imagePointer,
+                src,
                 name: decoration.decorationName
             };
         }

@@ -1,0 +1,71 @@
+/* ─── Scan Page ─── */
+.scan-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.scan-page h1 {
+  margin: 0;
+}
+
+.scan-device-select {
+  border: 1px solid #d7efd8;
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+  font-family: inherit;
+  background: #f6fbf7;
+  color: #000;
+}
+
+/* ─── Video stream wrapper ─── */
+.scan-viewfinder-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  border-radius: 16px;
+  overflow: hidden;
+  line-height: 0; /* remove inline gap below video */
+}
+
+.scan-video {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+.scan-viewfinder-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.scan-viewfinder-overlay img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  opacity: 0.85;
+}
+
+/* ─── Capture button ─── */
+.scan-capture-button {
+  padding: 0.65rem 1.4rem;
+  border-radius: 8px;
+  border: 1px solid #2f5f48;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.scan-capture-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}

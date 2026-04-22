@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import TaskCard from "../TaskComponents/TaskCard"
+import TaskCard from "../TaskComponents/TaskCard";
+import '../css/tasks.css';
 import { createTasks, completeTask } from "../services/taskService";
 
 function Calendar(){

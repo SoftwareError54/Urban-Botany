@@ -1,4 +1,5 @@
 import RoomButton from '../RoomComponents/RoomCard';
+import '../css/rooms.css';
 import { useState, useEffect } from 'react';
 import { getRooms } from '../services/api';
 import {useNavigate} from "react-router-dom";

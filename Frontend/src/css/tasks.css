@@ -1,0 +1,73 @@
+/* ─── Calendar / Tasks Column ─── */
+.tasks-column {
+  /* allow the tasks column to expand with viewport while staying centered
+     use viewport width minus root padding so cards can grow and shrink
+     clamp to a reasonable maximum so layout doesn't stretch too wide */
+  width: min(1400px, calc(100vw - 4rem));
+  margin: 0 auto;
+  max-width: 500px;
+  align-items: center;
+  padding: 30px;
+}
+
+.tasks-list { list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%; 
+  box-sizing: border-box; 
+}
+.tasks-scroll ul { list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* ─── Task Card ─── */
+.task-card { width: 100%;
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  text-align: left;
+  padding: 0.75rem;
+  border-radius: 10px;
+  background: var(--primary);
+  color: #fff;
+  box-sizing: border-box;
+  padding-right: 10px; /* space for action buttons */
+}
+.task-card .task-body { flex: 1; }
+
+/* Plant preview inside task cards */
+.task-card .plant-scene {
+  flex: 0 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--secondary);
+  padding: 6px;
+  display: inline-block;
+}
+
+.task-card .task-body h2, .task-card .task-body h3, .task-card .task-body p {
+  color: inherit;
+}
+
+.task-card .task-action-button img.action-icon { filter: none; }
+
+.no-tasks { padding: 1rem; color: #666; text-align: center; }
+
+/* Icon size overrides scoped to tasks */
+.tasks-column .action-icon{ width: 4.4rem; height: 4.4rem; }
+
+/* Responsive task action buttons */
+.task-card .task-actions{
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.tasks-column button{ font-size: 1.25rem; }

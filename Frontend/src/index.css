@@ -9,6 +9,10 @@
   --secondary: #F2ea9e;
   --tertiary: #67b296;
 
+  /* fixed bar heights — keep in sync with .topbar height and nav padding/font */
+  --topbar-height: 64px;
+  --navbar-height: 64px;
+
   color-scheme: light dark;
   color: rgba(26, 122, 62, 0.87);
   background-color: #242424;

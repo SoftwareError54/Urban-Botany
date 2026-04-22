@@ -37,12 +37,31 @@ export const getAllRoomDecorations = async () => {
     return data;
 };
 
+export const getAllDecorationsByRoomId = async (roomId) => {
+    const response = await fetch(`${BASE_URL}/rooms/${roomId}/decorations/all`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch room decorations');
+    const data = await response.json();
+    return data;
+};
+
 export const updateRoomDecoration = async (roomId, decorationId) => {
     const response = await fetch(`${BASE_URL}/rooms/${roomId}/decorations/update/${decorationId}`, {
         method: 'PUT',
         headers: buildHeaders(true)
     });
     if (!response.ok) throw new Error('Failed to update decoration');
+    const data = await response.json();
+    return data;
+};
+
+export const resetRoomDecoration = async (roomId, layer) => {
+    const response = await fetch(`${BASE_URL}/rooms/${roomId}/decorations/reset/${layer}`, {
+        method: 'PUT',
+        headers: buildHeaders(true)
+    });
+    if (!response.ok) throw new Error('Failed to reset decoration');
     const data = await response.json();
     return data;
 };
@@ -104,7 +123,7 @@ export const signup = async (user) => {
         postalCode: user.postalCode,
         countryCode: user.country || user.countryCode
     };
-
+    console.log('signup payload', body);
     const response = await fetch(`${BASE_URL}/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

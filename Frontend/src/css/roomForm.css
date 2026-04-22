@@ -1,0 +1,112 @@
+/* ─── Add Room Submit Button ─── */
+.add-room-submit{
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 0.9rem;
+  min-height: 3rem; /* ensure the icon fills the vertical space */
+  border-radius: 6px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+}
+
+/* Larger icons on add-room page: make the tick fill the button height */
+.add-room-submit .action-icon{ width: 1.9rem; height: 1.9rem; }
+
+/* ─── Confirm / Cancel Actions ─── */
+.add-room-confirm{ display:flex; flex-direction:column; align-items:center; gap:0.5rem; margin-top:0.75rem; }
+.add-room-prompt p{ margin:0; font-weight:600; font-size:1.05rem; }
+.confirm-actions{ display:flex; gap:1rem; }
+.confirm-icon-button{ border:none; background:none; padding:0.25rem; border-radius:6px; cursor:pointer; }
+.confirm-icon-button .action-icon{ width:2.2rem; height:2.2rem; }
+.confirm-icon-button:hover{ background:#f3f3f5; }
+
+/* ─── Add Room Form Page ─── */
+.room-form-page {
+  display: flex;
+  min-height: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.room-form-card {
+  width: min(720px, 100%);
+  background: var(--primary);
+  border: 2px solid #2f5f48;
+  border-radius: 14px;
+  padding: 0.7rem 1.1rem 0.55rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  color: #000000;
+  text-align: left;
+}
+
+.room-form-card h2 {
+  margin: 0;
+  color: #000000;
+  font-size: 1.8rem;
+}
+
+.room-form-subtitle {
+  margin: 0.35rem 0 1rem;
+  color: #000000;
+}
+
+.room-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.room-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.room-form-field label {
+  font-weight: 600;
+  color: #000000;
+}
+
+.room-form-field input {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #d7efd8;
+  border-radius: 8px;
+  padding: 0.55rem 0.7rem;
+  font-family: inherit;
+  background: #f6fbf7;
+  color: #000000;
+}
+
+.room-form-field input:focus {
+  outline: 2px solid var(--tertiary);
+  outline-offset: 1px;
+}
+
+.room-form-field--full {
+  grid-column: 1 / -1;
+}
+
+.room-form-card .add-room-confirm {
+  margin-top: 1.1rem;
+}
+
+.room-form-card .add-room-prompt p {
+  color: #000000;
+}
+
+.room-form-card .confirm-icon-button:hover {
+  background: rgba(103, 178, 150, 0.18);
+}
+
+@media (max-width: 700px) {
+  .room-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
