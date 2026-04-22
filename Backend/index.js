@@ -78,6 +78,7 @@ process.on('uncaughtException', (err) => {
 
 
 
+console.log('[startup] about to call app.listen on port', PORT);
 app.listen(PORT, () => {
-  console.log(`Backend listening on port ${PORT}`);
+  console.log(`[startup] Backend listening on port ${PORT}`);
 });
