@@ -37,7 +37,8 @@ app.use((req, res, next) => {
     process.env.FRONTEND_URL,
   ].filter(Boolean);
   const origin = req.headers.origin;
-  if (allowedOrigins.includes(origin)) {
+  const isRailwayOrigin = origin && origin.endsWith('.railway.app');
+  if (allowedOrigins.includes(origin) || isRailwayOrigin) {
     res.header('Access-Control-Allow-Origin', origin);
   }
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
