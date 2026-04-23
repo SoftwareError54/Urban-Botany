@@ -11,7 +11,7 @@
 
 .room-detail-name {
   margin: 0.5rem 0 0;
-  font-size: 1.6rem;
+  font-size: clamp(1.1rem, 4vw, 1.6rem);
   color: var(--primary);
   text-align: center;
 }
@@ -22,7 +22,7 @@
   max-width: 480px;
 }
 .room-scene--large {
-  height: 280px;
+  height: clamp(160px, 42vw, 280px);
 }
 
 /* ─── Plant Slots Row ─── */
@@ -81,19 +81,20 @@
 .decoration-label {
   font-weight: 600;
   color: #fff;
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
   flex: 1;
+  min-width: 0;
 }
 
 .decoration-select {
   flex: 0 0 auto;
-  width: 180px;
-  padding: 0.3rem 0.5rem;
+  width: min(180px, 45%);
+  padding: 0.3rem 0.4rem;
   border-radius: 6px;
   border: 1px solid #ccc;
   background: #fff;
   font-family: inherit;
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 2.2vw, 0.9rem);
   cursor: pointer;
   text-align: left;
   text-align-last: left;

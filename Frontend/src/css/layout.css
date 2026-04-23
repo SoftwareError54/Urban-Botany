@@ -5,10 +5,13 @@
   border: none;
   background: var(--primary);
   color: #fff;
-  font-size: 1rem;
-  padding: 0.4rem 0.6rem;
+  font-size: clamp(0.6rem, 2.5vw, 0.9rem);
+  padding: 0.3rem 0.2rem;
   border-radius: 6px;
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Rooms header layout */

@@ -2,7 +2,7 @@
 .room-scene {
   position: relative;
   width: 100%;
-  height: 200px; /* increased to let room images fill the card */
+  height: clamp(130px, 35vw, 200px);
   overflow: hidden;
   aspect-ratio: 16 / 9;
 }
@@ -40,25 +40,37 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center; /* center across main axis */
+  justify-content: center;
   align-items: center;
-  flex-wrap: wrap; /* side wrapping */
-  gap: 0.5rem;
-  padding: 0.5rem;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  padding: 0.25rem;
   z-index: 3;
-  pointer-events: auto; /* allow plant clicks */
-  transform: none; /* reset transform so plants keep their intended size/position */
+  pointer-events: auto;
+  box-sizing: border-box;
 }
 .room-plants-layer .room-plant-wrapper{
-  flex: 1 1 0; /* equal distribution among multiple plants */
+  flex: 1 1 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 90px;
+  min-width: 0;
   max-width: 33%;
-  margin-top: 10px; /* lower plant cards slightly */
 }
-.room-plants-layer .plant-card{ cursor: pointer; }
+/* Give plant-scene an explicit viewport-relative size so it scales with
+   the scene without relying on a parent height that collapses to 0 */
+.room-plants-layer .plant-scene {
+  width: clamp(55px, 17vw, 85px) !important;
+  height: clamp(55px, 17vw, 85px) !important;
+}
+.room-plants-layer .plant-card {
+  cursor: pointer;
+  margin: 0;
+}
+/* Hide plant name inside room scene — not readable at small sizes */
+.room-plants-layer .plant-card h3 {
+  display: none;
+}
 
 .room-button{
   width: 100%;
@@ -73,6 +85,11 @@
   padding: 0.5rem 0.5rem;
   image-rendering: pixelated;
   border-radius: 8px;
+}
+
+/* Hide plant name labels inside room scene — too small to be readable */
+.room-plants-layer .plant-card h3 {
+  display: none;
 }
 
 .empty-rooms{ color: #666; padding: 1rem 0; }

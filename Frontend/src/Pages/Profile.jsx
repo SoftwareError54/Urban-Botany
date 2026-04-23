@@ -70,7 +70,7 @@ function Profile() {
             </div>
             <div>
                 <span style={labelStyle}>Email:</span>
-                <span style={valueStyle}>{user.email || ''}</span>
+                <span style={{...valueStyle, wordBreak: 'break-all', overflowWrap: 'anywhere', fontSize: 'clamp(0.75rem, 3.5vw, 1.5rem)'}}>{user.email || ''}</span>
             </div>
             <div>
                 <span style={labelStyle}>Phone Number:</span>

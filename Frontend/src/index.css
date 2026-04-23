@@ -9,9 +9,9 @@
   --secondary: #F2ea9e;
   --tertiary: #67b296;
 
-  /* fixed bar heights — keep in sync with .topbar height and nav padding/font */
-  --topbar-height: 64px;
-  --navbar-height: 64px;
+  /* bar heights — smaller on mobile, larger on desktop */
+  --topbar-height: 52px;
+  --navbar-height: 52px;
 
   color-scheme: light dark;
   color: rgba(26, 122, 62, 0.87);
@@ -23,6 +23,13 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@media (min-width: 600px) {
+  :root {
+    --topbar-height: 64px;
+    --navbar-height: 64px;
+  }
+}
+
 a {
   font-weight: 500;
   color: rgba(26, 122, 62, 0.87);
@@ -32,20 +39,21 @@ a:hover {
   color: rgba(26, 122, 62, 0.87);
 }
 
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
   min-height: 100vh;
   color: black;
   background-color: var(--secondary);
   overflow-x: hidden;
 }
 
-/* When landing needs full-bleed layout remove body centering and root padding */
+/* When landing needs full-bleed layout */
 body.landing-fullscreen {
-  place-items: stretch;
+  width: 100%;
 }
 
 body.landing-fullscreen #root {
@@ -64,11 +72,12 @@ nav {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 0.6rem 1rem;
+  padding: 0.35rem 0.25rem;
   background: var(--primary);
   z-index: 2000;
   box-sizing: border-box;
-  font-size: 1.25rem; /* Increased nav text size */
+  height: var(--navbar-height);
+  font-size: clamp(0.6rem, 2.5vw, 1rem);
 }
 
 nav .nav-button{ background: var(--primary); color: #fff; }
@@ -79,7 +88,7 @@ nav .nav-button{ background: var(--primary); color: #fff; }
   left: 0;
   right: 0;
   top: 0;
-  height: 64px;
+  height: var(--topbar-height);
   display: flex;
   align-items: center;
   background: var(--secondary);
@@ -101,19 +110,19 @@ nav .nav-button{ background: var(--primary); color: #fff; }
   IMPORTANT: nav and .topbar must always be direct children of body or outside #root wrappers that constrain width.
   If you ever see bars moving or being pushed, check for parent constraints like max-width, margin, or padding.
 */
-.topbar-inner h1{ margin:0; font-size:2.4rem; color: rgba(26, 122, 62, 0.87); position:absolute; left:50%; transform:translateX(-50%); }
+.topbar-inner h1{ margin:0; font-size:clamp(1.2rem, 4.5vw, 2.4rem); color: rgba(26, 122, 62, 0.87); position:absolute; left:50%; transform:translateX(-50%); white-space: nowrap; }
 .topbar .shop-button{ position:absolute; right:1rem; background:var(--primary); color:#fff; border:none; padding:0.4rem 0.75rem; border-radius:6px; cursor:pointer }
 
 h1 {
-  font-size: 3.2em;
+  font-size: clamp(1.6rem, 5vw, 3.2rem);
   line-height: 1.1;
 }
 
 button {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
+  padding: 0.5em 0.9em;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
