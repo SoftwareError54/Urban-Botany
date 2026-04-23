@@ -21,7 +21,7 @@ class ProfileRepository {
     }
 
     async getProfileByUserId(userId) {
-        const result = await query('SELECT userName, email, DoB, FName, SName, phoneNum, addressLine1, addressLine2, city, region, postalCode, countryCode FROM user WHERE userID = ?', [userId]);
+        const result = await query('SELECT userName, email, DoB, FName, SName, phoneNum, points, addressLine1, addressLine2, city, region, postalCode, countryCode FROM user WHERE userID = ?', [userId]);
         const rows = result.rows;
         if (rows.length > 0) {
             return rows[0];
@@ -88,6 +88,13 @@ class ProfileRepository {
     async updatePassword(userId, hashedPassword) {
         if (!hashedPassword) throw new Error('Password must be provided');
         const { rows } = await query('UPDATE user SET password = ? WHERE id = ?', [hashedPassword, userId]);
+        return rows;
+    }
+
+    async addPoints(userId, points) {
+        if (!userId) throw new Error('userId is required');
+        if (!points || points <= 0) throw new Error('points must be a positive number');
+        const { rows } = await query('UPDATE user SET points = points + ? WHERE userID = ?', [points, userId]);
         return rows;
     }
 }

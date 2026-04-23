@@ -213,3 +213,11 @@ export const getUserProfile = async (userId) => {
     if (!response.ok) throw new Error('Failed to fetch user profile');
     return await response.json();
 };
+
+export const getAllPlantDecorations = async () => {
+    const response = await fetch(`${BASE_URL}/plants/alldecorations`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch plant decorations');
+    return await response.json();
+};

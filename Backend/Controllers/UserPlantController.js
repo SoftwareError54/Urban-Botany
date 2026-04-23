@@ -1,5 +1,12 @@
 import UserPlantService from '../Services/UserPlantService.js';
 import { authenticateToken } from '../Middleware/authMiddleware.js';
+import profileRepository from '../Repositories/ProfileRepository.js';
+
+const TASK_POINTS = {
+    water: 50,
+    fertilize: 100,
+    repot: 500,
+};
 
 export async function getUserPlantsByUserId(req, res) {
     try {
@@ -52,10 +59,20 @@ export async function updateUserPlant(req, res) {
         const userPlantId = req.params.userPlantId;
         const userId = req.userId;
         if (!userId) return res.status(401).json({ message: 'User not authenticated' });
-        const updates = req.body || {};
+
+        const { taskType, ...updates } = req.body || {};
+
         // Delegate to service
         const result = await UserPlantService.updateUserPlant(userPlantId, userId, updates);
-        res.json({ message: 'User plant updated', result });
+
+        // Award points if a task type was provided
+        let pointsAwarded = 0;
+        if (taskType && TASK_POINTS[taskType]) {
+            pointsAwarded = TASK_POINTS[taskType];
+            await profileRepository.addPoints(userId, pointsAwarded);
+        }
+
+        res.json({ message: 'User plant updated', result, pointsAwarded });
     } catch (error) {
         console.error('updateUserPlant error', error);
         res.status(500).json({ message: 'Error updating user plant', error: error.message });

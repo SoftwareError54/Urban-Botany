@@ -8,6 +8,8 @@ import MainLayout from "./layouts/MainLayout.jsx"
 import Plants from "./Pages/Plants.jsx"
 import Scan from "./Pages/Scan.jsx"
 import Profile from "./Pages/Profile.jsx"
+import Shop from "./Pages/Shop.jsx"
+import ShopCategory from "./Pages/ShopCategory.jsx"
 
 
 
@@ -28,6 +30,8 @@ export default function App(){
           <Route path="/Projects" element={<h1>Projects</h1>} />
           <Route path="/Scan/*" element={<Scan />} />
           <Route path="/plants/*" element={<Plants/>}/>
+          <Route path="/shop" element={<Shop />} />
+          <Route path="/shop/:category" element={<ShopCategory />} />
         </Route> 
       </Routes>
     </main>

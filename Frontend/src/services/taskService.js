@@ -129,6 +129,7 @@ export async function completeTask(taskData){
 
         if (taskData.type === 'water') {
             updates.lastWatered = formatSqlDate(now);
+            updates.taskType = 'water';
         const plantId = taskData.plant?.plantID ?? taskData.plant?.plantId ?? taskData.plant?.plantID;
         let days = 7;
         if (plantId) {
@@ -138,6 +139,7 @@ export async function completeTask(taskData){
             updates.nextWatering = formatSqlDate(addDays(now, days));
     } else if (taskData.type === 'fertilize') {
             updates.lastFed = formatSqlDate(now);
+            updates.taskType = 'fertilize';
         const plantId = taskData.plant?.plantID ?? taskData.plant?.plantId ?? taskData.plant?.plantID;
         let days = 30;
         if (plantId) {
@@ -147,6 +149,7 @@ export async function completeTask(taskData){
             updates.nextFeeding = formatSqlDate(addDays(now, days));
     } else if (taskData.type === 'repot') {
             updates.lastPotted = formatSqlDate(now);
+            updates.taskType = 'repot';
         const plantId = taskData.plant?.plantID ?? taskData.plant?.plantId ?? taskData.plant?.plantID;
         let days = 365;
         if (plantId) {
