@@ -6,6 +6,7 @@ import { createTasks, completeTask, postponeTask } from "../services/taskService
 function Calendar(){
     const [tasks, setTasks] = useState([]);
     const [showPostponeToast, setShowPostponeToast] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const loadTasks = async () => {
@@ -15,6 +16,8 @@ function Calendar(){
             } catch (err) {
                 console.error('Failed to load tasks', err);
                 setTasks([]);
+            } finally {
+                setLoading(false);
             }
         };
         loadTasks();
@@ -50,7 +53,12 @@ function Calendar(){
             <main style={{width: '100%', boxSizing: 'border-box'}}>
                 <div className="tasks-column">
                     <h2>Tasks</h2>
-                    {(!tasks || tasks.length === 0) ? (
+                    {loading ? (
+                        <div className="tasks-loading">
+                            <div className="tasks-spinner" />
+                            <p>Loading tasks...</p>
+                        </div>
+                    ) : (!tasks || tasks.length === 0) ? (
                         <p className="no-tasks">No Overdue or Upcoming Tasks</p>
                     ) : (
                         <ul className="tasks-list">
