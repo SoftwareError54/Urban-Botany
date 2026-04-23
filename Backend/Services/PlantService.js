@@ -36,4 +36,16 @@ export async function getPlantByLatinName(latinName){
     return await PlantRepository.getPlantByLatinName(latinName);
 }
 
+export async function getAllDecorationsByUserPlantId(userPlantId){
+    return await PlantRepository.getAllDecorationsByUserPlantId(userPlantId);
+}
+
+export async function updatePlantDecorationToggle(userPlantId, decorationId){
+    return await PlantRepository.updatePlantDecorationToggle(userPlantId, decorationId);
+}
+
+export async function resetPlantDecorationsByLayer(userPlantId, layer){
+    return await PlantRepository.resetPlantDecorationsByLayer(userPlantId, layer);
+}
+
 export default {getAllPlants, getPlantById, getPlantsByRoomId, getPlantByLatinName};

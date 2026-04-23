@@ -89,3 +89,45 @@
   width: 100%;
 }
 .plant-card { margin: 10px auto 0; }
+
+/* ─── Plant Decoration Dropdowns ─── */
+.plant-decorations {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 480px;
+  margin-top: 0.5rem;
+  align-self: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plant-decorations .decoration-dropdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--primary);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+}
+
+.plant-decorations .decoration-label {
+  font-weight: 600;
+  color: #fff;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  flex: 1;
+  min-width: 0;
+}
+
+.plant-decorations .decoration-select {
+  flex: 0 0 auto;
+  width: min(180px, 45%);
+  padding: 0.3rem 0.4rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  font-family: inherit;
+  font-size: clamp(0.75rem, 2.2vw, 0.9rem);
+  cursor: pointer;
+}

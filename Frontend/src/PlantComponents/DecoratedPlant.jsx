@@ -12,7 +12,11 @@ export default function DecoratedPlant({ plant, plantId, imagePointer, size = 11
     if (!id) return;
     let mounted = true;
     getDecorationsByPlantId(id)
-      .then(data => { if(mounted && Array.isArray(data) && data.length) setDecoration(data[0]); })
+      .then(data => {
+        if (!mounted) return;
+        if (Array.isArray(data) && data.length) setDecoration(data[0]);
+        else if (data && typeof data === 'object' && !Array.isArray(data)) setDecoration(data);
+      })
       .catch(() => { /* ignore decoration errors, fallback will be used */ });
     return () => { mounted = false; };
   }, [id]);

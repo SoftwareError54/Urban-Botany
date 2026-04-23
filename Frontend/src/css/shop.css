@@ -145,3 +145,96 @@
     display: flex;
     align-items: center;
 }
+
+/* ─── Purchase Modal ─── */
+.shop-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 3000;
+}
+
+.shop-modal {
+    background: #fff;
+    border-radius: 18px 18px 0 0;
+    padding: 1.5rem 1.25rem 2rem;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.shop-modal-title {
+    font-size: clamp(1rem, 3.5vw, 1.2rem);
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0;
+    text-align: center;
+}
+
+.shop-modal-cost {
+    text-align: center;
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #555;
+}
+
+.shop-modal-select {
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    border: 1.5px solid var(--primary);
+    border-radius: 8px;
+    font-size: max(1rem, 16px);
+    background: #fff;
+    color: #222;
+    box-sizing: border-box;
+}
+
+.shop-modal-buy {
+    width: 100%;
+    padding: 0.85rem;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: clamp(0.95rem, 3vw, 1.1rem);
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity 0.18s;
+}
+
+.shop-modal-buy:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.shop-modal-cancel {
+    width: 100%;
+    padding: 0.6rem;
+    background: none;
+    border: 1.5px solid #ccc;
+    border-radius: 10px;
+    font-size: clamp(0.85rem, 3vw, 1rem);
+    color: #666;
+    cursor: pointer;
+}
+
+.shop-modal-feedback {
+    text-align: center;
+    font-size: 0.9rem;
+    padding: 0.4rem;
+    border-radius: 6px;
+}
+
+.shop-modal-feedback--error {
+    background: #fdecea;
+    color: #c0392b;
+}
+
+.shop-modal-feedback--success {
+    background: #eafaf1;
+    color: #1e8449;
+}

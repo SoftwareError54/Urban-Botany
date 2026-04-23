@@ -12,6 +12,7 @@ import AuthRoutes from './Routes/Auth.js';
 import PlantRoutes from './Routes/PlantRoutes.js';
 import UserPlantRoutes from './Routes/UserPlantRoutes.js';
 import ProfileRoutes from './Routes/ProfileRoutes.js';
+import ShopRoutes from './Routes/ShopRoutes.js';
 
 
 dotenv.config();
@@ -59,6 +60,7 @@ app.use('/auth', AuthRoutes);
 app.use("/plants", PlantRoutes);
 app.use("/userplants", UserPlantRoutes);
 app.use("/profile", ProfileRoutes);
+app.use("/shop", ShopRoutes);
 
 // Generic error handler so uncaught errors return JSON instead of crashing the process silently
 app.use((err, req, res, next) => {

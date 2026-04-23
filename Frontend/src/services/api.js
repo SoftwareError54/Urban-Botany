@@ -1,13 +1,38 @@
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const getDecorationsByPlantId = async(plantId) => {
-    const response = await fetch (`${BASE_URL}/myplants/${plantId}/decoration`, {
+    const response = await fetch (`${BASE_URL}/plants/myplants/${plantId}/decoration`, {
         headers: buildHeaders()
     });
     if (!response.ok) throw new Error('Failed to fetch decorations');
     const data = await response.json();
-    console.log(data);
     return data;
+};
+
+export const getAllDecorationsByPlantId = async (plantId) => {
+    const response = await fetch(`${BASE_URL}/plants/myplants/${plantId}/decorations/all`, {
+        headers: buildHeaders()
+    });
+    if (!response.ok) throw new Error('Failed to fetch plant decorations');
+    return await response.json();
+};
+
+export const updatePlantDecoration = async (plantId, decorationId) => {
+    const response = await fetch(`${BASE_URL}/plants/myplants/${plantId}/decorations/update/${decorationId}`, {
+        method: 'PUT',
+        headers: buildHeaders(true)
+    });
+    if (!response.ok) throw new Error('Failed to update decoration');
+    return await response.json();
+};
+
+export const resetPlantDecoration = async (plantId, layer) => {
+    const response = await fetch(`${BASE_URL}/plants/myplants/${plantId}/decorations/reset/${layer}`, {
+        method: 'PUT',
+        headers: buildHeaders(true)
+    });
+    if (!response.ok) throw new Error('Failed to reset decoration');
+    return await response.json();
 };
 
 function buildHeaders(json = false) {
@@ -220,4 +245,15 @@ export const getAllPlantDecorations = async () => {
     });
     if (!response.ok) throw new Error('Failed to fetch plant decorations');
     return await response.json();
+};
+
+export const purchaseDecoration = async ({ decorationType, decorationId, targetId }) => {
+    const response = await fetch(`${BASE_URL}/shop/buy`, {
+        method: 'POST',
+        headers: buildHeaders(true),
+        body: JSON.stringify({ decorationType, decorationId, targetId }),
+    });
+    const data = await response.json().catch(() => ({ message: 'Purchase failed' }));
+    if (!response.ok) throw new Error(data.message || 'Purchase failed');
+    return data;
 };

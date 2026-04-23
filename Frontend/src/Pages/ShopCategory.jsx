@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getAllPlantDecorations, getAllRoomDecorations } from '../services/api';
+import { getAllPlantDecorations, getAllRoomDecorations, getRooms, getPlantsByUserId, purchaseDecoration } from '../services/api';
 import '../css/shop.css';
 
 const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
@@ -17,6 +17,7 @@ function ShopCategory() {
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [selected, setSelected] = useState(null); // item being purchased
 
     useEffect(() => {
         setLoading(true);
@@ -80,7 +81,7 @@ function ShopCategory() {
                             : null;
 
                         return (
-                            <div className="shop-item-card" key={id}>
+                            <div className="shop-item-card" key={id} onClick={() => setSelected(item)}>
                                 <ImageOrColour src={imgSrc} fallbackSrc={fallbackSrc} colour={colour} />
                                 <span className="shop-item-cost">{cost} pts</span>
                                 <span className="shop-item-name">{name}</span>
@@ -89,6 +90,104 @@ function ShopCategory() {
                     })}
                 </div>
             )}
+
+            {selected && (
+                <PurchaseModal
+                    item={selected}
+                    category={category}
+                    onClose={() => setSelected(null)}
+                />
+            )}
+        </div>
+    );
+}
+
+function PurchaseModal({ item, category, onClose }) {
+    const isPlant = category === 'plant-pots';
+    const decorationId = item.plantDecorationID ?? item.roomDecorationID;
+    const decorationType = isPlant ? 'plant' : 'room';
+
+    const [options, setOptions] = useState([]);
+    const [targetId, setTargetId] = useState('');
+    const [loadingOptions, setLoadingOptions] = useState(true);
+    const [buying, setBuying] = useState(false);
+    const [feedback, setFeedback] = useState(null);
+
+    useEffect(() => {
+        const load = async () => {
+            try {
+                if (isPlant) {
+                    const plants = await getPlantsByUserId();
+                    setOptions(Array.isArray(plants) ? plants : []);
+                } else {
+                    const rooms = await getRooms();
+                    setOptions(Array.isArray(rooms) ? rooms : []);
+                }
+            } catch {
+                setOptions([]);
+            } finally {
+                setLoadingOptions(false);
+            }
+        };
+        load();
+    }, [isPlant]);
+
+    const handleBuy = async () => {
+        if (!targetId) return;
+        setBuying(true);
+        setFeedback(null);
+        try {
+            const result = await purchaseDecoration({ decorationType, decorationId, targetId });
+            setFeedback({ type: 'success', message: `Purchased! You have ${result.pointsRemaining} pts remaining.` });
+            setTimeout(onClose, 1800);
+        } catch (err) {
+            setFeedback({ type: 'error', message: err.message });
+        } finally {
+            setBuying(false);
+        }
+    };
+
+    const optionLabel = (opt) => isPlant ? (opt.plantName ?? `Plant ${opt.userPlantID}`) : (opt.roomName ?? `Room ${opt.roomID}`);
+    const optionValue = (opt) => isPlant ? opt.userPlantID : opt.roomID;
+
+    return (
+        <div className="shop-modal-overlay" onClick={onClose}>
+            <div className="shop-modal" onClick={e => e.stopPropagation()}>
+                <h2 className="shop-modal-title">{item.decorationName}</h2>
+                <p className="shop-modal-cost">{item.cost} pts</p>
+
+                {loadingOptions ? (
+                    <p className="shop-empty">Loading…</p>
+                ) : (
+                    <select
+                        className="shop-modal-select"
+                        value={targetId}
+                        onChange={e => setTargetId(e.target.value)}
+                    >
+                        <option value="">— Choose {isPlant ? 'a plant' : 'a room'} —</option>
+                        {options.map(opt => (
+                            <option key={optionValue(opt)} value={optionValue(opt)}>
+                                {optionLabel(opt)}
+                            </option>
+                        ))}
+                    </select>
+                )}
+
+                {feedback && (
+                    <p className={`shop-modal-feedback shop-modal-feedback--${feedback.type}`}>
+                        {feedback.message}
+                    </p>
+                )}
+
+                <button
+                    className="shop-modal-buy"
+                    disabled={!targetId || buying}
+                    onClick={handleBuy}
+                >
+                    {buying ? 'Buying…' : 'Buy Now'}
+                </button>
+                <button className="shop-modal-cancel" onClick={onClose}>Cancel</button>
+            </div>
         </div>
     );
 }

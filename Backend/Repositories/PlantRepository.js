@@ -46,7 +46,7 @@ class PlantRepository {
         console.log(result)
         const rows = result.rows;
         console.log(rows);
-        return rows.map(p => new PlantDecoration (p.plantDecorationID, p.imagePointer, p.isStatic, p.type, p.cost, p.colour1, p.colour2));
+        return rows.map(p => new PlantDecoration(p.plantDecorationID, p.decorationName, p.imagePointer, p.static, p.layer, p.cost, p.colour1, p.colour2));
     }
 
     async getPlantDecorationById(decorationId){
@@ -59,11 +59,64 @@ class PlantRepository {
     }
 
     async getDecorationByPlantId(plantId){
-        const result = await query('SELECT * FROM user_plant_decoration JOIN user_plants USING (userPlantID) WHERE userPlantID = ?', [plantId]);
+        const result = await query(`
+            SELECT pd.*
+            FROM plant_decoration pd
+            JOIN user_plant_decoration upd ON pd.plantDecorationID = upd.plantDecorationID
+            WHERE upd.userPlantID = ? AND upd.toggled = 1
+            LIMIT 1`, [plantId]);
         const rows = result.rows;
         if (rows.length === 0) return null;
-        const p = rows[0]
-        return new UserPlantDecoration(p.plantDecorationID, p.imagePointer, p.static, p.type, p.cost, p.colour1, p.colour2)
+        const p = rows[0];
+        return new PlantDecoration(p.plantDecorationID, p.decorationName, p.imagePointer, p.static, p.layer, p.cost, p.colour1, p.colour2);
+    }
+
+    async getAllDecorationsByUserPlantId(userPlantId){
+        const result = await query(`
+            SELECT pd.*, upd.toggled
+            FROM plant_decoration pd
+            JOIN user_plant_decoration upd ON pd.plantDecorationID = upd.plantDecorationID
+            WHERE upd.userPlantID = ?`, [userPlantId]);
+        return result.rows.map(p => ({
+            plantDecorationID: p.plantDecorationID,
+            decorationName: p.decorationName,
+            imagePointer: p.imagePointer,
+            layer: p.layer,
+            cost: p.cost,
+            colour1: p.colour1,
+            colour2: p.colour2,
+            toggled: p.toggled
+        }));
+    }
+
+    async updatePlantDecorationToggle(userPlantId, decorationId){
+        const decResult = await query('SELECT layer FROM plant_decoration WHERE plantDecorationID = ?', [decorationId]);
+        if (!decResult.rows || decResult.rows.length === 0) throw new Error('Decoration not found');
+        const layer = decResult.rows[0].layer;
+        const layerDecs = await query(
+            `SELECT pd.plantDecorationID FROM plant_decoration pd
+             JOIN user_plant_decoration upd ON pd.plantDecorationID = upd.plantDecorationID
+             WHERE upd.userPlantID = ? AND pd.layer = ?`,
+            [userPlantId, layer]
+        );
+        for (const dec of layerDecs.rows) {
+            await query('UPDATE user_plant_decoration SET toggled = 0 WHERE userPlantID = ? AND plantDecorationID = ?', [userPlantId, dec.plantDecorationID]);
+        }
+        await query('UPDATE user_plant_decoration SET toggled = 1 WHERE userPlantID = ? AND plantDecorationID = ?', [userPlantId, decorationId]);
+        return { updated: true };
+    }
+
+    async resetPlantDecorationsByLayer(userPlantId, layer){
+        const layerDecs = await query(
+            `SELECT pd.plantDecorationID FROM plant_decoration pd
+             JOIN user_plant_decoration upd ON pd.plantDecorationID = upd.plantDecorationID
+             WHERE upd.userPlantID = ? AND pd.layer = ?`,
+            [userPlantId, layer]
+        );
+        for (const dec of layerDecs.rows) {
+            await query('UPDATE user_plant_decoration SET toggled = 0 WHERE userPlantID = ? AND plantDecorationID = ?', [userPlantId, dec.plantDecorationID]);
+        }
+        return { reset: true };
     }
 
     async addDecorationByPlantId(plantId, decorationId){

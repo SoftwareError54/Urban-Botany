@@ -54,14 +54,44 @@ export async function getPlantDecorationById(req,res){
 export async function getDecorationByPlantId(req,res){
     try{
         const plantId = req.params.plantId;
-        const plantDecoration = await PlantService.getPlantDecorationById(plantId)
+        const plantDecoration = await PlantService.getDecorationByPlantId(plantId)
         if (!plantDecoration){
-            return res.status(404).json({message: "Plant not found"})
+            return res.status(404).json({message: "No active decoration found"})
         }
         res.json(plantDecoration);    
         } catch(error){
         res.status(500).json({message: "Error Fetching Decoration", error: error.message});
     
+    }
+}
+
+export async function getAllDecorationsByUserPlantId(req, res){
+    try{
+        const plantId = req.params.plantId;
+        const decorations = await PlantService.getAllDecorationsByUserPlantId(plantId);
+        res.json(decorations);
+    } catch(error){
+        res.status(500).json({message: "Error fetching decorations", error: error.message});
+    }
+}
+
+export async function updatePlantDecoration(req, res){
+    try{
+        const { plantId, decorationId } = req.params;
+        await PlantService.updatePlantDecorationToggle(plantId, decorationId);
+        res.json({ updated: true });
+    } catch(error){
+        res.status(500).json({message: "Error updating decoration", error: error.message});
+    }
+}
+
+export async function resetPlantDecoration(req, res){
+    try{
+        const { plantId, layer } = req.params;
+        await PlantService.resetPlantDecorationsByLayer(plantId, layer);
+        res.json({ reset: true });
+    } catch(error){
+        res.status(500).json({message: "Error resetting decoration", error: error.message});
     }
 }
 
