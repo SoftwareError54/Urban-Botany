@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import TaskCard from "../TaskComponents/TaskCard";
 import '../css/tasks.css';
-import { createTasks, completeTask } from "../services/taskService";
+import { createTasks, completeTask, postponeTask } from "../services/taskService";
 
 function Calendar(){
     const [tasks, setTasks] = useState([]);
+    const [showPostponeToast, setShowPostponeToast] = useState(false);
 
     useEffect(() => {
         const loadTasks = async () => {
@@ -19,8 +20,15 @@ function Calendar(){
         loadTasks();
     }, []);
 
-    const handlePostpone = (task) => {
-        console.log('postpone', task);
+    const handlePostpone = async (task) => {
+        try {
+            await postponeTask(task);
+            setTasks(prev => prev.filter(t => t.id !== task.id));
+            setShowPostponeToast(true);
+            setTimeout(() => setShowPostponeToast(false), 2000);
+        } catch (err) {
+            console.error('Failed to postpone task', err);
+        }
     }
 
     const handleComplete = async (task) => {
@@ -36,6 +44,9 @@ function Calendar(){
 
     return(
         <>
+            {showPostponeToast && (
+                <div className="postpone-toast">Task Postponed</div>
+            )}
             <main style={{width: '100%', boxSizing: 'border-box'}}>
                 <div className="tasks-column">
                     <h2>Tasks</h2>

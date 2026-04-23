@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserProfile } from '../services/api';
+import { useNavigate } from "react-router-dom";
 
 const primary = '#568c71';
 const secondary = '#F2ea9e';
@@ -37,6 +38,13 @@ function decodeToken(token) {
 
 function Profile() {
     const [user, setUser] = useState({});
+    const navigate = useNavigate();
+
+    function handleSignOut() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('userId');
+        navigate('/');
+    }
 
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -85,6 +93,23 @@ function Profile() {
                     {user.countryCode || user.country || ''}
                 </span>
             </div>
+            <button
+                onClick={handleSignOut}
+                style={{
+                    marginTop: '1.5rem',
+                    width: '100%',
+                    padding: '0.75rem',
+                    background: '#c0392b',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: 8,
+                    fontSize: '1rem',
+                    fontWeight: 600,
+                    cursor: 'pointer',
+                }}
+            >
+                Sign Out
+            </button>
         </div>
     );
 }

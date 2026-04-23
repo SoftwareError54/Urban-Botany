@@ -37,11 +37,11 @@ class ShopRepository {
         if (!decRows || decRows.length === 0) throw new Error('Decoration not found');
         const { colour1, colour2 } = decRows[0];
 
-        // Upsert: replace existing row if it exists for this plant
+        // Upsert: insert new ownership row (toggled=0), or update colours if already owned
         await query(
-            `INSERT INTO user_plant_decoration (userPlantID, plantDecorationID, colour1, colour2)
-             VALUES (?, ?, ?, ?)
-             ON DUPLICATE KEY UPDATE plantDecorationID = VALUES(plantDecorationID), colour1 = VALUES(colour1), colour2 = VALUES(colour2)`,
+            `INSERT INTO user_plant_decoration (userPlantID, plantDecorationID, colour1, colour2, toggled)
+             VALUES (?, ?, ?, ?, 0)
+             ON DUPLICATE KEY UPDATE colour1 = VALUES(colour1), colour2 = VALUES(colour2)`,
             [userPlantId, decorationId, colour1 ?? '', colour2 ?? '']
         );
     }

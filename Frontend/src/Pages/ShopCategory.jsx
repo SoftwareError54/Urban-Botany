@@ -139,6 +139,9 @@ function PurchaseModal({ item, category, onClose }) {
         try {
             const result = await purchaseDecoration({ decorationType, decorationId, targetId });
             setFeedback({ type: 'success', message: `Purchased! You have ${result.pointsRemaining} pts remaining.` });
+            if (typeof result.pointsRemaining === 'number') {
+                window.dispatchEvent(new CustomEvent('pointsUpdated', { detail: { points: result.pointsRemaining } }));
+            }
             setTimeout(onClose, 1800);
         } catch (err) {
             setFeedback({ type: 'error', message: err.message });

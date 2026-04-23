@@ -177,9 +177,65 @@ export async function completeTask(taskData){
         throw new Error(err.message || 'Failed to update user plant');
     }
 
-    return await res.json();
+    const data = await res.json();
+    // Notify the wallet about the new points total if the backend returned it
+    if (data && typeof data.pointsAwarded === 'number') {
+        window.dispatchEvent(new CustomEvent('pointsUpdated', { detail: {} }));
+    }
+    return data;
 }
 
 export async function postponeTask(taskData){
+    if (!taskData) throw new Error('No task provided');
 
+    const userPlantId = taskData.plantId ?? taskData.plant?.userPlantID ?? taskData.plant?.userPlantId;
+    if (!userPlantId) throw new Error('No userPlantId found on task');
+
+    const pad = (n) => n.toString().padStart(2, '0');
+    const formatSqlDate = (d) => {
+        return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`;
+    };
+    const addDays = (date, days) => new Date(date.getTime() + days * 24 * 60 * 60 * 1000);
+
+    const now = new Date();
+    const updates = {};
+
+    if (taskData.type === 'water') {
+        // Push nextWatering 3 days from now
+        updates.nextWatering = formatSqlDate(addDays(now, 3));
+    } else if (taskData.type === 'fertilize') {
+        // Push nextFeeding by one feeding cycle (feedingFreq days) from now
+        const plantId = taskData.plant?.plantID ?? taskData.plant?.plantId;
+        let days = 30;
+        if (plantId) {
+            try {
+                const basePlant = await getPlantById(plantId);
+                if (basePlant && basePlant.feedingFreq) days = Number(basePlant.feedingFreq) || days;
+            } catch (e) { /* use default */ }
+        }
+        updates.nextFeeding = formatSqlDate(addDays(now, days));
+    } else if (taskData.type === 'repot') {
+        // Push nextPotting 2 months (61 days) from now
+        updates.nextPotting = formatSqlDate(addDays(now, 61));
+    } else {
+        return null;
+    }
+
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(`${BASE_URL}/userplants/${userPlantId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
+        },
+        body: JSON.stringify(updates)
+    });
+
+    if (!res.ok) {
+        const err = await res.json().catch(() => ({ message: 'Failed to postpone task' }));
+        throw new Error(err.message || 'Failed to postpone task');
+    }
+
+    return await res.json();
 }

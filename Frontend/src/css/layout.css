@@ -44,3 +44,27 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
+/* ─── Left-side topbar group (back button + wallet) ─── */
+.topbar-left {
+  position: absolute;
+  left: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* ─── Points wallet in topbar ─── */
+.topbar-points {
+  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
+  font-weight: 600;
+  color: var(--primary);
+  background: #fff;
+  border: 1.5px solid var(--primary);
+  border-radius: 20px;
+  padding: 0.2rem 0.6rem;
+  white-space: nowrap;
+  pointer-events: none;
+}
