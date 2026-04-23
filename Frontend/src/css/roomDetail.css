@@ -22,7 +22,8 @@
   max-width: 480px;
 }
 .room-scene--large {
-  height: clamp(160px, 42vw, 280px);
+  /* inherits aspect-ratio: 256/120 and container-type: size from .room-scene */
+  overflow: hidden;
 }
 
 /* ─── Plant Slots Row ─── */
