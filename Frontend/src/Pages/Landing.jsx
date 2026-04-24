@@ -34,8 +34,8 @@ export default function Landing(){
           keep your plants healthy in small living spaces.
         </p>
         <div style={{marginTop:20}}>
-          <button onClick={() => navigate('/auth')} style={{marginRight:10}}>Login / Signup</button>
-          <button onClick={() => navigate('/rooms')}>Enter App</button>
+          <button onClick={() => navigate('/auth')} style={{marginRight:10,backgroundColor:'#2F8F4E',color:'#ffffff',border:'none',padding:'10px 18px',borderRadius:6,cursor:'pointer',fontSize:16}}>Login / Signup</button>
+          <button onClick={() => navigate('/rooms')} style={{backgroundColor:'#2F8F4E',color:'#ffffff',border:'none',padding:'10px 18px',borderRadius:6,cursor:'pointer',fontSize:16}}>Enter App</button>
         </div>
       </section>
     </div>

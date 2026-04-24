@@ -16,7 +16,9 @@ export default function Scan(){
             const list = await navigator.mediaDevices.enumerateDevices();
             const cams = list.filter(d => d.kind === 'videoinput');
             setDevices(cams);
-            if(cams[0]) setCurrentDeviceId(cams[0].deviceId);
+            // Prefer back/rear camera; fall back to last device (back cam is usually last on mobile)
+            const backCam = cams.find(d => /back|rear|environment/i.test(d.label)) || cams[cams.length - 1];
+            if(backCam) setCurrentDeviceId(backCam.deviceId);
         }
         init();
     },[]);
