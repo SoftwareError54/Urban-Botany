@@ -33,7 +33,7 @@ export default function Landing(){
           compose rooms and plant decorations. Sign in to manage your plants or try the app to see how it helps you
           keep your plants healthy in small living spaces.
         </p>
-        <div style={{marginTop:20,display:'flex',flexWrap:'wrap',gap:10}}>
+        <div style={{marginTop:20,display:'flex',flexWrap:'wrap',gap:10,justifyContent:'center'}}>
           <button onClick={() => navigate('/auth')} style={{backgroundColor:'#2F8F4E',color:'#ffffff',border:'none',padding:'10px 18px',borderRadius:6,cursor:'pointer',fontSize:16}}>Login / Signup</button>
           <button onClick={() => navigate('/rooms')} style={{backgroundColor:'#2F8F4E',color:'#ffffff',border:'none',padding:'10px 18px',borderRadius:6,cursor:'pointer',fontSize:16}}>Enter App</button>
         </div>
