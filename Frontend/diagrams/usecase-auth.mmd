@@ -1,15 +1,16 @@
 %%{init:{'theme':'base'}}%%
-flowchart LR
-  User[User]
-  UC_Register((Register))
-  UC_Login((Login))
-  UC_Logout((Logout))
-  UC_ResetPassword((Reset Password))
-  UC_ManageProfile((Manage Profile))
-
-  User --> UC_Register
-  User --> UC_Login
-  User --> UC_Logout
-  User --> UC_ResetPassword
-  User --> UC_ManageProfile
-  UC_ManageProfile -.-> UC_Login
+usecaseDiagram
+  actor User
+  rectangle "Urban Botany System" {
+    (Register)
+    (Login)
+    (Logout)
+    (Reset Password)
+    (Manage Profile)
+  }
+  User --> (Register)
+  User --> (Login)
+  User --> (Logout)
+  User --> (Reset Password)
+  User --> (Manage Profile)
+  (Manage Profile) ..> (Login) : requires

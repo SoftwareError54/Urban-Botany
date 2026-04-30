@@ -1,25 +1,26 @@
 %%{init:{'theme':'base'}}%%
-flowchart LR
-  User[User]
-  UC_AddPlant((Add Plant))
-  UC_Identify((Identify Plant))
-  UC_View((View Plant))
-  UC_Edit((Edit Plant))
-  UC_Delete((Delete Plant))
-  UC_Water((Water Plant))
-  UC_Fertilize((Fertilize Plant))
-  UC_SetReminder((Set Care Reminder))
-  UC_Log((Log Care Activity))
+usecaseDiagram
+  actor User
+  rectangle "Urban Botany System" {
+    (Add Plant)
+    (Identify Plant)
+    (View Plant)
+    (Edit Plant)
+    (Delete Plant)
+    (Water Plant)
+    (Fertilize Plant)
+    (Set Care Reminder)
+    (Log Care Activity)
+  }
+  User --> (Add Plant)
+  User --> (Identify Plant)
+  User --> (View Plant)
+  User --> (Edit Plant)
+  User --> (Delete Plant)
+  User --> (Water Plant)
+  User --> (Fertilize Plant)
+  User --> (Set Care Reminder)
+  User --> (Log Care Activity)
 
-  User --> UC_AddPlant
-  User --> UC_Identify
-  User --> UC_View
-  User --> UC_Edit
-  User --> UC_Delete
-  User --> UC_Water
-  User --> UC_Fertilize
-  User --> UC_SetReminder
-  User --> UC_Log
-
-  UC_Identify -.-> UC_AddPlant
-  UC_SetReminder --> UC_Log
+  (Identify Plant) ..> (Add Plant) : optional
+  (Set Care Reminder) .> (Log Care Activity) : triggers

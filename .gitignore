@@ -1,6 +1,37 @@
-node_modules
+# Dependencies
+node_modules/
+Backend/node_modules/
+Frontend/node_modules/
+
+# Environment / secrets — NEVER commit these
 .env
-.db
-# urbanbotany.sql
-node_modules
+.env.*
+!.env.example
+Backend/.env
+Backend/.env.*
+Frontend/.env
+Frontend/.env.*
+
+# Database files
+*.sql.bak
 mysql_data.sql
+.db
+
+# Docker volumes
+mysql_data/
+
+# Build output
+dist/
+dist-ssr/
+build/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+*.suo
+*.sw?
+
+# Logs
+*.log
+logs/

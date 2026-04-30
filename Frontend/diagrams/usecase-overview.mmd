@@ -1,22 +1,21 @@
 %%{init:{'theme':'base'}}%%
-flowchart LR
-  User[User]
-  subgraph UrbanBotany [Urban Botany]
-    UC_Register((Register))
-    UC_Login((Login))
-    UC_AddPlant((Add Plant))
-    UC_Identify((Identify Plant))
-    UC_CreateRoom((Create Room))
-    UC_SetReminder((Set Care Reminder))
-    UC_CreateTask((Create Task))
-    UC_ManageProfile((Manage Profile))
-  end
-
-  User --> UC_Register
-  User --> UC_Login
-  User --> UC_AddPlant
-  User --> UC_Identify
-  User --> UC_CreateRoom
-  User --> UC_SetReminder
-  User --> UC_CreateTask
-  User --> UC_ManageProfile
+usecaseDiagram
+  actor User
+  rectangle "Urban Botany System" {
+    (Register)
+    (Login)
+    (Add Plant)
+    (Identify Plant)
+    (Create Room)
+    (Set Care Reminder)
+    (Create Task)
+    (Manage Profile)
+  }
+  User --> (Register)
+  User --> (Login)
+  User --> (Add Plant)
+  User --> (Identify Plant)
+  User --> (Create Room)
+  User --> (Set Care Reminder)
+  User --> (Create Task)
+  User --> (Manage Profile)

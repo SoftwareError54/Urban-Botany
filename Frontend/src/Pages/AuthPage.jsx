@@ -323,10 +323,10 @@ function Login({ setAction }){
     async function handleSubmit(e){
         e.preventDefault();
         const form = e.target;
-        const email = form.email.value;
+        const identifier = form.identifier.value;
         const password = form.password.value;
         try{
-            const res = await login(email, password);
+            const res = await login(identifier, password);
             if(res && res.token){
                 localStorage.setItem('token', res.token);
                 const uid = getUserIdFromToken(res.token);
@@ -347,8 +347,8 @@ function Login({ setAction }){
         </header> */}
         <form onSubmit={handleSubmit} style={{background:secondary,padding:20,borderRadius:8,maxWidth:420,width:'100%', paddingRight:40, boxSizing:'border-box'}}>
             <h2 style={{margin:0, color: primary}}>Welcome to Urban Botany</h2>
-            <label htmlFor="username">Email:</label>
-            <input type="text" id="email" name="email" required style={{width:'100%',padding:'8px 10px',margin:'6px 0 12px',borderRadius:6,border:'1px solid #ccc'}} />
+            <label htmlFor="identifier">Email or Username:</label>
+            <input type="text" id="identifier" name="identifier" required style={{width:'100%',padding:'8px 10px',margin:'6px 0 12px',borderRadius:6,border:'1px solid #ccc'}} />
             <br />
             <label htmlFor="password">Password:</label>
             <input type="password" id="password" name="password" required style={{width:'100%',padding:'8px 10px',margin:'6px 0 12px',borderRadius:6,border:'1px solid #ccc'}} />

@@ -13,8 +13,8 @@ export async function signup(req,res){
 
 export async function authenticate(req,res){
     try{
-        const {email, password} = req.body;
-        const user = await AuthService.authenticate(email, password);
+        const {identifier, password} = req.body;
+        const user = await AuthService.authenticate(identifier, password);
         res.status(200).json(user);
     }
     catch(error){

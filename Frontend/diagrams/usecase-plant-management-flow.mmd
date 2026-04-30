@@ -1,0 +1,27 @@
+%%{init:{'theme':'base'}}%%
+flowchart LR
+  User[User]
+  subgraph "Urban Botany System"
+    UC_AddPlant((Add Plant))
+    UC_Identify((Identify Plant))
+    UC_View((View Plant))
+    UC_Edit((Edit Plant))
+    UC_Delete((Delete Plant))
+    UC_Water((Water Plant))
+    UC_Fertilize((Fertilize Plant))
+    UC_SetReminder((Set Care Reminder))
+    UC_Log((Log Care Activity))
+  end
+
+  User --> UC_AddPlant
+  User --> UC_Identify
+  User --> UC_View
+  User --> UC_Edit
+  User --> UC_Delete
+  User --> UC_Water
+  User --> UC_Fertilize
+  User --> UC_SetReminder
+  User --> UC_Log
+
+  UC_Identify -.-> UC_AddPlant
+  UC_SetReminder --> UC_Log

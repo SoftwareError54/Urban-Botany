@@ -112,11 +112,11 @@ export const getRoom = async (roomId) => {
     return data;
 };
 
-export const login = async (email, password) => {
+export const login = async (identifier, password) => {
     const response = await fetch(`${BASE_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ identifier, password })
     });
     if (!response.ok) {
         const err = await response.json().catch(()=>({message: 'Login failed'}));

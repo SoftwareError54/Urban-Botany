@@ -1,20 +1,21 @@
 %%{init:{'theme':'base'}}%%
-flowchart LR
-  User[User]
-  UC_CreateRoom((Create Room))
-  UC_ViewRoom((View Room))
-  UC_EditRoom((Edit Room))
-  UC_DeleteRoom((Delete Room))
-  UC_PlacePlant((Place Plant In Room))
-  UC_Decorate((Decorate Room))
-  UC_Arrange((Arrange Scene))
+usecaseDiagram
+  actor User
+  rectangle "Urban Botany System" {
+    (Create Room)
+    (View Room)
+    (Edit Room)
+    (Delete Room)
+    (Place Plant In Room)
+    (Decorate Room)
+    (Arrange Scene)
+  }
+  User --> (Create Room)
+  User --> (View Room)
+  User --> (Edit Room)
+  User --> (Delete Room)
+  User --> (Place Plant In Room)
+  User --> (Decorate Room)
+  User --> (Arrange Scene)
 
-  User --> UC_CreateRoom
-  User --> UC_ViewRoom
-  User --> UC_EditRoom
-  User --> UC_DeleteRoom
-  User --> UC_PlacePlant
-  User --> UC_Decorate
-  User --> UC_Arrange
-
-  UC_PlacePlant --> UC_ViewRoom
+  (Place Plant In Room) .> (View Plant) : references

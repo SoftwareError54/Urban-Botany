@@ -1,0 +1,19 @@
+%%{init:{'theme':'base'}}%%
+flowchart LR
+  User[User]
+  subgraph "Urban Botany System"
+    UC_CreateTask((Create Task))
+    UC_ViewTasks((View Tasks))
+    UC_Complete((Complete Task))
+    UC_ReceiveReminder((Receive Reminder))
+    UC_Assign((Assign Task to Plant))
+  end
+
+  User --> UC_CreateTask
+  User --> UC_ViewTasks
+  User --> UC_Complete
+  User --> UC_ReceiveReminder
+  User --> UC_Assign
+
+  UC_CreateTask .> UC_ReceiveReminder : schedules
+  UC_Assign .> UC_ViewTasks : contextual

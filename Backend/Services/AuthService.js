@@ -35,8 +35,8 @@ export async function signup({userName, password, email, DoB, FName, SName, phon
     return { user, token };
 }
 
-export async function authenticate(email, password) {
-    const user = await userRepository.findUserByEmail(email);
+export async function authenticate(identifier, password) {
+    const user = await userRepository.findUserByEmailOrUsername(identifier);
     if(!user) {
         throw new Error('Invalid credentials');
     }

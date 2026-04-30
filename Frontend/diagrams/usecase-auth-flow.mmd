@@ -1,0 +1,18 @@
+%%{init:{'theme':'base'}}%%
+flowchart LR
+  User[User]
+  subgraph "Urban Botany System"
+    UC_Register((Register))
+    UC_Login((Login))
+    UC_Logout((Logout))
+    UC_ResetPassword((Reset Password))
+    UC_ManageProfile((Manage Profile))
+  end
+
+  User --> UC_Register
+  User --> UC_Login
+  User --> UC_Logout
+  User --> UC_ResetPassword
+  User --> UC_ManageProfile
+
+  UC_ManageProfile -.-> UC_Login
