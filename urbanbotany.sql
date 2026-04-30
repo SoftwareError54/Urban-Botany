@@ -422,8 +422,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`userID`, `userName`, `password`, `email`, `DoB`, `FName`, `SName`, `phoneNum`, `points`, `addressLine1`, `addressLine2`, `city`, `region`, `postalCode`, `countryCode`) VALUES
-(1, 'DevUser', 'temp', 'dev@example.com', '2000-01-01', 'Dexter', 'Rowland', '07000000000', 0, '1 Example Street', NULL, 'London', 'Surrey', 'SW1A 1AA', 'GB'),
-(2, 'Test User', '[REDACTED_HASH]', 'test@example.com', '1990-01-01', 'Test', 'User', '1234567890', 0, '123 Test Street', NULL, 'epsom', 'surrey', 'SW1A 1AA', 'GB'),
+(1, 'DevUser', '$2b$10$replacethishashwithyourownbcrypthashxxxxxxxxxxxxxxxxxx', 'dev@example.com', '2000-01-01', 'Dev', 'User', '07000000000', 0, '1 Example Street', NULL, 'London', 'Greater London', 'SW1A 1AA', 'GB'),
+(2, 'TestUser', '$2b$10$replacethishashwithyourownbcrypthashxxxxxxxxxxxxxxxxxx', 'test@example.com', '1990-01-01', 'Test', 'User', '07000000001', 0, '2 Test Street', NULL, 'London', 'Greater London', 'SW1A 1AA', 'GB'),
 (3, 'PlantQueen', 'temp', 'plantq@email.com', '1998-03-21', 'Alice', 'Green', '07111111111', 120, '12 Ivy Lane', NULL, 'London', 'Greater London', 'SW19 1AA', 'GB'),
 (4, 'UrbanJungle', 'temp', 'urban@email.com', '1995-11-02', 'Ben', 'Moss', '07222222222', 90, '45 Fern Road', 'Flat 2', 'Manchester', 'Greater Manchester', 'M1 4AB', 'GB'),
 (5, 'LeafLover', 'temp', 'leaf@email.com', '2000-07-15', 'Chloe', 'Bloom', '07333333333', 45, '88 Palm Street', NULL, 'Bristol', 'Somerset', 'BS1 5TY', 'GB'),
