@@ -1,0 +1,110 @@
+URBAN BOTANY — TERMS & CONDITIONS
+===================================
+Last updated: May 2026
+
+This document is the canonical reference for the Terms & Conditions displayed on
+the Urban Botany landing page (Frontend/src/Pages/Landing.jsx). If the landing
+page copy is updated, this file should be updated to match.
+
+---
+
+1. ACCEPTANCE OF TERMS
+-----------------------
+By creating an account or using Urban Botany you agree to these Terms & Conditions
+and our User Content Guidelines. If you do not agree, please do not use the
+application.
+
+---
+
+2. PLANT IDENTIFICATION — POWERED BY PLANTNET
+----------------------------------------------
+Plant species identification in Urban Botany is provided by the Pl@ntNet API
+(https://plantnet.org). Use of this feature is subject to PlantNet's own Terms
+of Use.
+
+  - PlantNet is acknowledged as the source of all plant identification results.
+
+  - PlantNet does NOT guarantee accuracy. Identification results are provided as
+    a guide only and you use them entirely at your own risk.
+
+  - PlantNet and Urban Botany are NOT liable for incorrect identifications, data
+    loss, or any financial or material damages arising from reliance on
+    identification results.
+
+  - PlantNet data and images are protected by intellectual property law. You may
+    not copy, reproduce, or redistribute PlantNet content without written
+    permission from PlantNet.
+
+  - This application is provided for non-commercial, personal use only.
+    Commercial use of the PlantNet API requires a separate paid licence from
+    PlantNet.
+
+  - Only one PlantNet API account is permitted per person or organisation.
+
+Developer note: the PlantNet API key is stored in Backend/.env as
+PLANTNET_API_KEY. Never commit this value to version control.
+
+---
+
+3. AI TRANSPARENCY
+------------------
+Urban Botany uses AI-based image analysis to identify plant species. A confidence
+score is displayed with every result so you can judge its reliability. You are
+always asked to confirm whether the identified species matches your plant before
+it is added to your account.
+
+Urban Botany is classified as a minimal-risk AI system under the EU AI Act
+(Regulation (EU) 2024/1689) and operates in accordance with the voluntary
+transparency and human-oversight best practices recommended by that framework.
+
+---
+
+4. TOXIC PLANT SAFETY
+----------------------
+Where a plant species is known to be toxic to humans or animals it will be
+labelled accordingly. Urban Botany strongly advises against the consumption of
+any plant. Identification results should never be used to determine whether a
+plant is safe to eat.
+
+---
+
+5. USER CONTENT GUIDELINES
+---------------------------
+You are responsible for all content you submit or share through Urban Botany.
+The following content is strictly prohibited:
+
+  - Pornographic, sexually explicit, or adult content.
+  - Hateful, racist, discriminatory, or slanderous material.
+  - Content that harasses, threatens, or demeans other users.
+
+Violation of these guidelines will result in immediate account suspension and/or
+permanent deletion of your account.
+
+---
+
+6. DATA & PRIVACY (GDPR)
+-------------------------
+Urban Botany collects only the personal data necessary to provide the service
+(data minimisation). Your data is stored securely and used solely for the
+purposes described at the point of collection (purpose limitation). You have the
+right to access, correct, and request deletion of your personal data at any time
+via your Profile page. Urban Botany is designed in compliance with the principles
+of the General Data Protection Regulation (GDPR).
+
+---
+
+7. CHANGES TO THESE TERMS
+--------------------------
+These Terms & Conditions may be updated periodically. Continued use of Urban
+Botany after any changes constitutes acceptance of the revised terms.
+
+---
+
+SOURCE REFERENCES (from project report)
+----------------------------------------
+Section 4.1.1  — GDPR compliance
+Section 4.1.2  — EU AI Act (minimal-risk classification)
+Section 4.1.3  — PlantNet intellectual property & API licencing obligations
+Section 4.2.1  — Model accuracy disclosure & AI transparency
+Section 4.2.2  — Identification of toxic plant species
+Section 4.2.3  — User content guidelines & terms of service requirement

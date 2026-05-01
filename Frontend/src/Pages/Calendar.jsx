@@ -52,7 +52,6 @@ function Calendar(){
             )}
             <main style={{width: '100%', boxSizing: 'border-box'}}>
                 <div className="tasks-column">
-                    <h2>Tasks</h2>
                     {loading ? (
                         <div className="tasks-loading">
                             <div className="tasks-spinner" />

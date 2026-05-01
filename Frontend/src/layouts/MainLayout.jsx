@@ -17,7 +17,7 @@ function MainLayout(){
     if(path === '/' ) title = 'Home';
     else if (path.startsWith('/rooms')) title = 'Rooms';
     else if (path.startsWith('/plants')) title = 'Plants';
-    else if (path.startsWith('/Calendar')) title = 'Calendar';
+    else if (path.startsWith('/Calendar')) title = 'Tasks';
     else if (path.startsWith('/Profile')) title = 'Profile';
     else if (path === '/shop') title = 'Shop';
     else if (path.startsWith('/shop/plant-pots')) title = 'Plant Pots';
