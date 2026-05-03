@@ -22,7 +22,6 @@ export async function buildRoomLayers(roomId) {
         4: "/RoomDecorations/blinds/default_blinds.png",
         5: "/RoomDecorations/walls/default_wall.png",
         6: "/RoomDecorations/windowsills/default_windowsill.png",
-        7: "/Plants/default_plants.png",
         8: "/RoomDecorations/radiators/default_rad.png",
         9: "/RoomDecorations/curtains/default_curtains.png"
     };
@@ -34,7 +33,9 @@ export async function buildRoomLayers(roomId) {
     for(let i = 0; i < MAX_LAYERS; i++){
         const layerNumber = i + 1;
 
-        if(DEFAULT_LAYERS[layerNumber]){
+        if(layerNumber === 7){
+            layers[i] = { type: 'plants', name: 'plants' };
+        } else if(DEFAULT_LAYERS[layerNumber]){
             layers[i] = {
                 src: DEFAULT_LAYERS[layerNumber],
                 name: "default"

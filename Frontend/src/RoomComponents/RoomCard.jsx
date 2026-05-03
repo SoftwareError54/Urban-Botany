@@ -46,24 +46,22 @@ function RoomButton({ roomData, roomName, roomID }){
       <div className="room-scene">
         {layers.map((layer, index) =>
           layer ? (
-            <>
+            layer.type === 'plants' ? (
+              <div key={index} className="room-plants-layer">
+                {plants.map(p => (
+                  <div className="room-plant-wrapper" key={p.userPlantID}>
+                    <PlantCard plant={p} size={80} />
+                  </div>
+                ))}
+              </div>
+            ) : (
               <img
                 key={index}
                 src={layer.src}
                 alt={layer.name}
                 className="room-layer"
               />
-              {/* Render plants on the 7th layer (index 6) as an overlay */}
-              {index === 6 && plants && plants.length > 0 && (
-                <div className="room-plants-layer">
-                  {plants.map(p => (
-                    <div className="room-plant-wrapper" key={p.userPlantID}>
-                      <PlantCard plant={p} size={80} />
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
+            )
           ) : null
         )}
       </div>

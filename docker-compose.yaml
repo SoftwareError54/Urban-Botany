@@ -12,6 +12,7 @@ services:
       MYSQL_HOST: mysql   # override localhost → docker service name inside compose
     volumes:
       - ./backend:/src
+      - /src/node_modules
 
   frontend:
     build: ./frontend

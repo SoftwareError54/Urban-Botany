@@ -106,23 +106,23 @@ function Room(){
                 <div className="room-scene room-scene--large">
                     {sceneLayers.map((layer, index) =>
                         layer ? (
-                            <img
-                                key={index}
-                                src={layer.src}
-                                alt={layer.name}
-                                className="room-layer"
-                            />
-                        ) : null
-                    )}
-                    {/* Overlay plants on the scene */}
-                    {roomPlants.length > 0 && (
-                        <div className="room-plants-layer">
-                            {roomPlants.map(p => (
-                                <div className="room-plant-wrapper" key={p.userPlantID}>
-                                    <PlantCard plant={p} size={80} />
+                            layer.type === 'plants' ? (
+                                <div key={index} className="room-plants-layer">
+                                    {roomPlants.map(p => (
+                                        <div className="room-plant-wrapper" key={p.userPlantID}>
+                                            <PlantCard plant={p} size={80} />
+                                        </div>
+                                    ))}
                                 </div>
-                            ))}
-                        </div>
+                            ) : (
+                                <img
+                                    key={index}
+                                    src={layer.src}
+                                    alt={layer.name}
+                                    className="room-layer"
+                                />
+                            )
+                        ) : null
                     )}
                 </div>
             </div>
