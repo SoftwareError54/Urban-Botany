@@ -5,6 +5,7 @@ const CATEGORIES = [
     { label: 'Plant Pots', path: 'plant-pots' },
     { label: 'Backgrounds', path: 'backgrounds' },
     { label: 'Walls', path: 'walls' },
+    { label: 'Radiators', path: 'radiators' },
 ];
 
 function Shop() {
