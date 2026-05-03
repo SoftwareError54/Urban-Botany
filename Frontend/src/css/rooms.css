@@ -62,8 +62,8 @@
    cqh resolves against .room-scene (container-type: size) regardless of
    flex nesting — no fragile percentage-height chain needed. */
 .room-plants-layer .plant-scene {
-  width: 55cqh !important;  /* 55% of scene height, square */
-  height: 55cqh !important;
+  width: 40cqh !important;  /* 40% of scene height, square */
+  height: 40cqh !important;
 }
 /* Hide plant name inside room scene — not readable at small sizes */
 .room-plants-layer .plant-card {
