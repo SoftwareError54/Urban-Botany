@@ -7,6 +7,7 @@ const CATEGORIES = [
     { label: 'Walls', path: 'walls' },
     { label: 'Radiators', path: 'radiators' },
     { label: 'Windows', path: 'windows' },
+    { label: 'Curtains', path: 'curtains' },
 ];
 
 function Shop() {
