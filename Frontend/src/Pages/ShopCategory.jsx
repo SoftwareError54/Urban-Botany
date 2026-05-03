@@ -57,6 +57,12 @@ function ShopCategory() {
                         ? data.filter(d => d.layer === 8 && !isDefault(d))
                         : [];
                     setItems(filtered);
+                } else if (category === 'windows') {
+                    const data = await getAllRoomDecorations();
+                    const filtered = Array.isArray(data)
+                        ? data.filter(d => d.layer === 3 && !isDefault(d))
+                        : [];
+                    setItems(filtered);
                 }
             } catch (err) {
                 setError('Failed to load items.');
@@ -73,6 +79,7 @@ function ShopCategory() {
         'backgrounds': 'Backgrounds',
         'walls': 'Walls',
         'radiators': 'Radiators',
+        'windows': 'Windows',
     }[category] ?? 'Items';
 
     if (loading) return <div className="shop-category-page"><p className="shop-empty">Loading…</p></div>;

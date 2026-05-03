@@ -6,6 +6,7 @@ const CATEGORIES = [
     { label: 'Backgrounds', path: 'backgrounds' },
     { label: 'Walls', path: 'walls' },
     { label: 'Radiators', path: 'radiators' },
+    { label: 'Windows', path: 'windows' },
 ];
 
 function Shop() {
