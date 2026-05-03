@@ -9,6 +9,17 @@ const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 const BACKGROUND_TYPES = new Set([1]);
 const WALL_TYPES = new Set([5]);
 
+const ROOM_LAYER_DIRS = {
+    1: 'backgrounds',
+    2: 'weather',
+    3: 'windows',
+    4: 'blinds',
+    5: 'walls',
+    6: 'windowsills',
+    8: 'radiators',
+    9: 'curtains'
+};
+
 const isDefault = (item) =>
     (item.decorationName ?? '').toLowerCase().startsWith('default') || (item.cost ?? 0) === 0;
 
@@ -73,9 +84,10 @@ function ShopCategory() {
                         const name = item.decorationName ?? '';
                         const imgPtr = item.imagePointer;
                         // attempt to resolve a known image path
+                        const layerDir = ROOM_LAYER_DIRS[item.layer];
                         const imgSrc = category === 'plant-pots'
                             ? `/PlantDecorations/${imgPtr}.png`
-                            : `/RoomDecorations/${imgPtr}.png`;
+                            : `/RoomDecorations/${layerDir ? layerDir + '/' : ''}${imgPtr}.png`;
                         const fallbackSrc = category === 'plant-pots'
                             ? `/PlantDecorations/default_pot.png`
                             : null;
