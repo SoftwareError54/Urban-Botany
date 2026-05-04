@@ -10,6 +10,7 @@ import Scan from "./Pages/Scan.jsx"
 import Profile from "./Pages/Profile.jsx"
 import Shop from "./Pages/Shop.jsx"
 import ShopCategory from "./Pages/ShopCategory.jsx"
+import Projects from "./Pages/Projects.jsx"
 
 
 
@@ -27,7 +28,7 @@ export default function App(){
           <Route path="/rooms/*" element={<Rooms />} />
           <Route path="/Profile" element={<Profile/>} />
           <Route path="/Calendar" element={<Calendar />} />
-          <Route path="/Projects" element={<h1>Projects</h1>} />
+          <Route path="/Projects/*" element={<Projects />} />
           <Route path="/Scan/*" element={<Scan />} />
           <Route path="/plants/*" element={<Plants/>}/>
           <Route path="/shop" element={<Shop />} />

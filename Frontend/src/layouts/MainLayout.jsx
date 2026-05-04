@@ -23,6 +23,9 @@ function MainLayout(){
     else if (path.startsWith('/shop/plant-pots')) title = 'Plant Pots';
     else if (path.startsWith('/shop/backgrounds')) title = 'Backgrounds';
     else if (path.startsWith('/shop/walls')) title = 'Walls';
+    else if (path === '/Projects' || path === '/Projects/') title = 'Projects';
+    else if (path.startsWith('/Projects/tips/')) title = 'Tips';
+    else if (path.startsWith('/Projects/')) title = 'Projects';
 
     // Show back button on any page that isn't a NavBar root
     const showBack = !NAV_ROOT_PATHS.has(path);
