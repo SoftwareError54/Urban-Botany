@@ -5,6 +5,6 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   server: {
-    allowedHosts: ['urban-botany-production.up.railway.app']
+    allowedHosts: ['urban-botany.up.railway.app']
   }
 })
